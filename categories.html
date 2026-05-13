@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse by Category — Olideen Directory</title>
+  <meta name="description" content="Browse local businesses in KwaZulu-Natal by category. Find tech businesses, restaurants, salons, tutors, retailers and more on the Olideen Directory." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://directory.olideentech.co.za/categories.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+<div class="page-wrap">
+  <div id="nav-placeholder"></div>
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Directory</a>
+      <span class="sep">›</span>
+      <span class="current" id="bcLabel">Categories</span>
+    </div>
+  </nav>
+
+  <header class="hero hero-page" role="banner">
+    <div class="hero-inner">
+      <div>
+        <p class="hero-kicker" id="heroKicker">Category Directory · KwaZulu-Natal</p>
+        <h1 id="heroTitle">Browse by <span class="accent">Category.</span></h1>
+        <p class="hero-sub" id="heroSub">Find local businesses across KZN by the type of service they offer.</p>
+        <div class="hero-stats">
+          <div><span class="stat-num" id="statCount">—</span><span class="stat-label">Businesses</span></div>
+          <div><span class="stat-num" id="statTowns">—</span><span class="stat-label">Towns</span></div>
+        </div>
+      </div>
+      <div class="hero-cta-block">
+        <button class="btn-primary" onclick="openModal()">+ List My Business <span class="arrow">→</span></button>
+        <span class="free-note">✓ Always free</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Search -->
+  <div class="search-bar-wrap" role="search" id="searchBarWrap" style="display:none;">
+    <div class="search-bar-inner">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="searchInput" class="search-input"
+        placeholder="Search within this category…"
+        oninput="renderCategoryPage()" />
+    </div>
+  </div>
+
+  <!-- Filter bar (only shown on category view) -->
+  <div class="filter-bar" id="filterBarWrap" style="display:none;">
+    <div class="filter-bar-inner">
+      <div class="filter-tabs" id="townFilterTabs">
+        <button class="filter-tab active" data-town="All" onclick="setTownFilter('All')">All Towns</button>
+      </div>
+      <div class="controls-right">
+        <span class="total-count">Showing <span id="visibleCount">—</span></span>
+        <div class="view-toggle">
+          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')">☰</button>
+          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')">⊞</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main role="main" id="mainContent" style="padding:2rem var(--pad-x) 5rem;max-width:var(--max-w);margin:0 auto;width:100%;">
+    <div style="text-align:center;padding:4rem;"><div class="spinner"></div></div>
+  </main>
+
+  <section class="seo-block" id="seoBlock"></section>
+
+  <div id="footer-placeholder"></div>
+</div>
+<div id="modal-placeholder"></div>
+
+<script>
+const CAT_ICONS_PAGE = {
+  'Tech':'💻','Food & Drinks':'🍽️','Fashion':'👗','Health & Beauty':'💆',
+  'Education':'📚','Services':'🔧','Retail':'🛍️','Other':'📦'
+};
+const CAT_DESCRIPTIONS = {
+  'Tech':          'Technology businesses offering IT support, repairs, software development, graphic design and digital services.',
+  'Food & Drinks': 'Restaurants, caterers, fast food, bakeries, coffee shops and food delivery businesses.',
+  'Fashion':       'Clothing stores, tailors, shoe shops and fashion retailers offering local and African-inspired styles.',
+  'Health & Beauty':'Hair salons, spas, skincare, beauty parlours, gyms and wellness services.',
+  'Education':     'Schools, tutors, training centres, coding academies and skills development programmes.',
+  'Services':      'Printing, plumbing, cleaning, security, logistics, events and other professional services.',
+  'Retail':        'General stores, hardware shops, supermarkets and retail outlets serving local communities.',
+  'Other':         'Businesses that span multiple categories or are unique to their community.',
+};
+
+let catBusinesses  = [];
+let activeTownFilter = 'All';
+let currentView    = 'table';
+let currentCat     = '';
+let isCategoryMode = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('nav-placeholder').innerHTML    = renderNav('cats');
+  document.getElementById('footer-placeholder').innerHTML = renderFooter();
+  document.getElementById('modal-placeholder').innerHTML  = renderModal();
+
+  const params = new URLSearchParams(window.location.search);
+  currentCat   = params.get('cat') || '';
+
+  if (currentCat) {
+    isCategoryMode = true;
+    loadCategoryPage(currentCat);
+  } else {
+    loadCategoryHub();
+  }
+});
+
+/* ── Category Hub (no ?cat param) ──────────────────────────────── */
+async function loadCategoryHub() {
+  setMeta(
+    'Browse by Category — Olideen Directory | KwaZulu-Natal',
+    'Find local businesses in KZN by category: Tech, Food, Fashion, Health, Education, Services and Retail.',
+    'https://directory.olideentech.co.za/categories.html'
+  );
+
+  try {
+    const all  = await fetchAllBusinesses();
+    const map  = new Map();
+    all.forEach(b => {
+      if (!map.has(b.category)) map.set(b.category, []);
+      map.get(b.category).push(b);
+    });
+
+    const cards = [...map.entries()].sort((a,b) => b[1].length - a[1].length).map(([cat, list]) => `
+      <a href="categories.html?cat=${encodeURIComponent(cat)}"
+         class="biz-card anim"
+         style="text-decoration:none;"
+         aria-label="${escHtml(cat)} — ${list.length} businesses">
+        <div class="card-head">
+          <div class="card-initial" style="font-size:1.5rem;">${CAT_ICONS_PAGE[cat]||'📦'}</div>
+          <div>
+            <div class="card-name" style="font-size:1.05rem;">${escHtml(cat)}</div>
+            <span class="cat-pill ${catClass(cat)}" style="margin-top:0.3rem;display:inline-block;">${list.length} businesses</span>
+          </div>
+        </div>
+        <p style="font-size:0.78rem;color:var(--muted);line-height:1.6;">${CAT_DESCRIPTIONS[cat]||''}</p>
+        <div style="margin-top:auto;font-size:0.76rem;font-family:var(--font-mono);color:var(--gold);">Browse ${escHtml(cat)} →</div>
+      </a>`).join('');
+
+    document.getElementById('mainContent').innerHTML = `
+      <div class="cards-grid">${cards}</div>`;
+
+    document.getElementById('seoBlock').innerHTML = `
+      <h2>Local Business Categories — KwaZulu-Natal</h2>
+      <p>The Olideen Directory organises local businesses across KZN into clear categories
+      so customers can find exactly what they need. From tech and education to food and fashion,
+      every type of business has a home here — completely free to list.</p>`;
+
+  } catch(e) { console.error(e); }
+}
+
+/* ── Single Category Page ──────────────────────────────────────── */
+async function loadCategoryPage(cat) {
+  const title = `${cat} Businesses in KwaZulu-Natal — Olideen Directory`;
+  const desc  = `Find local ${cat.toLowerCase()} businesses across KwaZulu-Natal on the Olideen Directory. ${CAT_DESCRIPTIONS[cat]||''}`;
+
+  setMeta(title, desc, `https://directory.olideentech.co.za/categories.html?cat=${encodeURIComponent(cat)}`);
+
+  document.getElementById('breadcrumbNav') &&
+    (document.querySelector('.breadcrumb-inner').innerHTML = `
+      <a href="index.html">Directory</a>
+      <span class="sep">›</span>
+      <a href="categories.html">Categories</a>
+      <span class="sep">›</span>
+      <span class="current">${escHtml(cat)}</span>`);
+
+  document.getElementById('bcLabel').textContent  = cat;
+  document.getElementById('heroKicker').textContent = `${cat} · KwaZulu-Natal`;
+  document.getElementById('heroTitle').innerHTML   = `${escHtml(cat)} <span class="accent">Businesses.</span>`;
+  document.getElementById('heroSub').textContent   = CAT_DESCRIPTIONS[cat] || `Find local ${cat} businesses across KZN.`;
+
+  document.getElementById('searchBarWrap').style.display = '';
+  document.getElementById('filterBarWrap').style.display = '';
+
+  try {
+    catBusinesses = await fetchByCategory(cat);
+
+    /* Schema */
+    injectSchema(buildDirectorySchema(catBusinesses, `${cat} Businesses — KwaZulu-Natal`));
+
+    /* Stats */
+    const towns = new Set(catBusinesses.map(b => normaliseTown(b.town)));
+    document.getElementById('statCount').textContent = catBusinesses.length;
+    document.getElementById('statTowns').textContent = towns.size;
+
+    /* Town filter tabs */
+    const townFilterTabs = document.getElementById('townFilterTabs');
+    [...towns].sort().forEach(t => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-tab';
+      btn.dataset.town = t;
+      btn.textContent = t;
+      btn.onclick = () => setTownFilter(t);
+      townFilterTabs.appendChild(btn);
+    });
+
+    /* SEO block */
+    document.getElementById('seoBlock').innerHTML = `
+      <h2>${escHtml(cat)} Businesses in KwaZulu-Natal</h2>
+      <p>${CAT_DESCRIPTIONS[cat]||''} The Olideen Directory currently lists ${catBusinesses.length} ${cat.toLowerCase()} ${catBusinesses.length === 1 ? 'business' : 'businesses'} across ${towns.size} ${towns.size === 1 ? 'town' : 'towns'} in KwaZulu-Natal.</p>
+      <p>Use the town filters above to narrow your search, or browse all ${escHtml(cat.toLowerCase())} businesses below. Own a ${escHtml(cat.toLowerCase())} business?
+      <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">List it for free →</button></p>`;
+
+    renderCategoryPage();
+  } catch(e) { console.error(e); }
+}
+
+function getFilteredCat() {
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+  return catBusinesses.filter(b => {
+    const matchTown = activeTownFilter === 'All' || normaliseTown(b.town) === activeTownFilter;
+    const matchQ    = !q ||
+      (b.name||'').toLowerCase().includes(q) ||
+      (b.town||'').toLowerCase().includes(q) ||
+      (b.description||'').toLowerCase().includes(q);
+    return matchTown && matchQ;
+  });
+}
+
+function renderCategoryPage() {
+  const filtered = getFilteredCat();
+  document.getElementById('visibleCount').textContent = filtered.length;
+  const grouped = groupByTown(filtered);
+  document.getElementById('mainContent').innerHTML =
+    `<div style="max-width:var(--max-w);margin:0 auto;">${renderTownSections(grouped, currentView, new Set())}</div>`;
+}
+
+function setTownFilter(town) {
+  activeTownFilter = town;
+  document.querySelectorAll('#townFilterTabs .filter-tab').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.town === town));
+  renderCategoryPage();
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('tableViewBtn').classList.toggle('active', v === 'table');
+  document.getElementById('cardViewBtn').classList.toggle('active', v === 'cards');
+  if (isCategoryMode) renderCategoryPage();
+}
+</script>
+</body>
+</html>

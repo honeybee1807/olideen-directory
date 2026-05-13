@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse by Town — Olideen Directory | KwaZulu-Natal</title>
+  <meta name="description" content="Browse local businesses by town in KwaZulu-Natal. Estcourt, Ladysmith, Pietermaritzburg and more. Find businesses near you on the Olideen Directory." />
+  <meta name="keywords" content="Estcourt businesses, Ladysmith local directory, Pietermaritzburg businesses, KZN towns business directory" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://directory.olideentech.co.za/towns.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="js/app.js" defer></script>
+  <style>
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .hub-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--ink);
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+    .hub-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--gold);
+      transform: scaleY(0);
+      transition: transform 0.25s ease;
+    }
+    .hub-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .hub-card:hover::before { transform: scaleY(1); }
+    .hub-card-name {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      letter-spacing: 0.03em;
+      line-height: 1;
+      color: var(--ink2);
+    }
+    .hub-card-sub {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      margin-top: 0.3rem;
+    }
+    .hub-card-count {
+      font-family: var(--font-head);
+      font-size: 1.8rem;
+      color: var(--gold);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .hub-card-arrow {
+      font-size: 1.1rem;
+      color: var(--muted2);
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .hub-card:hover .hub-card-arrow { color: var(--gold); transform: translateX(3px); }
+
+    .cat-hub-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.3rem 1.4rem;
+      text-decoration: none;
+      color: var(--ink);
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .cat-hub-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .cat-hub-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .cat-hub-name { font-weight: 600; font-size: 0.95rem; }
+    .cat-hub-count { font-size: 0.7rem; color: var(--muted); font-family: var(--font-mono); margin-top: 0.15rem; }
+    .cat-hub-arrow { margin-left: auto; color: var(--muted2); font-size: 1rem; transition: all 0.2s; }
+    .cat-hub-card:hover .cat-hub-arrow { color: var(--gold); transform: translateX(3px); }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 1.8rem;
+      letter-spacing: 0.04em;
+      color: var(--ink2);
+      margin-bottom: 0.3rem;
+    }
+    .section-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .hub-section { margin-bottom: 3.5rem; }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+  <div id="nav-placeholder"></div>
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Directory</a>
+      <span class="sep">›</span>
+      <span class="current">Browse by Town</span>
+    </div>
+  </nav>
+
+  <header class="hero hero-page" role="banner">
+    <div class="hero-inner">
+      <div>
+        <p class="hero-kicker">Explore the Directory</p>
+        <h1>Browse by <span class="accent">Town.</span></h1>
+        <p class="hero-sub">Every town in the Olideen Directory has its own page. Find businesses near you, or list yours for free.</p>
+      </div>
+      <div class="hero-cta-block">
+        <button class="btn-primary" onclick="openModal()">+ List My Business <span class="arrow">→</span></button>
+        <span class="free-note">✓ Always free</span>
+      </div>
+    </div>
+  </header>
+
+  <main role="main" style="padding: 2rem var(--pad-x) 5rem; max-width: var(--max-w); margin: 0 auto; width: 100%;">
+
+    <div class="hub-section">
+      <h2 class="section-title">Towns & Areas</h2>
+      <p class="section-sub" id="townIntro">Loading towns…</p>
+      <div class="hub-grid" id="townGrid">
+        <div style="text-align:center;padding:3rem;grid-column:1/-1;"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <div class="hub-section">
+      <h2 class="section-title">Browse by Category</h2>
+      <p class="section-sub">Find exactly what you're looking for across all towns.</p>
+      <div class="hub-grid" id="catGrid">
+        <div style="text-align:center;padding:3rem;grid-column:1/-1;"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <!-- SEO block -->
+    <section aria-label="About the directory">
+      <h2 class="section-title" style="font-size:1.4rem;">Local Business Directories Across KwaZulu-Natal</h2>
+      <p style="font-size:0.87rem;color:var(--muted);line-height:1.85;max-width:680px;margin-top:0.5rem;">
+        The Olideen Directory covers towns and areas across KwaZulu-Natal, including Estcourt,
+        Ladysmith, Pietermaritzburg, Colenso, Weenen, Winterton and surrounding areas.
+        Each town has its own dedicated page, making it easy for search engines — and customers —
+        to find local businesses by location. If your town isn't listed yet, simply
+        <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">add your business</button>
+        and it will appear automatically.
+      </p>
+    </section>
+
+  </main>
+
+  <div id="footer-placeholder"></div>
+</div>
+<div id="modal-placeholder"></div>
+
+<script>
+const CAT_ICONS = {
+  'Tech':'💻','Food & Drinks':'🍽️','Fashion':'👗','Health & Beauty':'💆',
+  'Education':'📚','Services':'🔧','Retail':'🛍️','Other':'📦'
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('nav-placeholder').innerHTML    = renderNav('towns');
+  document.getElementById('footer-placeholder').innerHTML = renderFooter();
+  document.getElementById('modal-placeholder').innerHTML  = renderModal();
+  loadHubs();
+});
+
+async function loadHubs() {
+  try {
+    const all = await fetchAllBusinesses();
+    renderTownHub(all);
+    renderCatHub(all);
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+function renderTownHub(all) {
+  /* Group by town, count */
+  const map = new Map();
+  all.forEach(b => {
+    const t = normaliseTown(b.town);
+    map.set(t, (map.get(t) || 0) + 1);
+  });
+  const sorted = [...map.entries()].sort((a,b) => a[0].localeCompare(b[0]));
+
+  document.getElementById('townIntro').textContent =
+    `${sorted.length} town${sorted.length !== 1 ? 's' : ''} currently listed in the directory.`;
+
+  /* Inject schema for SEO: list of towns */
+  const breadListSchema = {
+    "@context":"https://schema.org",
+    "@type":"ItemList",
+    "name":"KwaZulu-Natal Towns — Olideen Directory",
+    "itemListElement": sorted.map(([town], i) => ({
+      "@type":"ListItem",
+      "position": i + 1,
+      "name": town,
+      "url": `https://directory.olideentech.co.za/town.html?t=${encodeURIComponent(town)}`
+    }))
+  };
+  const s = document.createElement('script');
+  s.type = 'application/ld+json';
+  s.textContent = JSON.stringify(breadListSchema);
+  document.head.appendChild(s);
+
+  document.getElementById('townGrid').innerHTML = sorted.map(([town, count]) => `
+    <a href="town.html?t=${encodeURIComponent(town)}" class="hub-card anim"
+       aria-label="${escHtml(town)} — ${count} businesses">
+      <div>
+        <div class="hub-card-name">${escHtml(town)}</div>
+        <div class="hub-card-sub">${count} ${count === 1 ? 'business' : 'businesses'} listed</div>
+      </div>
+      <span class="hub-card-arrow">→</span>
+    </a>`).join('');
+}
+
+function renderCatHub(all) {
+  const map = new Map();
+  all.forEach(b => map.set(b.category, (map.get(b.category) || 0) + 1));
+  const sorted = [...map.entries()].sort((a,b) => b[1] - a[1]);
+
+  document.getElementById('catGrid').innerHTML = sorted.map(([cat, count]) => `
+    <a href="categories.html?cat=${encodeURIComponent(cat)}" class="cat-hub-card anim"
+       aria-label="${escHtml(cat)} — ${count} businesses">
+      <div class="cat-hub-icon ${catClass(cat)}">${CAT_ICONS[cat] || '📦'}</div>
+      <div>
+        <div class="cat-hub-name">${escHtml(cat)}</div>
+        <div class="cat-hub-count">${count} listed</div>
+      </div>
+      <span class="cat-hub-arrow">→</span>
+    </a>`).join('');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# =======================================================
+# OLIDEEN DIRECTORY — robots.txt
+# Place this file at your domain root
+# e.g. https://directory.olideentech.co.za/robots.txt
+# =======================================================
+
+User-agent: *
+Allow: /
+Disallow: /private/
+
+# Tell Google where your sitemap is
+Sitemap: https://directory.olideentech.co.za/sitemap.xml

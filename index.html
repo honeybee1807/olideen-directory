@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ═══ PRIMARY SEO META ═══════════════════════════════════════ -->
+  <title>Olideen Directory — Free Local Business Directory | KZN South Africa</title>
+  <meta name="description" content="Discover and list local businesses for free on the Olideen Directory. Find businesses in Estcourt, Ladysmith, Pietermaritzburg and across KwaZulu-Natal. Tech, food, fashion, services and more." />
+  <meta name="keywords" content="local business directory KZN, Estcourt businesses, Ladysmith businesses, Pietermaritzburg directory, free business listing South Africa, KwaZulu-Natal local business" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Olideen Technologies" />
+  <link rel="canonical" href="https://directory.olideentech.co.za/" />
+
+  <!-- ═══ OPEN GRAPH (WhatsApp, Facebook previews) ════════════════ -->
+  <meta property="og:title"       content="Olideen Directory — Find Local Businesses Near You" />
+  <meta property="og:description" content="Free local business directory for KwaZulu-Natal. Find salons, restaurants, tech shops, tutors and more in your town." />
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://directory.olideentech.co.za/" />
+  <meta property="og:site_name"   content="Olideen Directory" />
+
+  <!-- ═══ TWITTER CARD ════════════════════════════════════════════ -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Olideen Directory — Free Local Business Listings" />
+  <meta name="twitter:description" content="List your KZN business for free. Find local businesses near you." />
+
+  <!-- ═══ SCHEMA.ORG — Website + Organisation ═════════════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "Olideen Directory",
+        "url": "https://directory.olideentech.co.za/",
+        "description": "Free local business directory for KwaZulu-Natal, South Africa.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://directory.olideentech.co.za/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "name": "Olideen Technologies",
+        "url": "https://olideentech.co.za",
+        "foundingDate": "2025-05-01",
+        "description": "Technology company based in KwaZulu-Natal, South Africa.",
+        "areaServed": "ZA"
+      }
+    ]
+  }
+  </script>
+  <script id="schema-listings" type="application/ld+json">{}</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- NAV injected by JS -->
+  <div id="nav-placeholder"></div>
+
+  <!-- ═══ HERO ═══════════════════════════════════════════════════ -->
+  <header class="hero" role="banner">
+    <div class="hero-inner">
+      <div>
+        <p class="hero-kicker">Local Business Directory · KwaZulu-Natal · Est. May 2025</p>
+        <h1>Find Local.<br><span class="accent">List Free.</span></h1>
+        <p class="hero-sub">
+          The Olideen Directory is a <strong>100% free</strong> business directory connecting customers to local businesses across KwaZulu-Natal. Estcourt, Ladysmith, Pietermaritzburg and growing. List your business in under 2 minutes.
+        </p>
+        <div class="hero-stats">
+          <div><span class="stat-num" id="statCount">—</span><span class="stat-label">Businesses Listed</span></div>
+          <div><span class="stat-num" id="statTowns">—</span><span class="stat-label">Towns Covered</span></div>
+          <div><span class="stat-num">100%</span><span class="stat-label">Free Forever</span></div>
+        </div>
+      </div>
+      <div class="hero-cta-block">
+        <button class="btn-primary" onclick="openModal()" aria-label="List your business for free">
+          List My Business <span class="arrow">→</span>
+        </button>
+        <span class="free-note">✓ No sign-up · No cost · Always live</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ SEARCH BAR ══════════════════════════════════════════════ -->
+  <div class="search-bar-wrap" role="search">
+    <div class="search-bar-inner">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <label for="searchInput" class="sr-only">Search businesses</label>
+      <input type="text" id="searchInput" class="search-input"
+        placeholder="Search businesses, towns, categories… (e.g. 'salon Ladysmith')"
+        oninput="handleSearch()"
+        aria-label="Search local businesses" />
+      <span class="search-hint" aria-hidden="true">⌘K</span>
+    </div>
+  </div>
+
+  <!-- ═══ FILTER BAR ══════════════════════════════════════════════ -->
+  <div class="filter-bar" role="navigation" aria-label="Category filters">
+    <div class="filter-bar-inner">
+      <div class="filter-tabs" role="tablist">
+        <button class="filter-tab active" data-cat="All"            role="tab" onclick="setFilter('All')">All</button>
+        <button class="filter-tab"        data-cat="Tech"           role="tab" onclick="setFilter('Tech')">Tech</button>
+        <button class="filter-tab"        data-cat="Food & Drinks"  role="tab" onclick="setFilter('Food & Drinks')">Food</button>
+        <button class="filter-tab"        data-cat="Fashion"        role="tab" onclick="setFilter('Fashion')">Fashion</button>
+        <button class="filter-tab"        data-cat="Health & Beauty"role="tab" onclick="setFilter('Health & Beauty')">Health</button>
+        <button class="filter-tab"        data-cat="Education"      role="tab" onclick="setFilter('Education')">Education</button>
+        <button class="filter-tab"        data-cat="Services"       role="tab" onclick="setFilter('Services')">Services</button>
+        <button class="filter-tab"        data-cat="Retail"         role="tab" onclick="setFilter('Retail')">Retail</button>
+        <button class="filter-tab"        data-cat="Other"          role="tab" onclick="setFilter('Other')">Other</button>
+      </div>
+      <div class="controls-right">
+        <span class="total-count" aria-live="polite">Showing <span id="visibleCount">—</span> results</span>
+        <div class="view-toggle" role="group" aria-label="View mode">
+          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" title="Table view" aria-label="Table view">☰</button>
+          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')" title="Card view"  aria-label="Card view">⊞</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MAIN DIRECTORY ══════════════════════════════════════════ -->
+  <main class="directory-main" id="directoryMain" role="main">
+    <div class="directory-inner">
+      <div style="text-align:center;padding:4rem;color:var(--muted)">
+        <div class="spinner"></div>
+        <p style="margin-top:1rem;font-size:0.83rem;font-family:var(--font-mono)">Loading directory…</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══ SEO TEXT BLOCK (keyword-rich, always visible to Google) ═ -->
+  <section class="seo-block" aria-label="About the directory">
+    <h2>Local Business Directory for KwaZulu-Natal</h2>
+    <p>
+      The Olideen Directory is a free local business directory serving towns across KwaZulu-Natal,
+      South Africa — including Estcourt, Ladysmith, Pietermaritzburg, Colenso, Weenen and surrounding areas.
+      Whether you're looking for a hair salon, a restaurant, a tech repair shop, a tutor or a local retailer,
+      you'll find it here.
+    </p>
+    <p>
+      We believe every local business deserves to be found online — regardless of budget.
+      That's why listing on the Olideen Directory is, and always will be, completely free.
+      No hidden fees, no expiry, no credit card required.
+    </p>
+    <p>
+      <a href="towns.html" style="color:var(--gold)">Browse by town</a> ·
+      <a href="categories.html" style="color:var(--gold)">Browse by category</a> ·
+      <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">List your business free</button>
+    </p>
+  </section>
+
+  <!-- ═══ FOOTER ══════════════════════════════════════════════════ -->
+  <div id="footer-placeholder"></div>
+
+</div><!-- /.page-wrap -->
+
+<!-- ═══ MODAL ═══════════════════════════════════════════════════════ -->
+<div id="modal-placeholder"></div>
+
+<style>
+  .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0; }
+</style>
+
+<script>
+/* ── Page state ──────────────────────────────────────────────────── */
+let allBusinesses = [];
+let activeFilter  = 'All';
+let currentView   = 'table';
+const collapsedTowns = new Set();
+
+/* ── Boot ─────────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('nav-placeholder').innerHTML  = renderNav('home');
+  document.getElementById('footer-placeholder').innerHTML = renderFooter();
+  document.getElementById('modal-placeholder').innerHTML  = renderModal();
+  loadDirectory();
+});
+
+/* ── Load & render ───────────────────────────────────────────────── */
+async function loadDirectory() {
+  try {
+    allBusinesses = await fetchAllBusinesses();
+    updateStats();
+    updateSchemaListings();
+    renderDirectory();
+  } catch(e) {
+    console.error(e);
+    document.getElementById('directoryMain').innerHTML = `
+      <div class="directory-inner">
+        <div class="state-box">
+          <div class="state-icon">⚠️</div>
+          <h3>Could not load directory</h3>
+          <p>Please check your Supabase configuration in js/app.js</p>
+        </div>
+      </div>`;
+  }
+}
+
+function updateStats() {
+  const towns = new Set(allBusinesses.map(b => normaliseTown(b.town)));
+  document.getElementById('statCount').textContent = allBusinesses.length;
+  document.getElementById('statTowns').textContent = towns.size;
+}
+
+function updateSchemaListings() {
+  const schema = buildDirectorySchema(allBusinesses, 'KwaZulu-Natal Business Directory');
+  document.getElementById('schema-listings').textContent = JSON.stringify(schema);
+}
+
+function getFiltered() {
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+  return allBusinesses.filter(b => {
+    const matchCat = activeFilter === 'All' || b.category === activeFilter;
+    const matchQ   = !q ||
+      (b.name        ||'').toLowerCase().includes(q) ||
+      (b.category    ||'').toLowerCase().includes(q) ||
+      (b.town        ||'').toLowerCase().includes(q) ||
+      (b.description ||'').toLowerCase().includes(q) ||
+      (b.website     ||'').toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+}
+
+function renderDirectory() {
+  const filtered = getFiltered();
+  const countEl  = document.getElementById('visibleCount');
+  if (countEl) countEl.textContent = filtered.length;
+
+  const grouped = groupByTown(filtered);
+  const inner   = document.querySelector('.directory-inner') ||
+                  (() => { const d = document.createElement('div'); d.className='directory-inner'; document.getElementById('directoryMain').appendChild(d); return d; })();
+
+  inner.innerHTML = renderTownSections(grouped, currentView, collapsedTowns);
+}
+
+function handleSearch() { renderDirectory(); }
+
+function setFilter(cat) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-tab').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.cat === cat));
+  renderDirectory();
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('tableViewBtn').classList.toggle('active', v === 'table');
+  document.getElementById('cardViewBtn').classList.toggle('active', v === 'cards');
+  renderDirectory();
+}
+
+function onBusinessAdded(biz) {
+  allBusinesses.unshift({ ...biz, id: Date.now() });
+  updateStats();
+  renderDirectory();
+}
+</script>
+</body>
+</html>

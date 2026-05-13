@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Olideen Directory</title>
+  <!-- No index — keep this page out of Google -->
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg:       #f7f4ef;
+      --surface:  #ffffff;
+      --surface2: #f2ede6;
+      --border:   #ddd8cf;
+      --border2:  #c8c1b5;
+      --gold:     #c07800;
+      --gold-pale:#fff4df;
+      --ink:      #1a1612;
+      --ink2:     #3d3530;
+      --muted:    #8a7f74;
+      --muted2:   #b5aca1;
+      --success:  #1a7a4a;
+      --success-bg:#e8f8ef;
+      --danger:   #c0392b;
+      --danger-bg:#fdf0ee;
+      --warn:     #c07800;
+      --warn-bg:  #fff4df;
+      --radius:   6px;
+      --font-head:'Bebas Neue',sans-serif;
+      --font-body:'DM Sans',sans-serif;
+      --font-mono:'JetBrains Mono',monospace;
+      --shadow-sm:0 1px 4px rgba(0,0,0,0.07);
+      --shadow-md:0 4px 16px rgba(0,0,0,0.10);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--ink);min-height:100vh;}
+    button{cursor:pointer;font-family:var(--font-body);}
+
+    /* ── LOGIN SCREEN ─────────────────────────────────────────── */
+    .login-wrap{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;
+      background:linear-gradient(135deg,#fffdf8,var(--bg));
+    }
+    .login-card{
+      background:var(--surface);border:1px solid var(--border2);border-radius:14px;
+      padding:2.5rem;width:100%;max-width:380px;box-shadow:var(--shadow-md);text-align:center;
+    }
+    .login-logo{display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-bottom:1.5rem;}
+    .logo-mark{width:38px;height:38px;background:var(--gold);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;}
+    .logo-mark span{font-family:var(--font-head);color:#fff;font-size:0.85rem;}
+    .logo-text{font-family:var(--font-head);font-size:1.4rem;letter-spacing:0.06em;color:var(--ink);}
+    .logo-text em{color:var(--gold);font-style:normal;}
+    .login-card h2{font-family:var(--font-head);font-size:1.6rem;letter-spacing:0.04em;margin-bottom:0.3rem;}
+    .login-card p{font-size:0.8rem;color:var(--muted);margin-bottom:1.5rem;}
+    .login-field{display:flex;flex-direction:column;gap:0.35rem;text-align:left;margin-bottom:1rem;}
+    .login-field label{font-size:0.68rem;font-family:var(--font-mono);letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+    .login-field input{
+      width:100%;padding:0.7rem 0.9rem;font-size:0.9rem;
+      background:var(--surface2);border:1.5px solid var(--border2);
+      color:var(--ink);border-radius:var(--radius);font-family:var(--font-body);
+    }
+    .login-field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(192,120,0,0.1);}
+    .btn-login{
+      width:100%;background:var(--gold);color:#fff;border:none;
+      padding:0.85rem;font-family:var(--font-head);font-size:1.1rem;letter-spacing:0.07em;
+      border-radius:var(--radius);transition:all 0.2s;
+    }
+    .btn-login:hover{background:#a86800;}
+    .login-error{font-size:0.78rem;color:var(--danger);margin-top:0.75rem;display:none;}
+
+    /* ── ADMIN LAYOUT ─────────────────────────────────────────── */
+    .admin-wrap{display:none;flex-direction:column;min-height:100vh;}
+    .admin-wrap.show{display:flex;}
+
+    .admin-topbar{
+      background:var(--surface);border-bottom:1px solid var(--border);
+      padding:0.85rem 2rem;display:flex;align-items:center;justify-content:space-between;
+      position:sticky;top:0;z-index:50;box-shadow:var(--shadow-sm);
+    }
+    .admin-logo{display:flex;align-items:center;gap:0.6rem;}
+    .admin-badge{
+      font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;
+      background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger);
+      padding:0.2rem 0.55rem;border-radius:var(--radius);margin-left:0.5rem;
+    }
+    .admin-topbar-right{display:flex;align-items:center;gap:1rem;}
+    .btn-logout{
+      font-size:0.78rem;font-family:var(--font-mono);color:var(--muted);
+      border:1px solid var(--border2);background:transparent;
+      padding:0.35rem 0.8rem;border-radius:var(--radius);transition:all 0.15s;
+    }
+    .btn-logout:hover{color:var(--danger);border-color:var(--danger);}
+
+    .admin-main{flex:1;padding:2rem;max-width:1100px;margin:0 auto;width:100%;}
+
+    /* ── STAT PILLS ───────────────────────────────────────────── */
+    .stats-row{display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;}
+    .stat-pill{
+      background:var(--surface);border:1px solid var(--border);border-radius:8px;
+      padding:0.85rem 1.2rem;display:flex;flex-direction:column;gap:0.2rem;
+      box-shadow:var(--shadow-sm);min-width:120px;
+    }
+    .stat-pill .num{font-family:var(--font-head);font-size:1.8rem;line-height:1;}
+    .stat-pill .lbl{font-family:var(--font-mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
+    .stat-pill.pending .num{color:var(--warn);}
+    .stat-pill.approved .num{color:var(--success);}
+    .stat-pill.rejected .num{color:var(--danger);}
+
+    /* ── TAB BAR ──────────────────────────────────────────────── */
+    .tab-bar{display:flex;gap:0.3rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:0;}
+    .tab-btn{
+      padding:0.6rem 1.2rem;border:none;background:transparent;
+      font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;
+      color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.15s;
+    }
+    .tab-btn:hover{color:var(--ink);}
+    .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);font-weight:500;}
+
+    /* ── SUBMISSION CARDS ─────────────────────────────────────── */
+    .submissions-list{display:flex;flex-direction:column;gap:1rem;}
+
+    .sub-card{
+      background:var(--surface);border:1px solid var(--border);border-radius:10px;
+      overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow 0.15s;
+    }
+    .sub-card:hover{box-shadow:var(--shadow-md);}
+    .sub-card.status-pending  {border-left:4px solid var(--warn);}
+    .sub-card.status-approved {border-left:4px solid var(--success);}
+    .sub-card.status-rejected {border-left:4px solid var(--danger);opacity:0.75;}
+
+    .sub-card-header{
+      padding:1rem 1.2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+      cursor:pointer;user-select:none;
+    }
+    .sub-biz-name{font-weight:600;font-size:1rem;color:var(--ink);flex:1;}
+    .sub-meta{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}
+    .status-badge{
+      font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+      padding:0.2rem 0.55rem;border-radius:100px;border:1px solid;font-weight:500;
+    }
+    .status-badge.pending  {background:var(--warn-bg);color:var(--warn);border-color:var(--warn);}
+    .status-badge.approved {background:var(--success-bg);color:var(--success);border-color:var(--success);}
+    .status-badge.rejected {background:var(--danger-bg);color:var(--danger);border-color:var(--danger);}
+    .cat-tag{font-size:0.7rem;font-family:var(--font-mono);color:var(--muted);background:var(--surface2);border:1px solid var(--border);padding:0.15rem 0.5rem;border-radius:100px;}
+    .town-tag{font-size:0.7rem;color:var(--muted);}
+    .time-tag{font-size:0.68rem;font-family:var(--font-mono);color:var(--muted2);white-space:nowrap;}
+    .expand-icon{color:var(--muted2);font-size:0.8rem;transition:transform 0.2s;flex-shrink:0;}
+    .sub-card.expanded .expand-icon{transform:rotate(180deg);}
+
+    .sub-card-body{
+      border-top:1px solid var(--border);padding:1.2rem;
+      display:none;
+      grid-template-columns:1fr 1fr;gap:1rem;
+    }
+    .sub-card.expanded .sub-card-body{display:grid;}
+
+    .detail-block{display:flex;flex-direction:column;gap:0.25rem;}
+    .detail-block.full{grid-column:1/-1;}
+    .detail-label{font-family:var(--font-mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
+    .detail-value{font-size:0.88rem;color:var(--ink2);line-height:1.55;}
+    .detail-value a{color:var(--gold);}
+
+    /* The review detail — highlighted */
+    .review-detail-box{
+      grid-column:1/-1;
+      background:var(--warn-bg);border:1px solid rgba(192,120,0,0.25);border-radius:var(--radius);
+      padding:0.85rem 1rem;
+    }
+    .review-detail-box .detail-label{color:var(--warn);}
+    .review-detail-box .detail-value{font-size:0.92rem;color:var(--ink);}
+
+    /* Actions */
+    .sub-actions{
+      grid-column:1/-1;display:flex;align-items:center;gap:0.75rem;
+      padding-top:1rem;border-top:1px solid var(--border);margin-top:0.25rem;flex-wrap:wrap;
+    }
+    .btn-approve{
+      background:var(--success);color:#fff;border:none;
+      padding:0.6rem 1.4rem;border-radius:var(--radius);font-family:var(--font-head);
+      font-size:0.95rem;letter-spacing:0.06em;transition:all 0.2s;
+    }
+    .btn-approve:hover{background:#155f39;transform:translateY(-1px);}
+    .btn-approve:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+
+    .btn-reject{
+      background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger);
+      padding:0.6rem 1.2rem;border-radius:var(--radius);font-family:var(--font-head);
+      font-size:0.95rem;letter-spacing:0.06em;transition:all 0.2s;
+    }
+    .btn-reject:hover{background:var(--danger);color:#fff;}
+    .btn-reject:disabled{opacity:0.5;cursor:not-allowed;}
+
+    .note-input{
+      flex:1;min-width:180px;padding:0.55rem 0.8rem;font-size:0.83rem;
+      background:var(--surface2);border:1.5px solid var(--border2);
+      color:var(--ink);border-radius:var(--radius);font-family:var(--font-body);
+    }
+    .note-input:focus{outline:none;border-color:var(--gold);}
+    .note-hint{font-size:0.68rem;color:var(--muted2);align-self:center;}
+
+    /* wa/web links in card */
+    .inline-link{
+      display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem;
+      font-family:var(--font-mono);padding:0.2rem 0.6rem;border-radius:var(--radius);
+      border:1px solid;text-decoration:none;
+    }
+    .inline-link.wa{border-color:#25a244;color:#25a244;background:rgba(37,162,68,0.06);}
+    .inline-link.web{border-color:#1a6fa0;color:#1a6fa0;background:rgba(26,111,160,0.06);}
+
+    /* Empty / loading */
+    .empty-state{text-align:center;padding:4rem 2rem;color:var(--muted);}
+    .empty-icon{font-size:2.5rem;margin-bottom:1rem;opacity:0.3;}
+    .empty-state h3{font-family:var(--font-head);font-size:1.5rem;color:var(--ink2);margin-bottom:0.4rem;}
+    .spinner{display:inline-block;width:26px;height:26px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    /* Toast */
+    .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(16px);
+      background:var(--surface);border:1px solid var(--border2);border-radius:8px;
+      padding:0.7rem 1.2rem;font-size:0.83rem;color:var(--ink2);z-index:200;opacity:0;
+      transition:all 0.3s ease;white-space:nowrap;box-shadow:var(--shadow-md);}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .toast.ok{border-color:var(--success);}
+    .toast.err{border-color:var(--danger);}
+
+    @media(max-width:640px){
+      .sub-card-body{grid-template-columns:1fr;}
+      .detail-block.full{grid-column:1;}
+      .review-detail-box{grid-column:1;}
+      .sub-actions{grid-column:1;}
+      .admin-main{padding:1rem;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ LOGIN SCREEN ════════════════════════════════════════════════ -->
+<div class="login-wrap" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-mark"><span>OT</span></div>
+      <span class="logo-text">Olideen <em>Admin</em></span>
+    </div>
+    <h2>Review Portal</h2>
+    <p>Enter your admin password to access pending submissions.</p>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="pwInput" placeholder="••••••••"
+        onkeydown="if(event.key==='Enter')doLogin()" />
+    </div>
+    <button class="btn-login" onclick="doLogin()">Sign In →</button>
+    <p class="login-error" id="loginError">Incorrect password. Try again.</p>
+  </div>
+</div>
+
+<!-- ═══ ADMIN PANEL ══════════════════════════════════════════════════ -->
+<div class="admin-wrap" id="adminWrap">
+
+  <div class="admin-topbar">
+    <div class="admin-logo">
+      <div class="logo-mark" style="width:32px;height:32px;"><span style="font-size:0.75rem;">OT</span></div>
+      <span style="font-family:var(--font-head);font-size:1.2rem;letter-spacing:0.06em;">
+        Olideen <em style="color:var(--gold);font-style:normal;">Directory</em>
+      </span>
+      <span class="admin-badge">Admin</span>
+    </div>
+    <div class="admin-topbar-right">
+      <span style="font-size:0.72rem;font-family:var(--font-mono);color:var(--muted);" id="lastRefresh"></span>
+      <button class="btn-logout" onclick="refresh()">↻ Refresh</button>
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="admin-main">
+
+    <div style="margin-bottom:1.5rem;">
+      <h1 style="font-family:var(--font-head);font-size:2rem;letter-spacing:0.04em;color:var(--ink2);">
+        Business Submissions
+      </h1>
+      <p style="font-size:0.83rem;color:var(--muted);margin-top:0.25rem;">
+        Review pending listings before they go live on the Olideen Directory.
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-pill pending"><span class="num" id="sPending">—</span><span class="lbl">Pending</span></div>
+      <div class="stat-pill approved"><span class="num" id="sApproved">—</span><span class="lbl">Approved</span></div>
+      <div class="stat-pill rejected"><span class="num" id="sRejected">—</span><span class="lbl">Rejected</span></div>
+      <div class="stat-pill"><span class="num" id="sTotal">—</span><span class="lbl">Total</span></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="pending"  onclick="setTab('pending')">⏳ Pending</button>
+      <button class="tab-btn"        data-tab="approved" onclick="setTab('approved')">✓ Approved</button>
+      <button class="tab-btn"        data-tab="rejected" onclick="setTab('rejected')">✕ Rejected</button>
+      <button class="tab-btn"        data-tab="all"      onclick="setTab('all')">All</button>
+    </div>
+
+    <div class="submissions-list" id="submissionsList">
+      <div class="empty-state"><div class="spinner"></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================================================================
+   ADMIN CONFIGURATION
+   ================================================================
+   SUPABASE_SERVICE_KEY: Get this from Supabase → Settings → API
+   → "service_role" key (secret). This bypasses RLS so you can
+   read private fields and update status. NEVER expose this key
+   in public-facing pages — only this admin.html which is
+   password-protected and not indexed by Google.
+
+   ADMIN_PASSWORD: Change this to something strong. This is a
+   client-side check — for stronger security, use Supabase Auth
+   or Netlify password protection on this file.
+   ================================================================ */
+const SUPABASE_URL         = 'YOUR_SUPABASE_URL_HERE';
+const SUPABASE_SERVICE_KEY = 'YOUR_SUPABASE_SERVICE_ROLE_KEY_HERE'; // service_role, NOT anon
+const ADMIN_PASSWORD       = 'OlideenAdmin2025!'; // ← CHANGE THIS
+
+/* ── Auth ─────────────────────────────────────────────────────── */
+const SESSION_KEY = 'olideen_admin_auth';
+
+function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  if (pw === ADMIN_PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, '1');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminWrap').classList.add('show');
+    initAdmin();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+
+/* ── Supabase (service role — reads all fields, can update status) */
+let _sb;
+function initAdmin() {
+  _sb = supabase.createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+  loadSubmissions();
+}
+
+/* ── State ────────────────────────────────────────────────────── */
+let allSubs  = [];
+let activeTab = 'pending';
+
+/* ── Load ─────────────────────────────────────────────────────── */
+async function loadSubmissions() {
+  document.getElementById('submissionsList').innerHTML =
+    '<div class="empty-state"><div class="spinner"></div></div>';
+
+  if (SUPABASE_URL === 'YOUR_SUPABASE_URL_HERE') {
+    /* Demo mode */
+    allSubs = DEMO_SUBS;
+    updateStats();
+    renderList();
+    return;
+  }
+
+  try {
+    const { data, error } = await _sb
+      .from('businesses')
+      .select('id,name,category,town,whatsapp,website,description,business_detail,owner_name,owner_phone,owner_email,status,review_note,created_at')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    allSubs = data || [];
+    updateStats();
+    renderList();
+    document.getElementById('lastRefresh').textContent =
+      'Last updated: ' + new Date().toLocaleTimeString();
+  } catch(e) {
+    console.error(e);
+    document.getElementById('submissionsList').innerHTML =
+      '<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Load failed</h3><p>Check your service role key.</p></div>';
+  }
+}
+
+async function refresh() { await loadSubmissions(); }
+
+/* ── Stats ────────────────────────────────────────────────────── */
+function updateStats() {
+  const count = s => allSubs.filter(b => b.status === s).length;
+  document.getElementById('sPending').textContent  = count('pending');
+  document.getElementById('sApproved').textContent = count('approved');
+  document.getElementById('sRejected').textContent = count('rejected');
+  document.getElementById('sTotal').textContent    = allSubs.length;
+}
+
+/* ── Tabs ─────────────────────────────────────────────────────── */
+function setTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  renderList();
+}
+
+function getVisible() {
+  if (activeTab === 'all') return allSubs;
+  return allSubs.filter(b => b.status === activeTab);
+}
+
+/* ── Render ───────────────────────────────────────────────────── */
+function renderList() {
+  const list = getVisible();
+  const el   = document.getElementById('submissionsList');
+
+  if (!list.length) {
+    const labels = { pending:'pending submissions', approved:'approved listings', rejected:'rejected submissions', all:'submissions' };
+    el.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">${activeTab==='pending'?'🎉':'⊘'}</div>
+      <h3>${activeTab==='pending'?'All clear!':'Nothing here'}</h3>
+      <p>No ${labels[activeTab]} yet.</p>
+    </div>`;
+    return;
+  }
+
+  el.innerHTML = list.map(b => renderCard(b)).join('');
+}
+
+function renderCard(b) {
+  const created = new Date(b.created_at).toLocaleDateString('en-ZA', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const waContact = b.owner_phone ? `<a href="https://wa.me/${b.owner_phone.replace(/\D/g,'')}" target="_blank" class="inline-link wa">💬 ${esc(b.owner_phone)}</a>` : '';
+  const emailContact = b.owner_email ? `<a href="mailto:${esc(b.owner_email)}" class="inline-link web">✉ ${esc(b.owner_email)}</a>` : '';
+
+  return `
+  <div class="sub-card status-${b.status}" id="card-${b.id}">
+    <div class="sub-card-header" onclick="toggleCard(${b.id})">
+      <div style="display:flex;align-items:center;gap:0.6rem;flex:1;min-width:0;">
+        <div style="width:36px;height:36px;border-radius:8px;background:var(--gold-pale);border:1px solid var(--gold);color:var(--gold);font-family:var(--font-head);font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          ${b.name.charAt(0).toUpperCase()}
+        </div>
+        <div>
+          <div class="sub-biz-name">${esc(b.name)}</div>
+          <div class="sub-meta">
+            <span class="town-tag">📍 ${esc(b.town)}</span>
+            <span class="cat-tag">${esc(b.category)}</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.6rem;flex-shrink:0;">
+        <span class="time-tag">${created}</span>
+        <span class="status-badge ${b.status}">${b.status}</span>
+        <span class="expand-icon">▾</span>
+      </div>
+    </div>
+
+    <div class="sub-card-body">
+
+      <!-- Business review detail — most important field -->
+      <div class="review-detail-box">
+        <div class="detail-label">📋 What they say their business does</div>
+        <div class="detail-value" style="margin-top:0.3rem;">${esc(b.business_detail) || '<em style="color:var(--muted)">Not provided</em>'}</div>
+      </div>
+
+      <!-- Public info -->
+      <div class="detail-block">
+        <div class="detail-label">Public Description</div>
+        <div class="detail-value">${esc(b.description)||'<em style="color:var(--muted2)">None</em>'}</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">Public Links</div>
+        <div class="detail-value" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.2rem;">
+          ${b.whatsapp?`<a href="https://wa.me/${b.whatsapp.replace(/\D/g,'')}" target="_blank" class="inline-link wa">💬 ${esc(b.whatsapp)}</a>`:''}
+          ${b.website?`<a href="${esc(b.website)}" target="_blank" class="inline-link web">↗ ${esc(b.website.replace(/^https?:\/\//,''))}</a>`:''}
+          ${!b.whatsapp&&!b.website?'<span style="color:var(--muted2);font-size:0.8rem;">No links provided</span>':''}
+        </div>
+      </div>
+
+      <!-- Private owner info -->
+      <div class="detail-block">
+        <div class="detail-label">🔒 Owner Name (private)</div>
+        <div class="detail-value">${esc(b.owner_name)||'—'}</div>
+      </div>
+      <div class="detail-block">
+        <div class="detail-label">🔒 Owner Contact (private)</div>
+        <div class="detail-value" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.2rem;">
+          ${waContact||''}${emailContact||''}
+          ${!b.owner_phone&&!b.owner_email?'<span style="color:var(--muted2);">None provided</span>':''}
+        </div>
+      </div>
+
+      ${b.review_note?`<div class="detail-block full">
+        <div class="detail-label">Your Previous Note</div>
+        <div class="detail-value" style="font-style:italic;color:var(--muted);">"${esc(b.review_note)}"</div>
+      </div>`:''}
+
+      <!-- Actions (only shown for pending) -->
+      ${b.status === 'pending' ? `
+      <div class="sub-actions">
+        <button class="btn-approve" onclick="approve(${b.id},event)">✓ Approve</button>
+        <input type="text" class="note-input" id="note-${b.id}" placeholder="Optional: reason for rejection…" maxlength="200" />
+        <button class="btn-reject" onclick="reject(${b.id},event)">✕ Reject</button>
+        <span class="note-hint">Note is sent to the owner if you enter one.</span>
+      </div>` : `
+      <div class="sub-actions">
+        <span style="font-size:0.78rem;font-family:var(--font-mono);color:var(--muted);">
+          Status: <strong>${b.status}</strong>${b.review_note?` — "${esc(b.review_note)}"`:''}</span>
+        ${b.status==='rejected'?`<button class="btn-approve" style="margin-left:auto;" onclick="approve(${b.id},event)">↩ Re-approve</button>`:''}
+        ${b.status==='approved'?`<button class="btn-reject" style="margin-left:auto;" onclick="reject(${b.id},event)">✕ Remove</button>`:''}
+      </div>`}
+
+    </div>
+  </div>`;
+}
+
+/* ── Toggle expand ────────────────────────────────────────────── */
+function toggleCard(id) {
+  const card = document.getElementById('card-' + id);
+  card.classList.toggle('expanded');
+}
+
+/* ── Approve ──────────────────────────────────────────────────── */
+async function approve(id, e) {
+  e.stopPropagation();
+  const card = document.getElementById('card-' + id);
+  const btns = card.querySelectorAll('.btn-approve,.btn-reject');
+  btns.forEach(b=>b.disabled=true);
+
+  if (SUPABASE_URL === 'YOUR_SUPABASE_URL_HERE') {
+    /* Demo mode */
+    const sub = allSubs.find(b=>b.id===id);
+    if(sub) sub.status='approved';
+    updateStats(); renderList();
+    toast('✓ Approved — listing is now live','ok');
+    return;
+  }
+
+  try {
+    const { error } = await _sb.from('businesses').update({ status:'approved', review_note:null }).eq('id', id);
+    if (error) throw error;
+    const sub = allSubs.find(b=>b.id===id);
+    if(sub) sub.status='approved';
+    updateStats(); renderList();
+    toast('✓ Approved — listing is now live on the directory','ok');
+  } catch(err) {
+    console.error(err);
+    toast('❌ Update failed — check Supabase connection','err');
+    btns.forEach(b=>b.disabled=false);
+  }
+}
+
+/* ── Reject ───────────────────────────────────────────────────── */
+async function reject(id, e) {
+  e.stopPropagation();
+  const card = document.getElementById('card-' + id);
+  const note = document.getElementById('note-'+id)?.value.trim() || '';
+  const btns = card.querySelectorAll('.btn-approve,.btn-reject');
+  btns.forEach(b=>b.disabled=true);
+
+  if (SUPABASE_URL === 'YOUR_SUPABASE_URL_HERE') {
+    const sub = allSubs.find(b=>b.id===id);
+    if(sub){ sub.status='rejected'; sub.review_note=note||null; }
+    updateStats(); renderList();
+    toast('✕ Rejected','ok');
+    return;
+  }
+
+  try {
+    const { error } = await _sb.from('businesses').update({ status:'rejected', review_note:note||null }).eq('id', id);
+    if (error) throw error;
+    const sub = allSubs.find(b=>b.id===id);
+    if(sub){ sub.status='rejected'; sub.review_note=note||null; }
+    updateStats(); renderList();
+    toast('✕ Listing rejected','ok');
+  } catch(err) {
+    console.error(err);
+    toast('❌ Update failed','err');
+    btns.forEach(b=>b.disabled=false);
+  }
+}
+
+/* ── Escape helper ────────────────────────────────────────────── */
+function esc(s) {
+  if(!s)return'';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── Toast ────────────────────────────────────────────────────── */
+let _tt;
+function toast(msg, type='ok') {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className=`toast show ${type}`;
+  clearTimeout(_tt); _tt=setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+/* ── Demo submissions ─────────────────────────────────────────── */
+const DEMO_SUBS = [
+  { id:101, name:"Zinhle's Braids",     category:"Health & Beauty", town:"Estcourt",  whatsapp:"27831000001", website:"",                       description:"Braiding and natural hair services",
+    business_detail:"I do braiding, weaves and natural hair care from my home salon in Estcourt. I've been doing hair for 8 years. All products are chemical-free.",
+    owner_name:"Zinhle Dube", owner_phone:"27831000001", owner_email:null, status:"pending",  review_note:null, created_at:new Date(Date.now()-3600000).toISOString() },
+  { id:102, name:"FastFix Electronics", category:"Tech",            town:"Ladysmith", whatsapp:"27832000002", website:"https://fastfix.co.za",   description:"Phone and laptop repairs",
+    business_detail:"We repair smartphones, tablets and laptops. Screen replacements, battery swaps, software issues. Based in Ladysmith CBD. Monday to Saturday 8am-5pm.",
+    owner_name:"Sipho Mthembu", owner_phone:null, owner_email:"sipho@fastfix.co.za", status:"pending",  review_note:null, created_at:new Date(Date.now()-7200000).toISOString() },
+  { id:103, name:"XXX Adult Store",     category:"Retail",          town:"Ladysmith", whatsapp:"27833000003", website:"",                       description:"Adult products",
+    business_detail:"We sell adult novelty products and explicit material.",
+    owner_name:"John Smith", owner_phone:"27833000003", owner_email:null, status:"rejected", review_note:"Not suitable for the directory. Content policy violation.", created_at:new Date(Date.now()-86400000).toISOString() },
+  { id:104, name:"Mama Zulu Catering",  category:"Food & Drinks",   town:"Pietermaritzburg", whatsapp:"27839999999", website:"", description:"Traditional Zulu catering for all events.",
+    business_detail:"I cater for weddings, funerals, graduations and corporate events. Traditional Zulu food — umngqusho, isigwaqane, grilled meat. Minimum 20 guests.",
+    owner_name:"Thandi Zulu", owner_phone:"27839999999", owner_email:"thandi@mamazulu.co.za", status:"approved", review_note:null, created_at:new Date(Date.now()-172800000).toISOString() },
+];
+
+/* ── Check session on load ────────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem(SESSION_KEY) === '1') {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminWrap').classList.add('show');
+    initAdmin();
+  } else {
+    document.getElementById('pwInput').focus();
+  }
+  document.getElementById('pwInput').addEventListener('keydown', e => {
+    if(e.key==='Enter') doLogin();
+  });
+});
+</script>
+</body>
+</html>

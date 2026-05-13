@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Dynamic meta injected by JS below -->
+  <title>Local Businesses — Olideen Directory</title>
+  <meta name="description" content="Find local businesses in your town on the Olideen Directory." />
+  <meta name="robots" content="index, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div id="nav-placeholder"></div>
+
+  <!-- Breadcrumb - SEO signal -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Directory</a>
+      <span class="sep">›</span>
+      <a href="towns.html">Towns</a>
+      <span class="sep">›</span>
+      <span class="current" id="breadcrumbTown">Loading…</span>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero hero-page" role="banner">
+    <div class="hero-inner">
+      <div>
+        <p class="hero-kicker" id="heroKicker">Town Directory</p>
+        <h1 id="heroTitle">Businesses in <span class="accent" id="heroTownName">…</span></h1>
+        <p class="hero-sub" id="heroSub">Find local businesses in your area.</p>
+        <div class="hero-stats">
+          <div><span class="stat-num" id="statCount">—</span><span class="stat-label">Businesses</span></div>
+          <div><span class="stat-num" id="statCats">—</span><span class="stat-label">Categories</span></div>
+        </div>
+      </div>
+      <div class="hero-cta-block">
+        <button class="btn-primary" onclick="openModal()">
+          + List My Business <span class="arrow">→</span>
+        </button>
+        <span class="free-note">✓ Always free</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Search -->
+  <div class="search-bar-wrap" role="search">
+    <div class="search-bar-inner">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="searchInput" class="search-input"
+        placeholder="Search within this town…"
+        oninput="renderPage()" />
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" data-cat="All" onclick="setFilter('All')">All Categories</button>
+      </div>
+      <div class="controls-right">
+        <span class="total-count">Showing <span id="visibleCount">—</span></span>
+        <div class="view-toggle">
+          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')">☰</button>
+          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')">⊞</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <main class="directory-main" id="mainContent" role="main">
+    <div class="directory-inner">
+      <div style="text-align:center;padding:4rem;">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SEO text block (populated by JS with town name) -->
+  <section class="seo-block" id="seoBlock" aria-label="About this town"></section>
+
+  <div id="footer-placeholder"></div>
+</div>
+
+<div id="modal-placeholder"></div>
+
+<script>
+let townBusinesses = [];
+let activeFilter   = 'All';
+let currentView    = 'table';
+let currentTown    = '';
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('nav-placeholder').innerHTML    = renderNav('towns');
+  document.getElementById('footer-placeholder').innerHTML = renderFooter();
+  document.getElementById('modal-placeholder').innerHTML  = renderModal();
+
+  const params = new URLSearchParams(window.location.search);
+  currentTown  = normaliseTown(params.get('t') || 'Unknown');
+  loadTownPage();
+});
+
+async function loadTownPage() {
+  /* ── SEO meta for this town ─────────────────────────────────── */
+  const title = `${currentTown} Local Businesses — Olideen Directory`;
+  const desc  = `Find local businesses in ${currentTown}, KwaZulu-Natal. Browse tech, food, fashion, health, education and services in ${currentTown}. List your business free.`;
+
+  setMeta(title, desc, `https://directory.olideentech.co.za/town.html?t=${encodeURIComponent(currentTown)}`);
+  setMetaTag('property','og:title',       title);
+  setMetaTag('property','og:description', desc);
+
+  /* ── Update page text ───────────────────────────────────────── */
+  document.getElementById('breadcrumbTown').textContent  = currentTown;
+  document.getElementById('heroTownName').textContent    = currentTown;
+  document.getElementById('heroKicker').textContent      = `${currentTown} · Local Business Directory`;
+
+  try {
+    townBusinesses = await fetchByTown(currentTown);
+
+    /* Inject LocalBusiness schema for every listing */
+    const schemas = townBusinesses.map(b => buildLocalBusinessSchema(b));
+    injectSchema({ "@context":"https://schema.org", "@graph": schemas });
+
+    updatePageStats();
+    buildCategoryFilters();
+    buildSeoBlock();
+    renderPage();
+  } catch(e) {
+    console.error(e);
+    document.querySelector('.directory-inner').innerHTML = `
+      <div class="state-box">
+        <div class="state-icon">⚠️</div>
+        <h3>Could not load listings</h3>
+        <p>Check your Supabase config.</p>
+      </div>`;
+  }
+}
+
+function updatePageStats() {
+  const cats = new Set(townBusinesses.map(b => b.category));
+  document.getElementById('statCount').textContent = townBusinesses.length;
+  document.getElementById('statCats').textContent  = cats.size;
+  document.getElementById('heroSub').textContent   =
+    `Discover ${townBusinesses.length} local ${townBusinesses.length === 1 ? 'business' : 'businesses'} listed in ${currentTown}. Browse by category or search below.`;
+}
+
+function buildCategoryFilters() {
+  const cats = [...new Set(townBusinesses.map(b => b.category))].sort();
+  const tabs  = document.getElementById('filterTabs');
+  cats.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-tab';
+    btn.dataset.cat = cat;
+    btn.textContent = cat;
+    btn.onclick = () => setFilter(cat);
+    tabs.appendChild(btn);
+  });
+}
+
+function buildSeoBlock() {
+  const cats = [...new Set(townBusinesses.map(b => b.category))].join(', ');
+  document.getElementById('seoBlock').innerHTML = `
+    <h2>Find Local Businesses in ${escHtml(currentTown)}</h2>
+    <p>
+      The Olideen Directory lists local businesses in ${escHtml(currentTown)}, KwaZulu-Natal.
+      Currently featuring ${townBusinesses.length} ${townBusinesses.length === 1 ? 'business' : 'businesses'}
+      across categories including ${escHtml(cats || 'various industries')}.
+    </p>
+    <p>
+      Looking for a specific type of business in ${escHtml(currentTown)}?
+      Use the search bar or category filters above to narrow down results.
+      All listings are free and submitted by business owners in the community.
+    </p>
+    <p>
+      Own a business in ${escHtml(currentTown)}?
+      <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">List it free →</button>
+    </p>`;
+}
+
+function getFiltered() {
+  const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+  return townBusinesses.filter(b => {
+    const matchCat = activeFilter === 'All' || b.category === activeFilter;
+    const matchQ   = !q ||
+      (b.name||'').toLowerCase().includes(q) ||
+      (b.category||'').toLowerCase().includes(q) ||
+      (b.description||'').toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+}
+
+function renderPage() {
+  const filtered = getFiltered();
+  document.getElementById('visibleCount').textContent = filtered.length;
+
+  const inner = document.querySelector('.directory-inner') ||
+    (() => { const d=document.createElement('div'); d.className='directory-inner'; document.getElementById('mainContent').appendChild(d); return d; })();
+
+  if (!filtered.length) {
+    inner.innerHTML = `<div class="state-box"><div class="state-icon">⊘</div><h3>No results</h3><p>Try adjusting your search or <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;text-decoration:underline;">be the first to list here!</button></p></div>`;
+    return;
+  }
+
+  inner.innerHTML = currentView === 'table'
+    ? `<div class="town-section">${renderTableSection(filtered)}</div>`
+    : `<div class="town-section">${renderCardsSection(filtered)}</div>`;
+}
+
+function setFilter(cat) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-tab').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.cat === cat));
+  renderPage();
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('tableViewBtn').classList.toggle('active', v === 'table');
+  document.getElementById('cardViewBtn').classList.toggle('active', v === 'cards');
+  renderPage();
+}
+
+function onBusinessAdded(biz) {
+  if (normaliseTown(biz.town) === currentTown) {
+    townBusinesses.unshift({ ...biz, id: Date.now() });
+    updatePageStats();
+    renderPage();
+  }
+}
+</script>
+</body>
+</html>
