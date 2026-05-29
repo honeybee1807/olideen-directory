@@ -14,8 +14,8 @@
      INSERT (anon)  → allow (submissions always land as 'pending')
      UPDATE (anon)  → DENY — only the service_role key in admin.html can update
    ──────────────────────────────────────────────────────────────── */
-const SUPABASE_URL      = 'https://awvoehlyzbdtijharglk.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3dm9laGx5emJkdGlqaGFyZ2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNjY0MTQsImV4cCI6MjA5NTY0MjQxNH0.oBCXyZQCBXUK5ItQ23ODYr8FE8e1M2FHpcxMxwQVom0';
+const SUPABASE_URL      = 'https://uwxanvllgomcpjtotowd.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3eGFudmxsZ29tY3BqdG90b3dkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwODM0NTMsImV4cCI6MjA5NTY1OTQ1M30.NHKwsie6Vsza6BiHulYPLuuIPI9s4jgLRuNKejW8JKk';
 
 const PUBLIC_COLS = 'id,name,category,town,whatsapp,website,description,created_at';
 
@@ -24,7 +24,7 @@ let isSupabaseReady = false;
 
 function initSupabase() {
   try {
-    _sb = supabase.createClient('https://awvoehlyzbdtijharglk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3dm9laGx5emJkdGlqaGFyZ2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNjY0MTQsImV4cCI6MjA5NTY0MjQxNH0.oBCXyZQCBXUK5ItQ23ODYr8FE8e1M2FHpcxMxwQVom0');
+    _sb = supabase.createClient('https://uwxanvllgomcpjtotowd.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3eGFudmxsZ29tY3BqdG90b3dkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwODM0NTMsImV4cCI6MjA5NTY1OTQ1M30.NHKwsie6Vsza6BiHulYPLuuIPI9s4jgLRuNKejW8JKk');
     isSupabaseReady = true;
     return true;
   } catch(e) { console.error('Supabase init:', e); return false; }
