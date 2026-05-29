@@ -14,7 +14,7 @@
      INSERT (anon)  → allow (submissions always land as 'pending')
      UPDATE (anon)  → DENY — only the service_role key in admin.html can update
    ──────────────────────────────────────────────────────────────── */
-const SUPABASE_URL      = 'https://awvoehlyzbdtijharglk.supabase.co/rest/v1/';
+const SUPABASE_URL      = 'https://awvoehlyzbdtijharglk.supabase.co/';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3dm9laGx5emJkdGlqaGFyZ2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNjY0MTQsImV4cCI6MjA5NTY0MjQxNH0.oBCXyZQCBXUK5ItQ23ODYr8FE8e1M2FHpcxMxwQVom0';
 
 const PUBLIC_COLS = 'id,name,category,town,whatsapp,website,description,created_at';
@@ -23,10 +23,8 @@ let _sb = null;
 let isSupabaseReady = false;
 
 function initSupabase() {
-  if (SUPABASE_URL === 'https://awvoehlyzbdtijharglk.supabase.co/rest/v1/') 
-    return false;
   try {
-    _sb = supabase.createClient('https://awvoehlyzbdtijharglk.supabase.co/rest/v1/', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3dm9laGx5emJkdGlqaGFyZ2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNjY0MTQsImV4cCI6MjA5NTY0MjQxNH0.oBCXyZQCBXUK5ItQ23ODYr8FE8e1M2FHpcxMxwQVom0');
+    _sb = supabase.createClient('https://awvoehlyzbdtijharglk.supabase.co/', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3dm9laGx5emJkdGlqaGFyZ2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNjY0MTQsImV4cCI6MjA5NTY0MjQxNH0.oBCXyZQCBXUK5ItQ23ODYr8FE8e1M2FHpcxMxwQVom0');
     isSupabaseReady = true;
     return true;
   } catch(e) { console.error('Supabase init:', e); return false; }
