@@ -327,7 +327,7 @@
    client-side check — for stronger security, use Supabase Auth
    or Netlify password protection on this file.
    ================================================================ */
-const SUPABASE_URL         = 'https://awvoehlyzbdtijharglk.supabase.co/';
+const SUPABASE_URL         = 'https://awvoehlyzbdtijharglk.supabase.co';
 const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3dm9laGx5emJkdGlqaGFyZ2xrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDA2NjQxNCwiZXhwIjoyMDk1NjQyNDE0fQ.-feAuspBlUdKz1vci-YdqnZX9bjyxadz1KEYBMbAp68'; // service_role, NOT anon
 const ADMIN_PASSWORD       = 'GWJSLO@786'; 
 
@@ -356,7 +356,7 @@ function doLogout() {
 /* ── Supabase (service role — reads all fields, can update status) */
 let _sb;
 function initAdmin() {
-  _sb = supabase.createClient('https://awvoehlyzbdtijharglk.supabase.co/', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3dm9laGx5emJkdGlqaGFyZ2xrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDA2NjQxNCwiZXhwIjoyMDk1NjQyNDE0fQ.-feAuspBlUdKz1vci-YdqnZX9bjyxadz1KEYBMbAp68');
+  _sb = supabase.createClient('https://awvoehlyzbdtijharglk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3dm9laGx5emJkdGlqaGFyZ2xrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDA2NjQxNCwiZXhwIjoyMDk1NjQyNDE0fQ.-feAuspBlUdKz1vci-YdqnZX9bjyxadz1KEYBMbAp68');
   loadSubmissions();
 }
 
@@ -369,7 +369,7 @@ async function loadSubmissions() {
   document.getElementById('submissionsList').innerHTML =
     '<div class="empty-state"><div class="spinner"></div></div>';
 
-  if (SUPABASE_URL === 'https://awvoehlyzbdtijharglk.supabase.co/') {
+  if (SUPABASE_URL === 'https://awvoehlyzbdtijharglk.supabase.co') {
     /* Demo mode */
     allSubs = DEMO_SUBS;
     updateStats();
@@ -535,7 +535,7 @@ async function approve(id, e) {
   const btns = card.querySelectorAll('.btn-approve,.btn-reject');
   btns.forEach(b=>b.disabled=true);
 
-  if (SUPABASE_URL === 'https://awvoehlyzbdtijharglk.supabase.co/') {
+  if (SUPABASE_URL === 'https://awvoehlyzbdtijharglk.supabase.co') {
     /* Demo mode */
     const sub = allSubs.find(b=>b.id===id);
     if(sub) sub.status='approved';
@@ -566,7 +566,7 @@ async function reject(id, e) {
   const btns = card.querySelectorAll('.btn-approve,.btn-reject');
   btns.forEach(b=>b.disabled=true);
 
-  if (SUPABASE_URL === 'https://awvoehlyzbdtijharglk.supabase.co/') {
+  if (SUPABASE_URL === 'https://awvoehlyzbdtijharglk.supabase.co') {
     const sub = allSubs.find(b=>b.id===id);
     if(sub){ sub.status='rejected'; sub.review_note=note||null; }
     updateStats(); renderList();
