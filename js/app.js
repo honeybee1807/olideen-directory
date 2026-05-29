@@ -23,9 +23,10 @@ let _sb = null;
 let isSupabaseReady = false;
 
 function initSupabase() {
-  if (SUPABASE_URL === 'YOUR_SUPABASE_URL_HERE') return false;
+  if (SUPABASE_URL === 'https://awvoehlyzbdtijharglk.supabase.co/rest/v1/') 
+    return false;
   try {
-    _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    _sb = supabase.createClient('https://awvoehlyzbdtijharglk.supabase.co/rest/v1/', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF3dm9laGx5emJkdGlqaGFyZ2xrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNjY0MTQsImV4cCI6MjA5NTY0MjQxNH0.oBCXyZQCBXUK5ItQ23ODYr8FE8e1M2FHpcxMxwQVom0');
     isSupabaseReady = true;
     return true;
   } catch(e) { console.error('Supabase init:', e); return false; }
