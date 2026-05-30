@@ -88,12 +88,11 @@ async function fetchById(id) {
 
 async function insertBusiness(payload) {
   if (!isSupabaseReady) { await sleep(700); return {...payload,id:Date.now(),status:'pending'}; }
-  const { data, error } = await _sb
+  const { error } = await _sb
     .from('businesses')
-    .insert([{...payload, status:'pending'}])
-    .select('id,name,status').single();
+    .insert([{...payload, status:'pending'}]);
   if (error) throw error;
-  return data;
+  return { status: 'pending' };
 }
 
 /* ─── HELPERS ────────────────────────────────────────────────────── */
