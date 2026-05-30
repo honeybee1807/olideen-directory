@@ -369,13 +369,6 @@ async function loadSubmissions() {
   document.getElementById('submissionsList').innerHTML =
     '<div class="empty-state"><div class="spinner"></div></div>';
 
-  if (SUPABASE_URL === 'https://uwxanvllgomcpjtotowd.supabase.co') {
-    /* Demo mode */
-    allSubs = DEMO_SUBS;
-    updateStats();
-    renderList();
-    return;
-  }
 
   try {
     const { data, error } = await _sb
