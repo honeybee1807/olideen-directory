@@ -369,6 +369,13 @@ async function loadSubmissions() {
   document.getElementById('submissionsList').innerHTML =
     '<div class="empty-state"><div class="spinner"></div></div>';
 
+  if (SUPABASE_URL === 'https://uwxanvllgomcpjtotowd.supabase.co') {
+    /* Demo mode */
+    allSubs = DEMO_SUBS;
+    updateStats();
+    renderList();
+    return;
+  }
 
   try {
     const { data, error } = await _sb
@@ -528,19 +535,22 @@ async function approve(id, e) {
   const btns = card.querySelectorAll('.btn-approve,.btn-reject');
   btns.forEach(b=>b.disabled=true);
 
-  try {
-    const { error } = await _sb
-      .from('businesses')
-      .update({ status: 'approved', review_note: null })
-      .eq('id', id);
-    
-    if (error) throw error;
-    
+  if (SUPABASE_URL === 'https://uwxanvllgomcpjtotowd.supabase.co') {
+    /* Demo mode */
     const sub = allSubs.find(b=>b.id===id);
     if(sub) sub.status='approved';
-    updateStats(); 
-    renderList();
+    updateStats(); renderList();
     toast('✓ Approved — listing is now live','ok');
+    return;
+  }
+
+  try {
+    const { error } = await _sb.from('businesses').update({ status:'approved', review_note:null }).eq('id', id);
+    if (error) throw error;
+    const sub = allSubs.find(b=>b.id===id);
+    if(sub) sub.status='approved';
+    updateStats(); renderList();
+    toast('✓ Approved — listing is now live on the directory','ok');
   } catch(err) {
     console.error(err);
     toast('❌ Update failed — check Supabase connection','err');
@@ -555,14 +565,6 @@ async function reject(id, e) {
   const note = document.getElementById('note-'+id)?.value.trim() || '';
   const btns = card.querySelectorAll('.btn-approve,.btn-reject');
   btns.forEach(b=>b.disabled=true);
-
-  if (SUPABASE_URL === 'https://uwxanvllgomcpjtotowd.supabase.co') {
-    const sub = allSubs.find(b=>b.id===id);
-    if(sub){ sub.status='rejected'; sub.review_note=note||null; }
-    updateStats(); renderList();
-    toast('✕ Rejected','ok');
-    return;
-  }
 
   try {
     const { error } = await _sb.from('businesses').update({ status:'rejected', review_note:note||null }).eq('id', id);
