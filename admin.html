@@ -356,7 +356,8 @@ function doLogout() {
 /* ── Supabase (service role — reads all fields, can update status) */
 let _sb;
 function initAdmin() {
-  _sb = supabase.createClient('https://uwxanvllgomcpjtotowd.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3eGFudmxsZ29tY3BqdG90b3dkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDA4MzQ1MywiZXhwIjoyMDk1NjU5NDUzfQ.ysXV6yCVUmx9WLNm_wEV07VURRi8i-kP0NhWmChVL3k');
+  sessionStorage.removeItem('olideen_admin_auth_demo'); // clear any old demo session
+  _sb = supabase.createClient('https://uwxanvllgomcpjtotowd.supabase.co', 'YOUR_SERVICE_KEY');
   loadSubmissions();
 }
 
@@ -584,21 +585,6 @@ function toast(msg, type='ok') {
   clearTimeout(_tt); _tt=setTimeout(()=>t.classList.remove('show'),3500);
 }
 
-/* ── Demo submissions ─────────────────────────────────────────── */
-const DEMO_SUBS = [
-  { id:101, name:"Zinhle's Braids",     category:"Health & Beauty", town:"Estcourt",  whatsapp:"27831000001", website:"",                       description:"Braiding and natural hair services",
-    business_detail:"I do braiding, weaves and natural hair care from my home salon in Estcourt. I've been doing hair for 8 years. All products are chemical-free.",
-    owner_name:"Zinhle Dube", owner_phone:"27831000001", owner_email:null, status:"pending",  review_note:null, created_at:new Date(Date.now()-3600000).toISOString() },
-  { id:102, name:"FastFix Electronics", category:"Tech",            town:"Ladysmith", whatsapp:"27832000002", website:"https://fastfix.co.za",   description:"Phone and laptop repairs",
-    business_detail:"We repair smartphones, tablets and laptops. Screen replacements, battery swaps, software issues. Based in Ladysmith CBD. Monday to Saturday 8am-5pm.",
-    owner_name:"Sipho Mthembu", owner_phone:null, owner_email:"sipho@fastfix.co.za", status:"pending",  review_note:null, created_at:new Date(Date.now()-7200000).toISOString() },
-  { id:103, name:"XXX Adult Store",     category:"Retail",          town:"Ladysmith", whatsapp:"27833000003", website:"",                       description:"Adult products",
-    business_detail:"We sell adult novelty products and explicit material.",
-    owner_name:"John Smith", owner_phone:"27833000003", owner_email:null, status:"rejected", review_note:"Not suitable for the directory. Content policy violation.", created_at:new Date(Date.now()-86400000).toISOString() },
-  { id:104, name:"Mama Zulu Catering",  category:"Food & Drinks",   town:"Pietermaritzburg", whatsapp:"27839999999", website:"", description:"Traditional Zulu catering for all events.",
-    business_detail:"I cater for weddings, funerals, graduations and corporate events. Traditional Zulu food — umngqusho, isigwaqane, grilled meat. Minimum 20 guests.",
-    owner_name:"Thandi Zulu", owner_phone:"27839999999", owner_email:"thandi@mamazulu.co.za", status:"approved", review_note:null, created_at:new Date(Date.now()-172800000).toISOString() },
-];
 
 /* ── Check session on load ────────────────────────────────────── */
 window.addEventListener('DOMContentLoaded', () => {
