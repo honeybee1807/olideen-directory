@@ -70,10 +70,10 @@
   <header class="hero" role="banner">
     <div class="hero-inner">
       <div>
-        <p class="hero-kicker">KwaZulu-Natal Local Business Directory · Est. May 2025</p>
-        <h1>Discover &amp; support<br><span class="accent">local businesses.</span></h1>
+        <p class="hero-kicker">Local Business Directory · KwaZulu-Natal · Est. May 2025</p>
+        <h1>Find Local.<br><span class="accent">List Free.</span></h1>
         <p class="hero-sub">
-          Find home bakers, mechanics, hair stylists, caterers, tutors, transport services and more — right in your town. Serving Estcourt, Ladysmith, Pietermaritzburg and growing. <strong>Always free</strong> to list and browse.
+          The Olideen Directory is a <strong>100% free</strong> business directory connecting customers to local businesses across KwaZulu-Natal. Estcourt, Ladysmith, Pietermaritzburg and growing. List your business in under 2 minutes.
         </p>
         <div class="hero-stats">
           <div><span class="stat-num" id="statCount">—</span><span class="stat-label">Businesses Listed</span></div>
@@ -106,28 +106,69 @@
   <!-- ═══ FILTER BAR ══════════════════════════════════════════════ -->
   <div class="filter-bar" role="navigation" aria-label="Category filters">
     <div class="filter-bar-inner">
-      <div class="filter-tabs" role="tablist">
-        <button class="filter-tab active" data-cat="All"            role="tab" onclick="setFilter('All')">All</button>
-        <button class="filter-tab"        data-cat="Food & Drinks"  role="tab" onclick="setFilter('Food & Drinks')">Food</button>
-        <button class="filter-tab"        data-cat="Health & Beauty"role="tab" onclick="setFilter('Health & Beauty')">Beauty</button>
-        <button class="filter-tab"        data-cat="Services"       role="tab" onclick="setFilter('Services')">Services</button>
-        <button class="filter-tab"        data-cat="Education"      role="tab" onclick="setFilter('Education')">Education</button>
-        <button class="filter-tab"        data-cat="Tech"           role="tab" onclick="setFilter('Tech')">Tech</button>
-        <button class="filter-tab"        data-cat="Fashion"        role="tab" onclick="setFilter('Fashion')">Fashion</button>
-        <button class="filter-tab"        data-cat="Retail"         role="tab" onclick="setFilter('Retail')">Retail</button>
-        <button class="filter-tab"        data-cat="Transport"      role="tab" onclick="setFilter('Transport')">Transport</button>
-        <button class="filter-tab"        data-cat="Home & Garden"  role="tab" onclick="setFilter('Home & Garden')">Home</button>
-        <button class="filter-tab"        data-cat="Other"          role="tab" onclick="setFilter('Other')">Other</button>
+
+      <div class="cat-dropdown-wrap">
+        <button class="cat-dropdown-btn" id="catDropdownBtn" onclick="toggleCatDropdown()">
+          <span id="catDropdownLabel">All Categories</span>
+          <span class="cat-dropdown-arrow">▾</span>
+        </button>
+        <div class="cat-dropdown-menu" id="catDropdownMenu">
+          <button class="cat-option active" data-cat="All"           onclick="setFilter('All')">All Categories</button>
+          <button class="cat-option" data-cat="Food & Drinks"        onclick="setFilter('Food & Drinks')">🍽️ Food & Drinks</button>
+          <button class="cat-option" data-cat="Health & Beauty"      onclick="setFilter('Health & Beauty')">💆 Health & Beauty</button>
+          <button class="cat-option" data-cat="Services"             onclick="setFilter('Services')">🔧 Services</button>
+          <button class="cat-option" data-cat="Education"            onclick="setFilter('Education')">📚 Education</button>
+          <button class="cat-option" data-cat="Tech"                 onclick="setFilter('Tech')">💻 Tech</button>
+          <button class="cat-option" data-cat="Fashion"              onclick="setFilter('Fashion')">👗 Fashion</button>
+          <button class="cat-option" data-cat="Retail"               onclick="setFilter('Retail')">🛍️ Retail</button>
+          <button class="cat-option" data-cat="Transport"            onclick="setFilter('Transport')">🚗 Transport</button>
+          <button class="cat-option" data-cat="Home & Garden"        onclick="setFilter('Home & Garden')">🏡 Home & Garden</button>
+          <button class="cat-option" data-cat="Other"                onclick="setFilter('Other')">📦 Other</button>
+        </div>
       </div>
+
       <div class="controls-right">
         <span class="total-count" aria-live="polite">Showing <span id="visibleCount">—</span> results</span>
         <div class="view-toggle" role="group" aria-label="View mode">
-          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" title="Table view" aria-label="Table view">☰</button>
-          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')" title="Card view"  aria-label="Card view">⊞</button>
+          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" aria-label="Table view">☰</button>
+          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')" aria-label="Card view">⊞</button>
         </div>
       </div>
     </div>
   </div>
+
+  <style>
+    .cat-dropdown-wrap { position: relative; }
+    .cat-dropdown-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.45rem 1rem;
+      background: var(--surface); border: 1.5px solid var(--border2);
+      border-radius: var(--radius); color: var(--ink2);
+      font-size: 0.82rem; font-family: var(--font-body); font-weight: 500;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    }
+    .cat-dropdown-btn:hover, .cat-dropdown-btn.open {
+      border-color: var(--gold); color: var(--gold); background: var(--gold-pale);
+    }
+    .cat-dropdown-arrow { font-size: 0.7rem; transition: transform 0.2s; }
+    .cat-dropdown-btn.open .cat-dropdown-arrow { transform: rotate(180deg); }
+    .cat-dropdown-menu {
+      display: none; position: absolute; top: calc(100% + 6px); left: 0;
+      background: var(--surface); border: 1.5px solid var(--border2);
+      border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 60;
+      min-width: 210px; overflow: hidden;
+    }
+    .cat-dropdown-menu.open { display: block; }
+    .cat-option {
+      display: block; width: 100%; text-align: left;
+      padding: 0.65rem 1rem; font-size: 0.85rem; font-family: var(--font-body);
+      color: var(--ink2); background: transparent; border: none; cursor: pointer;
+      transition: background 0.12s;
+    }
+    .cat-option:hover { background: var(--surface2); }
+    .cat-option.active { color: var(--gold); background: var(--gold-pale); font-weight: 600; }
+    .cat-option + .cat-option { border-top: 1px solid var(--border); }
+  </style>
 
   <!-- ═══ MAIN DIRECTORY ══════════════════════════════════════════ -->
   <main class="directory-main" id="directoryMain" role="main">
@@ -141,15 +182,17 @@
 
   <!-- ═══ SEO TEXT BLOCK (keyword-rich, always visible to Google) ═ -->
   <section class="seo-block" aria-label="About the directory">
-    <h2>Your Local Business Community — KwaZulu-Natal</h2>
+    <h2>Local Business Directory for KwaZulu-Natal</h2>
     <p>
-      The Olideen Directory connects people in KwaZulu-Natal to the businesses already in their community —
-      the home baker down the road, the mechanic your neighbour swears by, the hair stylist who's been doing
-      hair for years. Towns covered include Estcourt, Ladysmith, Pietermaritzburg, Colenso, Weenen and growing.
+      The Olideen Directory is a free local business directory serving towns across KwaZulu-Natal,
+      South Africa — including Estcourt, Ladysmith, Pietermaritzburg, Colenso, Weenen and surrounding areas.
+      Whether you're looking for a hair salon, a restaurant, a tech repair shop, a tutor or a local retailer,
+      you'll find it here.
     </p>
     <p>
-      Every listing is reviewed by Olideen Technologies before going live — so you know every business here
-      is real, local, and legitimate. Listing is completely free, always.
+      We believe every local business deserves to be found online — regardless of budget.
+      That's why listing on the Olideen Directory is, and always will be, completely free.
+      No hidden fees, no expiry, no credit card required.
     </p>
     <p>
       <a href="towns.html" style="color:var(--gold)">Browse by town</a> ·
@@ -244,10 +287,24 @@ function renderDirectory() {
 
 function handleSearch() { renderDirectory(); }
 
+function toggleCatDropdown() {
+  const btn  = document.getElementById('catDropdownBtn');
+  const menu = document.getElementById('catDropdownMenu');
+  btn.classList.toggle('open');
+  menu.classList.toggle('open');
+}
+
 function setFilter(cat) {
   activeFilter = cat;
-  document.querySelectorAll('.filter-tab').forEach(btn =>
+  // Update dropdown label
+  const label = cat === 'All' ? 'All Categories' : cat;
+  document.getElementById('catDropdownLabel').textContent = label;
+  // Update active state on options
+  document.querySelectorAll('.cat-option').forEach(btn =>
     btn.classList.toggle('active', btn.dataset.cat === cat));
+  // Close the dropdown
+  document.getElementById('catDropdownBtn').classList.remove('open');
+  document.getElementById('catDropdownMenu').classList.remove('open');
   renderDirectory();
 }
 
@@ -257,6 +314,13 @@ function setView(v) {
   document.getElementById('cardViewBtn').classList.toggle('active', v === 'cards');
   renderDirectory();
 }
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.cat-dropdown-wrap')) {
+    document.getElementById('catDropdownBtn')?.classList.remove('open');
+    document.getElementById('catDropdownMenu')?.classList.remove('open');
+  }
+});
 
 function onBusinessAdded(biz) {
   allBusinesses.unshift({ ...biz, id: Date.now() });
