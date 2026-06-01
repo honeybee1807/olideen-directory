@@ -25,6 +25,7 @@
   --radius:      6px;
   --font-head:   'Bebas Neue', sans-serif;
   --font-body:   'DM Sans', sans-serif;
+  /* OLD: --font-mono: 'Fira Mono', monospace; — font not loaded, fixed below */
   --font-mono:   'JetBrains Mono', monospace;
   --shadow-sm:   0 1px 4px rgba(0,0,0,0.07);
   --shadow-md:   0 4px 16px rgba(0,0,0,0.10);
@@ -903,6 +904,91 @@ footer {
 .anim-d2 { animation-delay: 0.10s; }
 .anim-d3 { animation-delay: 0.15s; }
 
+/* ─── COMMUNITY TRUST STRIP ──────────────────────────────────────── */
+/* Shown below the search bar on the homepage — reinforces platform values */
+.community-strip {
+  background: var(--gold-pale);
+  border-bottom: 1px solid rgba(192,120,0,0.18);
+  padding: 0.5rem var(--pad-x);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.community-strip-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.community-item {
+  font-size: 0.72rem;
+  color: #8a6400;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+.community-divider {
+  color: rgba(192,120,0,0.3);
+  font-size: 0.72rem;
+  flex-shrink: 0;
+}
+
+/* ─── CATEGORY QUICK ACCESS STRIP ───────────────────────────────── */
+/* Fast-discovery row of category pills — sits above the filter bar */
+.cat-quick-strip {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem var(--pad-x);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.cat-quick-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: nowrap;
+}
+.cat-quick-label {
+  font-size: 0.64rem;
+  font-family: var(--font-mono);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-right: 0.25rem;
+}
+.cat-quick-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.28rem 0.72rem;
+  border-radius: 100px;
+  border: 1.5px solid var(--border2);
+  font-size: 0.74rem;
+  color: var(--ink2);
+  text-decoration: none;
+  background: var(--surface2);
+  transition: all 0.17s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cat-quick-pill:hover,
+.cat-quick-pill:focus {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-pale);
+}
+.cat-quick-pill.see-all {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-pale);
+  font-weight: 500;
+}
+
 /* ─── RESPONSIVE ─────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .hero-inner { grid-template-columns: 1fr; }
@@ -910,4 +996,6 @@ footer {
   .form-row { grid-template-columns: 1fr; }
   .nav-links .nav-link:not(.nav-cta) { display: none; }
   .detail-body { padding: 1.5rem; }
+  .community-strip-inner { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; gap: 0.6rem; }
+  .cat-quick-label { display: none; }
 }

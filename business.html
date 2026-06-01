@@ -122,7 +122,20 @@ function renderBusiness() {
                  ↗ Visit Website
                </a>`
             : ''}
+          <a href="https://wa.me/?text=${encodeURIComponent('Check out ' + b.name + ' on Olideen Directory: ' + window.location.href)}"
+             target="_blank" rel="noopener"
+             class="link-btn"
+             style="border-color:var(--border2);color:var(--muted);"
+             aria-label="Share this business on WhatsApp">
+            📤 Share
+          </a>
           ${!b.whatsapp && !b.website ? '<p style="color:var(--muted);font-size:0.83rem;">No contact links listed yet.</p>' : ''}
+        </div>
+        <div style="margin-top:1rem;display:flex;align-items:center;gap:0.5rem;">
+          <span style="display:inline-flex;align-items:center;gap:0.35rem;font-size:0.7rem;font-family:var(--font-mono);color:var(--success);background:rgba(26,122,74,0.07);border:1px solid rgba(26,122,74,0.25);padding:0.25rem 0.65rem;border-radius:100px;">
+            ✓ Verified listing
+          </span>
+          <span style="font-size:0.7rem;font-family:var(--font-mono);color:var(--muted);">Reviewed by Olideen before going live</span>
         </div>
 
         <!-- SEO-rich descriptive text, always rendered as real HTML -->
@@ -159,10 +172,10 @@ function renderBusiness() {
       <div style="text-align:center;padding:2rem;"><div class="spinner"></div></div>
     </div>
 
-    <!-- CTA to list -->
-    <div style="margin-top:2rem;padding:2rem;background:var(--gold-pale);border:1px solid var(--gold);border-radius:10px;text-align:center;">
-      <p style="font-family:var(--font-head);font-size:1.4rem;color:var(--ink);margin-bottom:0.5rem;">Own a business in ${escHtml(town)}?</p>
-      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">Get listed on the Olideen Directory for free. No sign-up, no cost, always live.</p>
+    <!-- CTA to list — improved warmth and local messaging -->
+    <div style="margin-top:2rem;padding:2rem;background:var(--gold-pale);border:1px solid rgba(192,120,0,0.3);border-radius:10px;text-align:center;">
+      <p style="font-family:var(--font-head);font-size:1.4rem;color:var(--ink);margin-bottom:0.4rem;">Do you have a business in ${escHtml(town)}?</p>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.2rem;line-height:1.7;">List it on the Olideen Directory — completely free. No sign-up, no cost, always live.<br>Help your community find you.</p>
       <button class="btn-primary" onclick="openModal()">List My Business Free →</button>
     </div>`;
 }

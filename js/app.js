@@ -31,7 +31,8 @@ function initSupabase() {
 }
 
 /* ─── DEMO DATA ──────────────────────────────────────────────────── */
-const DEMO_DATA = [
+/* OLD DEMO DATA — replaced with richer, more authentic SA businesses below
+const DEMO_DATA_OLD = [
   { id:1,  name:"Kuda's Tech Hub",       category:"Tech",            town:"Estcourt",         whatsapp:"27831111111", website:"https://kudatech.co.za",            description:"Laptop repairs, software setup & IT support.", status:"approved" },
   { id:2,  name:"Gogo's Kitchen",         category:"Food & Drinks",   town:"Estcourt",         whatsapp:"27832222222", website:"",                                  description:"Home-cooked traditional meals delivered daily.", status:"approved" },
   { id:3,  name:"Urban Threads",          category:"Fashion",         town:"Estcourt",         whatsapp:"27833333333", website:"https://instagram.com/urbanthreads", description:"Contemporary African fashion & streetwear.", status:"approved" },
@@ -44,6 +45,32 @@ const DEMO_DATA = [
   { id:10, name:"PMB Coding Academy",     category:"Education",       town:"Pietermaritzburg", whatsapp:"27830000000", website:"https://pmbcodes.co.za",            description:"Coding bootcamps for all skill levels.", status:"approved" },
   { id:11, name:"The Hair Lounge PMB",    category:"Health & Beauty", town:"Pietermaritzburg", whatsapp:"27831234000", website:"https://instagram.com/hairlounge",  description:"Natural hair care and protective styles.", status:"approved" },
   { id:12, name:"BuildRight Hardware",    category:"Retail",          town:"Pietermaritzburg", whatsapp:"27835678000", website:"",                                  description:"Hardware, tools and building materials.", status:"approved" },
+];
+*/
+
+/* IMPROVED DEMO DATA — authentic South African local businesses with storytelling descriptions */
+const DEMO_DATA = [
+  /* ─── Estcourt ──────────────────────────────────────────────────── */
+  { id:1,  name:"Aunty Mariam's Samoosas",  category:"Food & Drinks",   town:"Estcourt",         whatsapp:"27831111111", website:"",                                   description:"Freshly made samoosas, vetkoek and pies from our home kitchen — order for events, markets or daily delivery in Estcourt.", status:"approved" },
+  { id:2,  name:"Sbu Diesel Transport",     category:"Transport",       town:"Estcourt",         whatsapp:"27832222222", website:"",                                   description:"Reliable diesel transport for furniture, goods and equipment across KZN. Call Sbu — honest, experienced, locally trusted.", status:"approved" },
+  { id:3,  name:"Sweet Layers Bakery",      category:"Food & Drinks",   town:"Estcourt",         whatsapp:"27833333333", website:"https://instagram.com/sweetlayers",  description:"Custom celebration cakes, cupcakes and pastries made to order from our home kitchen. Serving Estcourt families with love since 2021.", status:"approved" },
+  { id:4,  name:"Estcourt Tutors",          category:"Education",       town:"Estcourt",         whatsapp:"27834444444", website:"",                                   description:"Maths, Science and English tutoring for Grade 8–12. Small groups and one-on-one sessions available — WhatsApp to book a slot.", status:"approved" },
+  { id:5,  name:"Kuda's Tech Hub",          category:"Tech",            town:"Estcourt",         whatsapp:"27835111222", website:"",                                   description:"Laptop repairs, phone screen replacements, software setup and IT support. Affordable rates, quick turnaround — Estcourt based.", status:"approved" },
+  /* ─── Ladysmith ──────────────────────────────────────────────────── */
+  { id:6,  name:"Ladysmith Auto Repairs",   category:"Services",        town:"Ladysmith",        whatsapp:"27835555555", website:"",                                   description:"Trusted mechanical repairs and panel beating for all vehicle makes. Affordable rates, honest work — serving Ladysmith for over 8 years.", status:"approved" },
+  { id:7,  name:"Clarity Beauty Studio",    category:"Health & Beauty", town:"Ladysmith",        whatsapp:"27836666666", website:"",                                   description:"Hair braiding, natural hair care, nail art and beauty treatments in Ladysmith. Book via WhatsApp — walk-ins welcome.", status:"approved" },
+  { id:8,  name:"MaMkhize Home Catering",   category:"Food & Drinks",   town:"Ladysmith",        whatsapp:"27837777777", website:"",                                   description:"Traditional Zulu catering for funerals, weddings and imicimbi. Home-cooked food prepared with pride — feeding the community.", status:"approved" },
+  { id:9,  name:"Neon Visuals KZN",         category:"Tech",            town:"Ladysmith",        whatsapp:"27838888888", website:"https://instagram.com/neonvisuals",  description:"Graphic design, flyers, logos and social media content. Fast turnaround, affordable packages for local businesses — DM on WhatsApp.", status:"approved" },
+  { id:10, name:"Corner Spaza Ladysmith",   category:"Retail",          town:"Ladysmith",        whatsapp:"27839123456", website:"",                                   description:"Groceries, airtime, electricity tokens and everyday essentials. Open 7 days — conveniently located in Ladysmith.", status:"approved" },
+  /* ─── Pietermaritzburg ───────────────────────────────────────────── */
+  { id:11, name:"Mama Zulu Catering",       category:"Food & Drinks",   town:"Pietermaritzburg", whatsapp:"27839999999", website:"",                                   description:"Traditional Zulu catering for all occasions — funerals, weddings, events. We cook with pride and serve every guest with joy.", status:"approved" },
+  { id:12, name:"PMB Coding Academy",       category:"Education",       town:"Pietermaritzburg", whatsapp:"27830000000", website:"https://pmbcodes.co.za",             description:"Coding bootcamps, computer literacy and digital skills training for youth and adults in Pietermaritzburg. Empowering local talent.", status:"approved" },
+  { id:13, name:"The Hair Lounge PMB",      category:"Health & Beauty", town:"Pietermaritzburg", whatsapp:"27831234000", website:"https://instagram.com/hairlounge",   description:"Natural hair care, protective styles and colour treatments in PMB. We celebrate every hair type — WhatsApp to book your appointment.", status:"approved" },
+  { id:14, name:"BuildRight Hardware",      category:"Retail",          town:"Pietermaritzburg", whatsapp:"27835678000", website:"",                                   description:"Quality hardware, tools and building materials at competitive prices. Serving PMB contractors, builders and homeowners daily.", status:"approved" },
+  /* ─── Newcastle ──────────────────────────────────────────────────── */
+  { id:15, name:"Nomvula's Home Cleaning",  category:"Home & Garden",   town:"Newcastle",        whatsapp:"27839876543", website:"",                                   description:"Reliable home and office cleaning services in Newcastle. Thorough, affordable and trusted by local families — book via WhatsApp.", status:"approved" },
+  { id:16, name:"Newcastle Spaza & More",   category:"Retail",          town:"Newcastle",        whatsapp:"27836543210", website:"",                                   description:"Groceries, airtime, electricity tokens and everyday household essentials. Open 7 days a week in Newcastle.", status:"approved" },
+  { id:17, name:"Thabo's Barber Shop",      category:"Health & Beauty", town:"Newcastle",        whatsapp:"27831987654", website:"",                                   description:"Fresh cuts, fades and beard trims in Newcastle. Clean shop, good vibes — walk in or book your spot on WhatsApp.", status:"approved" },
 ];
 
 /* ─── PUBLIC DATA (approved only) ───────────────────────────────── */
@@ -323,7 +350,7 @@ function renderNav(activePage) {
         <a href="index.html"      class="nav-link ${activePage==='home'?'active':''}">Directory</a>
         <a href="towns.html"      class="nav-link ${activePage==='towns'?'active':''}">Towns</a>
         <a href="categories.html" class="nav-link ${activePage==='cats'?'active':''}">Categories</a>
-        <button class="nav-link nav-cta" onclick="openModal()">+ List Free</button>
+        <button class="nav-link nav-cta" onclick="openModal()">List My Business</button>
       </div>
     </div>
   </nav>`;
@@ -331,7 +358,7 @@ function renderNav(activePage) {
 
 function renderFooter() {
   return`<footer role="contentinfo"><div class="footer-inner">
-    <p class="footer-left">An <strong>Olideen Technologies</strong> initiative — helping local businesses grow since May 2025.</p>
+    <p class="footer-left">Supporting local South African businesses, one listing at a time. An <strong>Olideen Technologies</strong> initiative.</p>
     <div class="footer-links">
       <a href="index.html">Directory</a><a href="towns.html">Towns</a>
       <a href="categories.html">Categories</a><a href="sitemap.xml">Sitemap</a>

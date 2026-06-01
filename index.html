@@ -67,6 +67,7 @@
   <div id="nav-placeholder"></div>
 
   <!-- ═══ HERO ═══════════════════════════════════════════════════ -->
+  <!-- OLD HERO — commented out, replaced with community-first version below
   <header class="hero" role="banner">
     <div class="hero-inner">
       <div>
@@ -89,6 +90,35 @@
       </div>
     </div>
   </header>
+  -->
+
+  <!-- IMPROVED HERO — warmer community messaging, dual CTAs, local town names -->
+  <header class="hero" role="banner">
+    <div class="hero-inner">
+      <div>
+        <p class="hero-kicker">Estcourt · Ladysmith · Newcastle · KwaZulu-Natal</p>
+        <h1>Find Local.<br><span class="accent">Support Local.</span></h1>
+        <p class="hero-sub">
+          Discover home bakers, mechanics, tutors, caterers, hair stylists and more — right in your town.
+          The Olideen Directory puts <strong>local South African businesses</strong> on the map, completely free.
+        </p>
+        <div class="hero-stats">
+          <div><span class="stat-num" id="statCount">—</span><span class="stat-label">Businesses Listed</span></div>
+          <div><span class="stat-num" id="statTowns">—</span><span class="stat-label">Towns Covered</span></div>
+          <div><span class="stat-num">100%</span><span class="stat-label">Free Forever</span></div>
+        </div>
+      </div>
+      <div class="hero-cta-block">
+        <button class="btn-primary" onclick="openModal()" aria-label="List your business for free">
+          List Your Business <span class="arrow">→</span>
+        </button>
+        <a href="#directoryMain" class="btn-outline" style="text-align:center;" aria-label="Browse local businesses">
+          Browse Local Businesses
+        </a>
+        <span class="free-note">✓ No sign-up · No cost · Always live</span>
+      </div>
+    </div>
+  </header>
 
   <!-- ═══ SEARCH BAR ══════════════════════════════════════════════ -->
   <div class="search-bar-wrap" role="search">
@@ -100,6 +130,36 @@
         oninput="handleSearch()"
         aria-label="Search local businesses" />
       <span class="search-hint" aria-hidden="true">⌘K</span>
+    </div>
+  </div>
+
+  <!-- ═══ COMMUNITY TRUST STRIP ══════════════════════════════════ -->
+  <div class="community-strip" role="complementary" aria-label="Platform highlights">
+    <div class="community-strip-inner">
+      <span class="community-item">🏘️ Hyperlocal &amp; community-driven</span>
+      <span class="community-divider">·</span>
+      <span class="community-item">💬 WhatsApp-ready listings</span>
+      <span class="community-divider">·</span>
+      <span class="community-item">✓ Every listing reviewed by Olideen</span>
+      <span class="community-divider">·</span>
+      <span class="community-item">🆓 Always free to list</span>
+      <span class="community-divider">·</span>
+      <span class="community-item">📍 Estcourt · Ladysmith · Newcastle &amp; more</span>
+    </div>
+  </div>
+
+  <!-- ═══ CATEGORY QUICK ACCESS ════════════════════════════════════ -->
+  <div class="cat-quick-strip" aria-label="Browse by category">
+    <div class="cat-quick-inner">
+      <span class="cat-quick-label">Quick Browse:</span>
+      <a href="categories.html?cat=Food+%26+Drinks"   class="cat-quick-pill">🍽️ Food &amp; Drinks</a>
+      <a href="categories.html?cat=Health+%26+Beauty" class="cat-quick-pill">💆 Beauty &amp; Hair</a>
+      <a href="categories.html?cat=Services"          class="cat-quick-pill">🔧 Services</a>
+      <a href="categories.html?cat=Transport"         class="cat-quick-pill">🚗 Transport</a>
+      <a href="categories.html?cat=Education"         class="cat-quick-pill">📚 Tutors</a>
+      <a href="categories.html?cat=Home+%26+Garden"   class="cat-quick-pill">🏡 Home &amp; Garden</a>
+      <a href="categories.html?cat=Retail"            class="cat-quick-pill">🛍️ Retail</a>
+      <a href="categories.html"                       class="cat-quick-pill see-all">All Categories →</a>
     </div>
   </div>
 
@@ -181,6 +241,7 @@
   </main>
 
   <!-- ═══ SEO TEXT BLOCK (keyword-rich, always visible to Google) ═ -->
+  <!-- OLD SEO TEXT — commented out, replaced with warmer community version below
   <section class="seo-block" aria-label="About the directory">
     <h2>Local Business Directory for KwaZulu-Natal</h2>
     <p>
@@ -198,6 +259,29 @@
       <a href="towns.html" style="color:var(--gold)">Browse by town</a> ·
       <a href="categories.html" style="color:var(--gold)">Browse by category</a> ·
       <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">List your business free</button>
+    </p>
+  </section>
+  -->
+  <!-- IMPROVED SEO TEXT — community-first, emotionally warm, keyword-rich -->
+  <section class="seo-block" aria-label="About the directory">
+    <h2>The Local Business Directory Built for South African Communities</h2>
+    <p>
+      The Olideen Directory is a free local business directory built specifically for small-town and
+      township businesses across KwaZulu-Natal — including Estcourt, Ladysmith, Newcastle,
+      Pietermaritzburg, Colenso, Weenen, Dundee and surrounding areas. Whether you're looking for
+      a home baker, a mechanic, a hair stylist, a tutor or a local transport provider, you'll find
+      them here.
+    </p>
+    <p>
+      We built this for the side-hustler, the home-based business owner, the township entrepreneur —
+      businesses that may not have a website or know how to get found on Google. Every listing is
+      reviewed before going live, so you can trust what you find here. And listing is, and always
+      will be, completely free. No hidden fees, no expiry, no sign-up required.
+    </p>
+    <p>
+      <a href="towns.html" style="color:var(--gold)">Browse by town</a> ·
+      <a href="categories.html" style="color:var(--gold)">Browse by category</a> ·
+      <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">List your business free →</button>
     </p>
   </section>
 
