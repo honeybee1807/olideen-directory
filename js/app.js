@@ -114,7 +114,8 @@ function initial(n) { return n?n.charAt(0).toUpperCase():'?'; }
 const CAT_CLASS = {
   'Tech':'cat-tech','Food & Drinks':'cat-food','Fashion':'cat-fashion',
   'Health & Beauty':'cat-health','Education':'cat-education',
-  'Services':'cat-services','Retail':'cat-retail','Other':'cat-other',
+  'Services':'cat-services','Retail':'cat-retail',
+  'Transport':'cat-transport','Home & Garden':'cat-home','Other':'cat-other',
 };
 function catClass(c) { return CAT_CLASS[c]||'cat-other'; }
 
@@ -363,9 +364,16 @@ function renderModal() {
               <label>Category <span class="req">*</span></label>
               <select id="bizCategory">
                 <option value="">Select…</option>
-                <option>Tech</option><option>Food & Drinks</option><option>Fashion</option>
-                <option>Health & Beauty</option><option>Education</option>
-                <option>Services</option><option>Retail</option><option>Other</option>
+                <option>Food & Drinks</option>
+                <option>Health & Beauty</option>
+                <option>Services</option>
+                <option>Education</option>
+                <option>Tech</option>
+                <option>Fashion</option>
+                <option>Retail</option>
+                <option>Transport</option>
+                <option>Home & Garden</option>
+                <option>Other</option>
               </select>
             </div>
             <div class="field-group">
