@@ -55,7 +55,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="js/app.js" defer></script>
@@ -67,7 +67,6 @@
   <div id="nav-placeholder"></div>
 
   <!-- ═══ HERO ═══════════════════════════════════════════════════ -->
-  <!-- OLD HERO — commented out, replaced with community-first version below
   <header class="hero" role="banner">
     <div class="hero-inner">
       <div>
@@ -90,35 +89,6 @@
       </div>
     </div>
   </header>
-  -->
-
-  <!-- IMPROVED HERO — warmer community messaging, dual CTAs, local town names -->
-  <header class="hero" role="banner">
-    <div class="hero-inner">
-      <div>
-        <p class="hero-kicker">Estcourt · Ladysmith · Newcastle · KwaZulu-Natal</p>
-        <h1>Find Local.<br><span class="accent">Support Local.</span></h1>
-        <p class="hero-sub">
-          Discover home bakers, mechanics, tutors, caterers, hair stylists and more — right in your town.
-          The Olideen Directory puts <strong>local South African businesses</strong> on the map, completely free.
-        </p>
-        <div class="hero-stats">
-          <div><span class="stat-num" id="statCount">—</span><span class="stat-label">Businesses Listed</span></div>
-          <div><span class="stat-num" id="statTowns">—</span><span class="stat-label">Towns Covered</span></div>
-          <div><span class="stat-num">100%</span><span class="stat-label">Free Forever</span></div>
-        </div>
-      </div>
-      <div class="hero-cta-block">
-        <button class="btn-primary" onclick="openModal()" aria-label="List your business for free">
-          List Your Business <span class="arrow">→</span>
-        </button>
-        <a href="#directoryMain" class="btn-outline" style="text-align:center;" aria-label="Browse local businesses">
-          Browse Local Businesses
-        </a>
-        <span class="free-note">✓ No sign-up · No cost · Always live</span>
-      </div>
-    </div>
-  </header>
 
   <!-- ═══ SEARCH BAR ══════════════════════════════════════════════ -->
   <div class="search-bar-wrap" role="search">
@@ -133,102 +103,29 @@
     </div>
   </div>
 
-  <!-- ═══ COMMUNITY TRUST STRIP ══════════════════════════════════ -->
-  <div class="community-strip" role="complementary" aria-label="Platform highlights">
-    <div class="community-strip-inner">
-      <span class="community-item">🏘️ Hyperlocal &amp; community-driven</span>
-      <span class="community-divider">·</span>
-      <span class="community-item">💬 WhatsApp-ready listings</span>
-      <span class="community-divider">·</span>
-      <span class="community-item">✓ Every listing reviewed by Olideen</span>
-      <span class="community-divider">·</span>
-      <span class="community-item">🆓 Always free to list</span>
-      <span class="community-divider">·</span>
-      <span class="community-item">📍 Estcourt · Ladysmith · Newcastle &amp; more</span>
-    </div>
-  </div>
-
-  <!-- ═══ CATEGORY QUICK ACCESS ════════════════════════════════════ -->
-  <div class="cat-quick-strip" aria-label="Browse by category">
-    <div class="cat-quick-inner">
-      <span class="cat-quick-label">Quick Browse:</span>
-      <a href="categories.html?cat=Food+%26+Drinks"   class="cat-quick-pill">🍽️ Food &amp; Drinks</a>
-      <a href="categories.html?cat=Health+%26+Beauty" class="cat-quick-pill">💆 Beauty &amp; Hair</a>
-      <a href="categories.html?cat=Services"          class="cat-quick-pill">🔧 Services</a>
-      <a href="categories.html?cat=Transport"         class="cat-quick-pill">🚗 Transport</a>
-      <a href="categories.html?cat=Education"         class="cat-quick-pill">📚 Tutors</a>
-      <a href="categories.html?cat=Home+%26+Garden"   class="cat-quick-pill">🏡 Home &amp; Garden</a>
-      <a href="categories.html?cat=Retail"            class="cat-quick-pill">🛍️ Retail</a>
-      <a href="categories.html"                       class="cat-quick-pill see-all">All Categories →</a>
-    </div>
-  </div>
-
   <!-- ═══ FILTER BAR ══════════════════════════════════════════════ -->
   <div class="filter-bar" role="navigation" aria-label="Category filters">
     <div class="filter-bar-inner">
-
-      <div class="cat-dropdown-wrap">
-        <button class="cat-dropdown-btn" id="catDropdownBtn" onclick="toggleCatDropdown()">
-          <span id="catDropdownLabel">All Categories</span>
-          <span class="cat-dropdown-arrow">▾</span>
-        </button>
-        <div class="cat-dropdown-menu" id="catDropdownMenu">
-          <button class="cat-option active" data-cat="All"           onclick="setFilter('All')">All Categories</button>
-          <button class="cat-option" data-cat="Food & Drinks"        onclick="setFilter('Food & Drinks')">🍽️ Food & Drinks</button>
-          <button class="cat-option" data-cat="Health & Beauty"      onclick="setFilter('Health & Beauty')">💆 Health & Beauty</button>
-          <button class="cat-option" data-cat="Services"             onclick="setFilter('Services')">🔧 Services</button>
-          <button class="cat-option" data-cat="Education"            onclick="setFilter('Education')">📚 Education</button>
-          <button class="cat-option" data-cat="Tech"                 onclick="setFilter('Tech')">💻 Tech</button>
-          <button class="cat-option" data-cat="Fashion"              onclick="setFilter('Fashion')">👗 Fashion</button>
-          <button class="cat-option" data-cat="Retail"               onclick="setFilter('Retail')">🛍️ Retail</button>
-          <button class="cat-option" data-cat="Transport"            onclick="setFilter('Transport')">🚗 Transport</button>
-          <button class="cat-option" data-cat="Home & Garden"        onclick="setFilter('Home & Garden')">🏡 Home & Garden</button>
-          <button class="cat-option" data-cat="Other"                onclick="setFilter('Other')">📦 Other</button>
-        </div>
+      <div class="filter-tabs" role="tablist">
+        <button class="filter-tab active" data-cat="All"            role="tab" onclick="setFilter('All')">All</button>
+        <button class="filter-tab"        data-cat="Tech"           role="tab" onclick="setFilter('Tech')">Tech</button>
+        <button class="filter-tab"        data-cat="Food & Drinks"  role="tab" onclick="setFilter('Food & Drinks')">Food</button>
+        <button class="filter-tab"        data-cat="Fashion"        role="tab" onclick="setFilter('Fashion')">Fashion</button>
+        <button class="filter-tab"        data-cat="Health & Beauty"role="tab" onclick="setFilter('Health & Beauty')">Health</button>
+        <button class="filter-tab"        data-cat="Education"      role="tab" onclick="setFilter('Education')">Education</button>
+        <button class="filter-tab"        data-cat="Services"       role="tab" onclick="setFilter('Services')">Services</button>
+        <button class="filter-tab"        data-cat="Retail"         role="tab" onclick="setFilter('Retail')">Retail</button>
+        <button class="filter-tab"        data-cat="Other"          role="tab" onclick="setFilter('Other')">Other</button>
       </div>
-
       <div class="controls-right">
         <span class="total-count" aria-live="polite">Showing <span id="visibleCount">—</span> results</span>
         <div class="view-toggle" role="group" aria-label="View mode">
-          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" aria-label="Table view">☰</button>
-          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')" aria-label="Card view">⊞</button>
+          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" title="Table view" aria-label="Table view">☰</button>
+          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')" title="Card view"  aria-label="Card view">⊞</button>
         </div>
       </div>
     </div>
   </div>
-
-  <style>
-    .cat-dropdown-wrap { position: relative; }
-    .cat-dropdown-btn {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.45rem 1rem;
-      background: var(--surface); border: 1.5px solid var(--border2);
-      border-radius: var(--radius); color: var(--ink2);
-      font-size: 0.82rem; font-family: var(--font-body); font-weight: 500;
-      cursor: pointer; transition: all 0.15s; white-space: nowrap;
-    }
-    .cat-dropdown-btn:hover, .cat-dropdown-btn.open {
-      border-color: var(--gold); color: var(--gold); background: var(--gold-pale);
-    }
-    .cat-dropdown-arrow { font-size: 0.7rem; transition: transform 0.2s; }
-    .cat-dropdown-btn.open .cat-dropdown-arrow { transform: rotate(180deg); }
-    .cat-dropdown-menu {
-      display: none; position: absolute; top: calc(100% + 6px); left: 0;
-      background: var(--surface); border: 1.5px solid var(--border2);
-      border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 60;
-      min-width: 210px; overflow: hidden;
-    }
-    .cat-dropdown-menu.open { display: block; }
-    .cat-option {
-      display: block; width: 100%; text-align: left;
-      padding: 0.65rem 1rem; font-size: 0.85rem; font-family: var(--font-body);
-      color: var(--ink2); background: transparent; border: none; cursor: pointer;
-      transition: background 0.12s;
-    }
-    .cat-option:hover { background: var(--surface2); }
-    .cat-option.active { color: var(--gold); background: var(--gold-pale); font-weight: 600; }
-    .cat-option + .cat-option { border-top: 1px solid var(--border); }
-  </style>
 
   <!-- ═══ MAIN DIRECTORY ══════════════════════════════════════════ -->
   <main class="directory-main" id="directoryMain" role="main">
@@ -241,7 +138,6 @@
   </main>
 
   <!-- ═══ SEO TEXT BLOCK (keyword-rich, always visible to Google) ═ -->
-  <!-- OLD SEO TEXT — commented out, replaced with warmer community version below
   <section class="seo-block" aria-label="About the directory">
     <h2>Local Business Directory for KwaZulu-Natal</h2>
     <p>
@@ -259,29 +155,6 @@
       <a href="towns.html" style="color:var(--gold)">Browse by town</a> ·
       <a href="categories.html" style="color:var(--gold)">Browse by category</a> ·
       <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">List your business free</button>
-    </p>
-  </section>
-  -->
-  <!-- IMPROVED SEO TEXT — community-first, emotionally warm, keyword-rich -->
-  <section class="seo-block" aria-label="About the directory">
-    <h2>The Local Business Directory Built for South African Communities</h2>
-    <p>
-      The Olideen Directory is a free local business directory built specifically for small-town and
-      township businesses across KwaZulu-Natal — including Estcourt, Ladysmith, Newcastle,
-      Pietermaritzburg, Colenso, Weenen, Dundee and surrounding areas. Whether you're looking for
-      a home baker, a mechanic, a hair stylist, a tutor or a local transport provider, you'll find
-      them here.
-    </p>
-    <p>
-      We built this for the side-hustler, the home-based business owner, the township entrepreneur —
-      businesses that may not have a website or know how to get found on Google. Every listing is
-      reviewed before going live, so you can trust what you find here. And listing is, and always
-      will be, completely free. No hidden fees, no expiry, no sign-up required.
-    </p>
-    <p>
-      <a href="towns.html" style="color:var(--gold)">Browse by town</a> ·
-      <a href="categories.html" style="color:var(--gold)">Browse by category</a> ·
-      <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">List your business free →</button>
     </p>
   </section>
 
@@ -371,24 +244,10 @@ function renderDirectory() {
 
 function handleSearch() { renderDirectory(); }
 
-function toggleCatDropdown() {
-  const btn  = document.getElementById('catDropdownBtn');
-  const menu = document.getElementById('catDropdownMenu');
-  btn.classList.toggle('open');
-  menu.classList.toggle('open');
-}
-
 function setFilter(cat) {
   activeFilter = cat;
-  // Update dropdown label
-  const label = cat === 'All' ? 'All Categories' : cat;
-  document.getElementById('catDropdownLabel').textContent = label;
-  // Update active state on options
-  document.querySelectorAll('.cat-option').forEach(btn =>
+  document.querySelectorAll('.filter-tab').forEach(btn =>
     btn.classList.toggle('active', btn.dataset.cat === cat));
-  // Close the dropdown
-  document.getElementById('catDropdownBtn').classList.remove('open');
-  document.getElementById('catDropdownMenu').classList.remove('open');
   renderDirectory();
 }
 
@@ -398,13 +257,6 @@ function setView(v) {
   document.getElementById('cardViewBtn').classList.toggle('active', v === 'cards');
   renderDirectory();
 }
-
-document.addEventListener('click', e => {
-  if (!e.target.closest('.cat-dropdown-wrap')) {
-    document.getElementById('catDropdownBtn')?.classList.remove('open');
-    document.getElementById('catDropdownMenu')?.classList.remove('open');
-  }
-});
 
 function onBusinessAdded(biz) {
   allBusinesses.unshift({ ...biz, id: Date.now() });
