@@ -4,34 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ═══ PRIMARY SEO META ═══════════════════════════════════════ -->
-  <title>Olideen Directory — Free Local Business Directory | KZN South Africa</title>
-  <meta name="description" content="Discover and list local businesses for free on the Olideen Directory. Find businesses in Estcourt, Ladysmith, Pietermaritzburg and across KwaZulu-Natal. Tech, food, fashion, services and more." />
-  <meta name="keywords" content="local business directory KZN, Estcourt businesses, Ladysmith businesses, Pietermaritzburg directory, free business listing South Africa, KwaZulu-Natal local business" />
+  <title>Hidden Gems SA — Free Local Business Directory | KwaZulu-Natal</title>
+  <meta name="description" content="Discover and list local businesses for free on Hidden Gems SA. Find businesses in Estcourt, Ladysmith, Pietermaritzburg and across KwaZulu-Natal. Home bakers, tutors, mechanics, stylists and more." />
+  <meta name="keywords" content="local business directory KZN, Estcourt businesses, Ladysmith businesses, Pietermaritzburg directory, free business listing South Africa, KwaZulu-Natal local business, Hidden Gems SA" />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Olideen Technologies" />
   <link rel="canonical" href="https://directory.olideentech.co.za/" />
 
-  <!-- ═══ OPEN GRAPH (WhatsApp, Facebook previews) ════════════════ -->
-  <meta property="og:title"       content="Olideen Directory — Find Local Businesses Near You" />
+  <meta property="og:title"       content="Hidden Gems SA — Find Local Businesses Near You" />
   <meta property="og:description" content="Free local business directory for KwaZulu-Natal. Find salons, restaurants, tech shops, tutors and more in your town." />
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://directory.olideentech.co.za/" />
-  <meta property="og:site_name"   content="Olideen Directory" />
+  <meta property="og:site_name"   content="Hidden Gems SA" />
 
-  <!-- ═══ TWITTER CARD ════════════════════════════════════════════ -->
   <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="Olideen Directory — Free Local Business Listings" />
+  <meta name="twitter:title"       content="Hidden Gems SA — Free Local Business Listings" />
   <meta name="twitter:description" content="List your KZN business for free. Find local businesses near you." />
 
-  <!-- ═══ SCHEMA.ORG — Website + Organisation ═════════════════════ -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebSite",
-        "name": "Olideen Directory",
+        "name": "Hidden Gems SA",
         "url": "https://directory.olideentech.co.za/",
         "description": "Free local business directory for KwaZulu-Natal, South Africa.",
         "potentialAction": {
@@ -55,7 +51,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="js/app.js" defer></script>
@@ -63,134 +59,173 @@
 <body>
 <div class="page-wrap">
 
-  <!-- NAV injected by JS -->
   <div id="nav-placeholder"></div>
 
-  <!-- ═══ HERO ═══════════════════════════════════════════════════ -->
-  <header class="hero" role="banner">
-    <div class="hero-inner">
-      <div>
-        <p class="hero-kicker">Local Business Directory · KwaZulu-Natal · Est. May 2025</p>
-        <h1>Find Local.<br><span class="accent">List Free.</span></h1>
-        <p class="hero-sub">
-          The Olideen Directory is a <strong>100% free</strong> business directory connecting customers to local businesses across KwaZulu-Natal. Estcourt, Ladysmith, Pietermaritzburg and growing. List your business in under 2 minutes.
-        </p>
-        <div class="hero-stats">
-          <div><span class="stat-num" id="statCount">—</span><span class="stat-label">Businesses Listed</span></div>
-          <div><span class="stat-num" id="statTowns">—</span><span class="stat-label">Towns Covered</span></div>
-          <div><span class="stat-num">100%</span><span class="stat-label">Free Forever</span></div>
-        </div>
-      </div>
-      <div class="hero-cta-block">
-        <button class="btn-primary" onclick="openModal()" aria-label="List your business for free">
-          List My Business <span class="arrow">→</span>
-        </button>
-        <span class="free-note">✓ No sign-up · No cost · Always live</span>
+  <!-- ══ HERO ══════════════════════════════════════════════════════ -->
+  <header style="max-width:var(--max-w);margin:0 auto;padding:clamp(48px,7vw,96px) var(--pad-x) clamp(36px,4vw,56px);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,5vw,72px);align-items:center;">
+
+    <div class="anim">
+      <div class="hero-kicker">KwaZulu&#8209;Natal &middot; Est. 2025</div>
+      <h1 style="font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(40px,6vw,72px);line-height:1.02;letter-spacing:-.01em;color:#3D0A05;">
+        Discover the people who keep our towns <em style="font-style:italic;font-weight:600;color:#BC8514;">running.</em>
+      </h1>
+      <p style="margin-top:24px;max-width:480px;font-size:16px;line-height:1.75;color:#6B5750;">
+        A curated directory of local businesses across KwaZulu&#8209;Natal &mdash; the home bakers, tutors, mechanics, stylists and caterers your neighbours already trust. Find them. Support them.
+      </p>
+      <p style="margin-top:14px;font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:#A58570;">Discover local. Support local.</p>
+      <div class="hero-stats">
+        <div><span class="stat-num" id="statCount">—</span><span class="stat-label">Businesses</span></div>
+        <div><span class="stat-num" id="statTowns">—</span><span class="stat-label">Towns</span></div>
       </div>
     </div>
+
+    <!-- Featured Gem Card -->
+    <div class="featured-gem-wrap anim" id="featuredWrap" style="display:none;">
+      <div class="featured-gem-label">Featured Gem</div>
+      <div class="featured-gem-card">
+        <div class="featured-gem-head">
+          <div class="featured-gem-initial" id="featInitial">?</div>
+          <div>
+            <div class="featured-gem-cat">
+              <span class="featured-gem-cat-dot"></span>
+              <span class="featured-gem-cat-label" id="featCat"></span>
+            </div>
+            <div class="featured-gem-name" id="featName"></div>
+          </div>
+        </div>
+        <p class="featured-gem-desc" id="featDesc"></p>
+        <div class="featured-gem-footer">
+          <span class="featured-gem-town">&#9679; <span id="featTown"></span></span>
+          <a href="#" id="featWa" target="_blank" class="featured-gem-wa">Message on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+
   </header>
 
-  <!-- ═══ SEARCH BAR ══════════════════════════════════════════════ -->
-  <div class="search-bar-wrap" role="search">
-    <div class="search-bar-inner">
-      <span class="search-icon" aria-hidden="true">⌕</span>
-      <label for="searchInput" class="sr-only">Search businesses</label>
+  <!-- ══ SEARCH ══════════════════════════════════════════════════ -->
+  <div class="search-bar-wrap">
+    <div class="search-bar-inner" style="max-width:760px;margin:0 auto;">
+      <span class="search-icon">&#9906;</span>
       <input type="text" id="searchInput" class="search-input"
-        placeholder="Search businesses, towns, categories… (e.g. 'salon Ladysmith')"
-        oninput="handleSearch()"
-        aria-label="Search local businesses" />
-      <span class="search-hint" aria-hidden="true">⌘K</span>
+        placeholder="Search a business, town, or trade — try 'bakery Estcourt'"
+        oninput="handleSearch()" />
     </div>
   </div>
 
-  <!-- ═══ FILTER BAR ══════════════════════════════════════════════ -->
+  <!-- ══ FILTER BAR ════════════════════════════════════════════════ -->
   <div class="filter-bar" role="navigation" aria-label="Category filters">
     <div class="filter-bar-inner">
       <div class="filter-tabs" role="tablist">
-        <button class="filter-tab active" data-cat="All"            role="tab" onclick="setFilter('All')">All</button>
-        <button class="filter-tab"        data-cat="Tech"           role="tab" onclick="setFilter('Tech')">Tech</button>
-        <button class="filter-tab"        data-cat="Food & Drinks"  role="tab" onclick="setFilter('Food & Drinks')">Food</button>
-        <button class="filter-tab"        data-cat="Fashion"        role="tab" onclick="setFilter('Fashion')">Fashion</button>
-        <button class="filter-tab"        data-cat="Health & Beauty"role="tab" onclick="setFilter('Health & Beauty')">Health</button>
-        <button class="filter-tab"        data-cat="Education"      role="tab" onclick="setFilter('Education')">Education</button>
-        <button class="filter-tab"        data-cat="Services"       role="tab" onclick="setFilter('Services')">Services</button>
-        <button class="filter-tab"        data-cat="Retail"         role="tab" onclick="setFilter('Retail')">Retail</button>
-        <button class="filter-tab"        data-cat="Other"          role="tab" onclick="setFilter('Other')">Other</button>
+        <button class="filter-tab active" data-cat="All"             role="tab" onclick="setFilter('All')">All</button>
+        <button class="filter-tab"        data-cat="Tech"            role="tab" onclick="setFilter('Tech')">Tech</button>
+        <button class="filter-tab"        data-cat="Food & Drinks"   role="tab" onclick="setFilter('Food & Drinks')">Food</button>
+        <button class="filter-tab"        data-cat="Fashion"         role="tab" onclick="setFilter('Fashion')">Fashion</button>
+        <button class="filter-tab"        data-cat="Health & Beauty" role="tab" onclick="setFilter('Health & Beauty')">Health</button>
+        <button class="filter-tab"        data-cat="Education"       role="tab" onclick="setFilter('Education')">Education</button>
+        <button class="filter-tab"        data-cat="Services"        role="tab" onclick="setFilter('Services')">Services</button>
+        <button class="filter-tab"        data-cat="Retail"          role="tab" onclick="setFilter('Retail')">Retail</button>
+        <button class="filter-tab"        data-cat="Other"           role="tab" onclick="setFilter('Other')">Other</button>
       </div>
       <div class="controls-right">
-        <span class="total-count" aria-live="polite">Showing <span id="visibleCount">—</span> results</span>
+        <span class="total-count" aria-live="polite">Showing <span id="visibleCount">—</span> listings</span>
         <div class="view-toggle" role="group" aria-label="View mode">
-          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" title="Table view" aria-label="Table view">☰</button>
-          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')" title="Card view"  aria-label="Card view">⊞</button>
+          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" title="Table view">☰ List</button>
+          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')" title="Card view">⊞ Grid</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ═══ MAIN DIRECTORY ══════════════════════════════════════════ -->
+  <!-- ══ MAIN DIRECTORY ════════════════════════════════════════════ -->
   <main class="directory-main" id="directoryMain" role="main">
     <div class="directory-inner">
       <div style="text-align:center;padding:4rem;color:var(--muted)">
         <div class="spinner"></div>
-        <p style="margin-top:1rem;font-size:0.83rem;font-family:var(--font-mono)">Loading directory…</p>
+        <p style="margin-top:1rem;font-size:0.83rem;">Loading directory…</p>
       </div>
     </div>
   </main>
 
-  <!-- ═══ SEO TEXT BLOCK (keyword-rich, always visible to Google) ═ -->
-  <section class="seo-block" aria-label="About the directory">
-    <h2>Local Business Directory for KwaZulu-Natal</h2>
+  <!-- ══ SEO TEXT ════════════════════════════════════════════════ -->
+  <section class="seo-block" aria-label="About Hidden Gems SA">
+    <h2>Discover Local Businesses Across KwaZulu-Natal</h2>
     <p>
-      The Olideen Directory is a free local business directory serving towns across KwaZulu-Natal,
-      South Africa — including Estcourt, Ladysmith, Pietermaritzburg, Colenso, Weenen and surrounding areas.
-      Whether you're looking for a hair salon, a restaurant, a tech repair shop, a tutor or a local retailer,
-      you'll find it here.
+      Hidden Gems SA connects people to the businesses already in their community — the home baker down the road, the mechanic your neighbour swears by, the tutor who's helped dozens of matric students pass. We cover Estcourt, Ladysmith, Pietermaritzburg, Colenso, Weenen, Mooi River, Winterton, Bergville and growing.
     </p>
     <p>
-      We believe every local business deserves to be found online — regardless of budget.
-      That's why listing on the Olideen Directory is, and always will be, completely free.
-      No hidden fees, no expiry, no credit card required.
-    </p>
-    <p>
-      <a href="towns.html" style="color:var(--gold)">Browse by town</a> ·
-      <a href="categories.html" style="color:var(--gold)">Browse by category</a> ·
+      <a href="towns.html" style="color:var(--gold)">Browse by town</a> &middot;
+      <a href="categories.html" style="color:var(--gold)">Browse by category</a> &middot;
       <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">List your business free</button>
     </p>
   </section>
 
-  <!-- ═══ FOOTER ══════════════════════════════════════════════════ -->
-  <div id="footer-placeholder"></div>
+  <!-- ══ INVITATION BAND ════════════════════════════════════════ -->
+  <section class="invitation-band" style="margin-top:3rem;" aria-label="List your business">
+    <div class="invitation-inner">
+      <div>
+        <div class="invitation-kicker">
+          <span class="invitation-kicker-line"></span>
+          <span class="invitation-kicker-text">Own a business?</span>
+        </div>
+        <h2 class="invitation-h2">
+          Get found by the customers <em>already looking</em> for you.
+        </h2>
+        <p class="invitation-sub">
+          Most small businesses in KZN run on word of mouth alone. A listing is free, takes under two minutes, and never expires.
+        </p>
+        <button class="invitation-btn" onclick="openModal()">List My Business — Free</button>
+      </div>
+      <div class="trust-list">
+        <div class="trust-item">
+          <span class="trust-num">01</span>
+          <div>
+            <div class="trust-title">Reviewed before publishing</div>
+            <div class="trust-body">Every listing is checked by a real person. No spam, no fake businesses.</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <span class="trust-num">02</span>
+          <div>
+            <div class="trust-title">Free, forever</div>
+            <div class="trust-body">No subscriptions, no monthly fees, no expiry. Listing is always completely free.</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <span class="trust-num">03</span>
+          <div>
+            <div class="trust-title">Direct, no middleman</div>
+            <div class="trust-body">Customers WhatsApp or call you straight from your listing. No forms, no waiting.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <div id="footer-placeholder"></div>
 </div><!-- /.page-wrap -->
 
-<!-- ═══ MODAL ═══════════════════════════════════════════════════════ -->
 <div id="modal-placeholder"></div>
 
-<style>
-  .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0; }
-</style>
-
 <script>
-/* ── Page state ──────────────────────────────────────────────────── */
 let allBusinesses = [];
 let activeFilter  = 'All';
 let currentView   = 'table';
 const collapsedTowns = new Set();
 
-/* ── Boot ─────────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('nav-placeholder').innerHTML  = renderNav('home');
+  document.getElementById('nav-placeholder').innerHTML    = renderNav('home');
   document.getElementById('footer-placeholder').innerHTML = renderFooter();
   document.getElementById('modal-placeholder').innerHTML  = renderModal();
   loadDirectory();
 });
 
-/* ── Load & render ───────────────────────────────────────────────── */
 async function loadDirectory() {
   try {
     allBusinesses = await fetchAllBusinesses();
     updateStats();
     updateSchemaListings();
+    renderFeatured();
     renderDirectory();
   } catch(e) {
     console.error(e);
@@ -216,6 +251,23 @@ function updateSchemaListings() {
   document.getElementById('schema-listings').textContent = JSON.stringify(schema);
 }
 
+function renderFeatured() {
+  if (!allBusinesses.length) return;
+  /* Pick a random approved business that has a description */
+  const candidates = allBusinesses.filter(b => b.description);
+  if (!candidates.length) return;
+  const b = candidates[Math.floor(Math.random() * candidates.length)];
+  document.getElementById('featInitial').textContent = initial(b.name);
+  document.getElementById('featCat').textContent     = b.category;
+  document.getElementById('featName').textContent    = b.name;
+  document.getElementById('featDesc').textContent    = b.description;
+  document.getElementById('featTown').textContent    = normaliseTown(b.town);
+  const wa = document.getElementById('featWa');
+  wa.href = b.whatsapp ? waLink(b.whatsapp) : ('business.html?id=' + b.id);
+  if (!b.whatsapp) wa.textContent = 'View listing →';
+  document.getElementById('featuredWrap').style.display = '';
+}
+
 function getFiltered() {
   const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
   return allBusinesses.filter(b => {
@@ -224,8 +276,7 @@ function getFiltered() {
       (b.name        ||'').toLowerCase().includes(q) ||
       (b.category    ||'').toLowerCase().includes(q) ||
       (b.town        ||'').toLowerCase().includes(q) ||
-      (b.description ||'').toLowerCase().includes(q) ||
-      (b.website     ||'').toLowerCase().includes(q);
+      (b.description ||'').toLowerCase().includes(q);
     return matchCat && matchQ;
   });
 }
@@ -237,8 +288,7 @@ function renderDirectory() {
 
   const grouped = groupByTown(filtered);
   const inner   = document.querySelector('.directory-inner') ||
-                  (() => { const d = document.createElement('div'); d.className='directory-inner'; document.getElementById('directoryMain').appendChild(d); return d; })();
-
+    (() => { const d = document.createElement('div'); d.className='directory-inner'; document.getElementById('directoryMain').appendChild(d); return d; })();
   inner.innerHTML = renderTownSections(grouped, currentView, collapsedTowns);
 }
 
@@ -254,7 +304,7 @@ function setFilter(cat) {
 function setView(v) {
   currentView = v;
   document.getElementById('tableViewBtn').classList.toggle('active', v === 'table');
-  document.getElementById('cardViewBtn').classList.toggle('active', v === 'cards');
+  document.getElementById('cardViewBtn').classList.toggle('active',  v === 'cards');
   renderDirectory();
 }
 

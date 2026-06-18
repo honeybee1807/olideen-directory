@@ -1,12 +1,9 @@
 # =======================================================
-# OLIDEEN DIRECTORY — robots.txt
-# Place this file at your domain root
-# e.g. https://directory.olideentech.co.za/robots.txt
+# HIDDEN GEMS SA — robots.txt
 # =======================================================
 
 User-agent: *
 Allow: /
-Disallow: /private/
+Disallow: /admin.html
 
-# Tell Google where your sitemap is
 Sitemap: https://directory.olideentech.co.za/sitemap.xml

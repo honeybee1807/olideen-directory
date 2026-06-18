@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Business — Olideen Directory</title>
-  <meta name="description" content="Local business listing on the Olideen Directory." />
+  <title>Business — Hidden Gems SA</title>
+  <meta name="description" content="Local business listing on Hidden Gems SA." />
   <meta name="robots" content="index, follow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="js/app.js" defer></script>
@@ -63,24 +63,21 @@ async function loadBusiness(id) {
 }
 
 function renderBusiness() {
-  const b = currentBiz;
+  const b    = currentBiz;
   const town = normaliseTown(b.town);
 
-  /* ── SEO meta ────────────────────────────────────────────────── */
-  const title = `${b.name} — ${b.category} in ${town} | Olideen Directory`;
+  const title = `${b.name} — ${b.category} in ${town} | Hidden Gems SA`;
   const desc  = b.description
-    ? `${b.description} — Find ${b.name} on the Olideen Directory. ${b.category} business based in ${town}, KwaZulu-Natal.`
-    : `${b.name} is a ${b.category} business in ${town}, KwaZulu-Natal. Find contact details and links on the Olideen Directory.`;
+    ? `${b.description} — Find ${b.name} on Hidden Gems SA. ${b.category} business based in ${town}, KwaZulu-Natal.`
+    : `${b.name} is a ${b.category} business in ${town}, KwaZulu-Natal. Find contact details on Hidden Gems SA.`;
 
   setMeta(title, desc, `https://directory.olideentech.co.za/business.html?id=${b.id}`);
   setMetaTag('property','og:title',       title);
   setMetaTag('property','og:description', desc);
   setMetaTag('property','og:type',        'business.business');
 
-  /* ── LocalBusiness schema ────────────────────────────────────── */
   injectSchema(buildLocalBusinessSchema(b));
 
-  /* ── Breadcrumb ──────────────────────────────────────────────── */
   document.getElementById('breadcrumbNav').innerHTML = `
     <div class="breadcrumb-inner">
       <a href="index.html">Directory</a>
@@ -90,7 +87,6 @@ function renderBusiness() {
       <span class="current">${escHtml(b.name)}</span>
     </div>`;
 
-  /* ── Main card ───────────────────────────────────────────────── */
   document.getElementById('detailWrap').innerHTML = `
     <div class="detail-card anim">
       <div class="detail-accent"></div>
@@ -102,8 +98,8 @@ function renderBusiness() {
             <div class="detail-meta">
               <span class="cat-pill ${catClass(b.category)}">${escHtml(b.category)}</span>
               <a href="town.html?t=${encodeURIComponent(b.town)}"
-                 style="font-size:0.78rem;color:var(--muted);font-family:var(--font-mono);">
-                📍 ${escHtml(town)}
+                 style="font-size:0.78rem;color:var(--muted);">
+                &#9679; ${escHtml(town)}
               </a>
             </div>
           </div>
@@ -125,24 +121,17 @@ function renderBusiness() {
           ${!b.whatsapp && !b.website ? '<p style="color:var(--muted);font-size:0.83rem;">No contact links listed yet.</p>' : ''}
         </div>
 
-        <!-- SEO-rich descriptive text, always rendered as real HTML -->
         <div class="detail-seo-text">
           <h2>About ${escHtml(b.name)}</h2>
           <p>
             ${escHtml(b.name)} is a local ${escHtml(b.category.toLowerCase())} business based in
-            ${escHtml(town)}, KwaZulu-Natal. Listed on the Olideen Directory — a free local business
+            ${escHtml(town)}, KwaZulu-Natal. Listed on Hidden Gems SA — a free local business
             directory connecting customers to businesses across KZN.
           </p>
           <p>
-            ${b.description
-              ? `${escHtml(b.description)} `
-              : ''}
-            ${b.whatsapp
-              ? `You can reach ${escHtml(b.name)} directly on WhatsApp. `
-              : ''}
-            ${b.website
-              ? `Visit their website for more information. `
-              : ''}
+            ${b.description ? escHtml(b.description) + ' ' : ''}
+            ${b.whatsapp ? `You can reach ${escHtml(b.name)} directly on WhatsApp. ` : ''}
+            ${b.website  ? `Visit their website for more information. ` : ''}
           </p>
           <p>
             Looking for more ${escHtml(b.category.toLowerCase())} businesses in ${escHtml(town)}?
@@ -154,15 +143,13 @@ function renderBusiness() {
       </div>
     </div>
 
-    <!-- Related businesses injected below -->
     <div class="related-section" id="relatedSection">
       <div style="text-align:center;padding:2rem;"><div class="spinner"></div></div>
     </div>
 
-    <!-- CTA to list -->
-    <div style="margin-top:2rem;padding:2rem;background:var(--gold-pale);border:1px solid var(--gold);border-radius:10px;text-align:center;">
-      <p style="font-family:var(--font-head);font-size:1.4rem;color:var(--ink);margin-bottom:0.5rem;">Own a business in ${escHtml(town)}?</p>
-      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">Get listed on the Olideen Directory for free. No sign-up, no cost, always live.</p>
+    <div style="margin-top:2rem;padding:2rem;background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:14px;text-align:center;">
+      <p style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--ink);margin-bottom:0.5rem;">Own a business in ${escHtml(town)}?</p>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">Get listed on Hidden Gems SA for free. No sign-up, no cost, always live.</p>
       <button class="btn-primary" onclick="openModal()">List My Business Free →</button>
     </div>`;
 }
@@ -177,11 +164,7 @@ async function loadRelated() {
 
     const sec = document.getElementById('relatedSection');
     if (!sec) return;
-
-    if (!show.length) {
-      sec.innerHTML = '';
-      return;
-    }
+    if (!show.length) { sec.innerHTML = ''; return; }
 
     sec.innerHTML = `
       <h2>More Businesses in ${escHtml(normaliseTown(b.town))}</h2>
@@ -192,7 +175,7 @@ async function loadRelated() {
 function renderNotFound() {
   document.getElementById('detailWrap').innerHTML = `
     <div class="state-box">
-      <div class="state-icon">⊘</div>
+      <div class="state-icon">No gem found.</div>
       <h3>Business not found</h3>
       <p>This listing may have been removed. <a href="index.html" style="color:var(--gold);">Browse the full directory →</a></p>
     </div>`;

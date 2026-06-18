@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Dynamic meta injected by JS below -->
-  <title>Local Businesses — Olideen Directory</title>
-  <meta name="description" content="Find local businesses in your town on the Olideen Directory." />
+  <title>Local Businesses — Hidden Gems SA</title>
+  <meta name="description" content="Find local businesses in your town on Hidden Gems SA." />
   <meta name="robots" content="index, follow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="js/app.js" defer></script>
@@ -19,7 +18,6 @@
 
   <div id="nav-placeholder"></div>
 
-  <!-- Breadcrumb - SEO signal -->
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <div class="breadcrumb-inner">
       <a href="index.html">Directory</a>
@@ -30,7 +28,6 @@
     </div>
   </nav>
 
-  <!-- Hero -->
   <header class="hero hero-page" role="banner">
     <div class="hero-inner">
       <div>
@@ -43,17 +40,14 @@
         </div>
       </div>
       <div class="hero-cta-block">
-        <button class="btn-primary" onclick="openModal()">
-          + List My Business <span class="arrow">→</span>
-        </button>
+        <button class="btn-primary" onclick="openModal()">+ List My Business <span class="arrow">→</span></button>
         <span class="free-note">✓ Always free</span>
       </div>
     </div>
   </header>
 
-  <!-- Search -->
-  <div class="search-bar-wrap" role="search">
-    <div class="search-bar-inner">
+  <div class="search-bar-wrap">
+    <div class="search-bar-inner" style="max-width:760px;margin:0 auto;">
       <span class="search-icon">⌕</span>
       <input type="text" id="searchInput" class="search-input"
         placeholder="Search within this town…"
@@ -61,7 +55,6 @@
     </div>
   </div>
 
-  <!-- Filter bar -->
   <div class="filter-bar">
     <div class="filter-bar-inner">
       <div class="filter-tabs" id="filterTabs">
@@ -70,28 +63,23 @@
       <div class="controls-right">
         <span class="total-count">Showing <span id="visibleCount">—</span></span>
         <div class="view-toggle">
-          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')">☰</button>
-          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')">⊞</button>
+          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')">☰ List</button>
+          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')">⊞ Grid</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Main content -->
   <main class="directory-main" id="mainContent" role="main">
     <div class="directory-inner">
-      <div style="text-align:center;padding:4rem;">
-        <div class="spinner"></div>
-      </div>
+      <div style="text-align:center;padding:4rem;"><div class="spinner"></div></div>
     </div>
   </main>
 
-  <!-- SEO text block (populated by JS with town name) -->
   <section class="seo-block" id="seoBlock" aria-label="About this town"></section>
 
   <div id="footer-placeholder"></div>
 </div>
-
 <div id="modal-placeholder"></div>
 
 <script>
@@ -111,23 +99,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function loadTownPage() {
-  /* ── SEO meta for this town ─────────────────────────────────── */
-  const title = `${currentTown} Local Businesses — Olideen Directory`;
+  const title = `${currentTown} Local Businesses — Hidden Gems SA`;
   const desc  = `Find local businesses in ${currentTown}, KwaZulu-Natal. Browse tech, food, fashion, health, education and services in ${currentTown}. List your business free.`;
-
   setMeta(title, desc, `https://directory.olideentech.co.za/town.html?t=${encodeURIComponent(currentTown)}`);
   setMetaTag('property','og:title',       title);
   setMetaTag('property','og:description', desc);
 
-  /* ── Update page text ───────────────────────────────────────── */
-  document.getElementById('breadcrumbTown').textContent  = currentTown;
-  document.getElementById('heroTownName').textContent    = currentTown;
-  document.getElementById('heroKicker').textContent      = `${currentTown} · Local Business Directory`;
+  document.getElementById('breadcrumbTown').textContent = currentTown;
+  document.getElementById('heroTownName').textContent   = currentTown;
+  document.getElementById('heroKicker').textContent     = `${currentTown} · Local Business Directory`;
 
   try {
     townBusinesses = await fetchByTown(currentTown);
 
-    /* Inject LocalBusiness schema for every listing */
     const schemas = townBusinesses.map(b => buildLocalBusinessSchema(b));
     injectSchema({ "@context":"https://schema.org", "@graph": schemas });
 
@@ -172,14 +156,9 @@ function buildSeoBlock() {
   document.getElementById('seoBlock').innerHTML = `
     <h2>Find Local Businesses in ${escHtml(currentTown)}</h2>
     <p>
-      The Olideen Directory lists local businesses in ${escHtml(currentTown)}, KwaZulu-Natal.
+      Hidden Gems SA lists local businesses in ${escHtml(currentTown)}, KwaZulu-Natal.
       Currently featuring ${townBusinesses.length} ${townBusinesses.length === 1 ? 'business' : 'businesses'}
       across categories including ${escHtml(cats || 'various industries')}.
-    </p>
-    <p>
-      Looking for a specific type of business in ${escHtml(currentTown)}?
-      Use the search bar or category filters above to narrow down results.
-      All listings are free and submitted by business owners in the community.
     </p>
     <p>
       Own a business in ${escHtml(currentTown)}?
@@ -204,10 +183,14 @@ function renderPage() {
   document.getElementById('visibleCount').textContent = filtered.length;
 
   const inner = document.querySelector('.directory-inner') ||
-    (() => { const d=document.createElement('div'); d.className='directory-inner'; document.getElementById('mainContent').appendChild(d); return d; })();
+    (() => { const d = document.createElement('div'); d.className='directory-inner'; document.getElementById('mainContent').appendChild(d); return d; })();
 
   if (!filtered.length) {
-    inner.innerHTML = `<div class="state-box"><div class="state-icon">⊘</div><h3>No results</h3><p>Try adjusting your search or <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;text-decoration:underline;">be the first to list here!</button></p></div>`;
+    inner.innerHTML = `<div class="state-box">
+      <div class="state-icon">No gems found.</div>
+      <h3>No results</h3>
+      <p>Try adjusting your search or <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;text-decoration:underline;">be the first to list here!</button></p>
+    </div>`;
     return;
   }
 
@@ -226,7 +209,7 @@ function setFilter(cat) {
 function setView(v) {
   currentView = v;
   document.getElementById('tableViewBtn').classList.toggle('active', v === 'table');
-  document.getElementById('cardViewBtn').classList.toggle('active', v === 'cards');
+  document.getElementById('cardViewBtn').classList.toggle('active',  v === 'cards');
   renderPage();
 }
 

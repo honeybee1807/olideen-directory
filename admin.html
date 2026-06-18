@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — Olideen Directory</title>
-  <!-- No index — keep this page out of Google -->
+  <title>Admin — Hidden Gems SA</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,289 +12,338 @@
 
   <style>
     :root {
-      --bg:       #f7f4ef;
-      --surface:  #ffffff;
-      --surface2: #f2ede6;
-      --border:   #ddd8cf;
-      --border2:  #c8c1b5;
-      --gold:     #c07800;
-      --gold-pale:#fff4df;
-      --ink:      #1a1612;
-      --ink2:     #3d3530;
-      --muted:    #8a7f74;
-      --muted2:   #b5aca1;
-      --success:  #1a7a4a;
-      --success-bg:#e8f8ef;
-      --danger:   #c0392b;
-      --danger-bg:#fdf0ee;
-      --warn:     #c07800;
-      --warn-bg:  #fff4df;
-      --radius:   6px;
-      --font-head:'Bebas Neue',sans-serif;
-      --font-body:'DM Sans',sans-serif;
-      --font-mono:'JetBrains Mono',monospace;
-      --shadow-sm:0 1px 4px rgba(0,0,0,0.07);
-      --shadow-md:0 4px 16px rgba(0,0,0,0.10);
+      --bg:        #F5EDE6;
+      --surface:   #FFFDFB;
+      --surface2:  #FBF4EE;
+      --border:    #E7D8CC;
+      --border2:   #D8C5B4;
+      --gold:      #BC8514;
+      --gold-pale: #FAF2E0;
+      --gold-light:#E6D2A8;
+      --ochre:     #A8730C;
+      --ruby:      #3D0A05;
+      --ink:       #3D0A05;
+      --ink2:      #5C2A1E;
+      --muted:     #9A8678;
+      --muted2:    #B7A597;
+      --success:   #1F7A4A;
+      --success-bg:#EDF6F0;
+      --danger:    #B5392A;
+      --danger-bg: #FBEDEA;
+      --warn:      #BC8514;
+      --warn-bg:   #FAF2E0;
+      --radius:    8px;
+      --font-head: 'Playfair Display', serif;
+      --font-body: 'Inter', sans-serif;
+      --shadow-sm: 0 1px 4px rgba(61,10,5,0.07);
+      --shadow-md: 0 4px 16px rgba(61,10,5,0.10);
     }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:var(--font-body);background:var(--bg);color:var(--ink);min-height:100vh;}
-    button{cursor:pointer;font-family:var(--font-body);}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      background-image: radial-gradient(rgba(165,133,112,0.10) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--ink);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    button { cursor: pointer; font-family: var(--font-body); }
 
-    /* ── LOGIN SCREEN ─────────────────────────────────────────── */
-    .login-wrap{
-      min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;
-      background:linear-gradient(135deg,#fffdf8,var(--bg));
+    /* ── LOGIN ──────────────────────────────────────────────── */
+    .login-wrap {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
     }
-    .login-card{
-      background:var(--surface);border:1px solid var(--border2);border-radius:14px;
-      padding:2.5rem;width:100%;max-width:380px;box-shadow:var(--shadow-md);text-align:center;
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 44px 40px;
+      width: 100%; max-width: 380px;
+      box-shadow: 0 30px 70px -34px rgba(61,10,5,0.4);
+      text-align: center;
     }
-    .login-logo{display:flex;align-items:center;justify-content:center;gap:0.6rem;margin-bottom:1.5rem;}
-    .logo-mark{width:38px;height:38px;background:var(--gold);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;}
-    .logo-mark span{font-family:var(--font-head);color:#fff;font-size:0.85rem;}
-    .logo-text{font-family:var(--font-head);font-size:1.4rem;letter-spacing:0.06em;color:var(--ink);}
-    .logo-text em{color:var(--gold);font-style:normal;}
-    .login-card h2{font-family:var(--font-head);font-size:1.6rem;letter-spacing:0.04em;margin-bottom:0.3rem;}
-    .login-card p{font-size:0.8rem;color:var(--muted);margin-bottom:1.5rem;}
-    .login-field{display:flex;flex-direction:column;gap:0.35rem;text-align:left;margin-bottom:1rem;}
-    .login-field label{font-size:0.68rem;font-family:var(--font-mono);letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
-    .login-field input{
-      width:100%;padding:0.7rem 0.9rem;font-size:0.9rem;
-      background:var(--surface2);border:1.5px solid var(--border2);
-      color:var(--ink);border-radius:var(--radius);font-family:var(--font-body);
+    .login-logo-img { height: 52px; width: auto; margin: 0 auto 20px; display: block; }
+    .login-kicker {
+      font-family: var(--font-head);
+      font-style: italic;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
     }
-    .login-field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(192,120,0,0.1);}
-    .btn-login{
-      width:100%;background:var(--gold);color:#fff;border:none;
-      padding:0.85rem;font-family:var(--font-head);font-size:1.1rem;letter-spacing:0.07em;
-      border-radius:var(--radius);transition:all 0.2s;
+    .login-card h2 {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 30px;
+      color: var(--ink);
+      margin-bottom: 6px;
     }
-    .btn-login:hover{background:#a86800;}
-    .login-error{font-size:0.78rem;color:var(--danger);margin-top:0.75rem;display:none;}
+    .login-card p { font-size: 13.5px; color: var(--muted); margin-bottom: 26px; }
+    .login-field { display: flex; flex-direction: column; gap: 0.35rem; text-align: left; margin-bottom: 1rem; }
+    .login-field label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .login-field input {
+      width: 100%; padding: 13px 16px; font-size: 14px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--ink); border-radius: var(--radius);
+      text-align: center; letter-spacing: 0.1em;
+    }
+    .login-field input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(188,133,20,0.12); }
+    .btn-login {
+      width: 100%; background: var(--gold); color: #FFFDF7; border: none;
+      padding: 14px; border-radius: var(--radius);
+      font-family: var(--font-head); font-size: 1.1rem; letter-spacing: 0.04em;
+      transition: background 0.2s;
+    }
+    .btn-login:hover { background: var(--ochre); }
+    .login-error {
+      font-size: 12.5px; color: var(--danger); margin-top: 14px; display: none;
+    }
 
-    /* ── ADMIN LAYOUT ─────────────────────────────────────────── */
-    .admin-wrap{display:none;flex-direction:column;min-height:100vh;}
-    .admin-wrap.show{display:flex;}
+    /* ── ADMIN LAYOUT ───────────────────────────────────────── */
+    .admin-wrap { display: none; flex-direction: column; min-height: 100vh; }
+    .admin-wrap.show { display: flex; }
 
-    .admin-topbar{
-      background:var(--surface);border-bottom:1px solid var(--border);
-      padding:0.85rem 2rem;display:flex;align-items:center;justify-content:space-between;
-      position:sticky;top:0;z-index:50;box-shadow:var(--shadow-sm);
+    .admin-topbar {
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+      box-shadow: 0 6px 24px -18px rgba(61,10,5,0.3);
     }
-    .admin-logo{display:flex;align-items:center;gap:0.6rem;}
-    .admin-badge{
-      font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;
-      background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger);
-      padding:0.2rem 0.55rem;border-radius:var(--radius);margin-left:0.5rem;
+    .admin-logo { display: flex; align-items: center; gap: 12px; }
+    .admin-logo-img { height: 40px; width: auto; display: block; }
+    .admin-badge {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      background: var(--danger-bg); color: var(--danger);
+      border: 1px solid var(--danger); padding: 3px 9px; border-radius: var(--radius);
     }
-    .admin-topbar-right{display:flex;align-items:center;gap:1rem;}
-    .btn-logout{
-      font-size:0.78rem;font-family:var(--font-mono);color:var(--muted);
-      border:1px solid var(--border2);background:transparent;
-      padding:0.35rem 0.8rem;border-radius:var(--radius);transition:all 0.15s;
+    .admin-topbar-right { display: flex; align-items: center; gap: 0.75rem; }
+    .btn-topbar {
+      font-size: 12px; color: var(--muted);
+      border: 1px solid var(--border2); background: transparent;
+      padding: 6px 14px; border-radius: 100px; transition: all 0.15s;
     }
-    .btn-logout:hover{color:var(--danger);border-color:var(--danger);}
+    .btn-topbar:hover { color: var(--ink); border-color: var(--gold); }
 
-    .admin-main{flex:1;padding:2rem;max-width:1100px;margin:0 auto;width:100%;}
+    .admin-main { flex: 1; padding: 2rem; max-width: 1100px; margin: 0 auto; width: 100%; }
 
-    /* ── STAT PILLS ───────────────────────────────────────────── */
-    .stats-row{display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;}
-    .stat-pill{
-      background:var(--surface);border:1px solid var(--border);border-radius:8px;
-      padding:0.85rem 1.2rem;display:flex;flex-direction:column;gap:0.2rem;
-      box-shadow:var(--shadow-sm);min-width:120px;
+    /* ── STATS ──────────────────────────────────────────────── */
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap: 14px; margin-bottom: 2rem; }
+    .stat-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
     }
-    .stat-pill .num{font-family:var(--font-head);font-size:1.8rem;line-height:1;}
-    .stat-pill .lbl{font-family:var(--font-mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
-    .stat-pill.pending .num{color:var(--warn);}
-    .stat-pill.approved .num{color:var(--success);}
-    .stat-pill.rejected .num{color:var(--danger);}
+    .stat-pill .num { font-family: var(--font-head); font-size: 34px; font-weight: 600; line-height: 1; }
+    .stat-pill .lbl { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+    .stat-pill.pending .num  { color: var(--warn); }
+    .stat-pill.approved .num { color: var(--success); }
+    .stat-pill.rejected .num { color: var(--danger); }
 
-    /* ── TAB BAR ──────────────────────────────────────────────── */
-    .tab-bar{display:flex;gap:0.3rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);padding-bottom:0;}
-    .tab-btn{
-      padding:0.6rem 1.2rem;border:none;background:transparent;
-      font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;
-      color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.15s;
+    /* ── TABS ───────────────────────────────────────────────── */
+    .tab-bar { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 11px 18px; border: none; background: transparent;
+      font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em;
+      color: var(--muted); border-bottom: 2px solid transparent;
+      margin-bottom: -1px; transition: all 0.15s; cursor: pointer;
     }
-    .tab-btn:hover{color:var(--ink);}
-    .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);font-weight:500;}
+    .tab-btn:hover { color: var(--ink); }
+    .tab-btn.active { color: var(--ochre); border-bottom-color: var(--gold); }
 
-    /* ── SUBMISSION CARDS ─────────────────────────────────────── */
-    .submissions-list{display:flex;flex-direction:column;gap:1rem;}
-
-    .sub-card{
-      background:var(--surface);border:1px solid var(--border);border-radius:10px;
-      overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow 0.15s;
+    /* ── SUBMISSION CARDS ───────────────────────────────────── */
+    .submissions-list { display: flex; flex-direction: column; gap: 16px; }
+    .sub-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.15s;
     }
-    .sub-card:hover{box-shadow:var(--shadow-md);}
-    .sub-card.status-pending  {border-left:4px solid var(--warn);}
-    .sub-card.status-approved {border-left:4px solid var(--success);}
-    .sub-card.status-rejected {border-left:4px solid var(--danger);opacity:0.75;}
+    .sub-card:hover { box-shadow: var(--shadow-md); }
+    .sub-card.status-pending  { border-left: 4px solid var(--warn); }
+    .sub-card.status-approved { border-left: 4px solid var(--success); }
+    .sub-card.status-rejected { border-left: 4px solid var(--danger); opacity: 0.78; }
 
-    .sub-card-header{
-      padding:1rem 1.2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
-      cursor:pointer;user-select:none;
+    .sub-card-header {
+      padding: 20px 22px;
+      display: flex; align-items: center; gap: 16px;
+      cursor: pointer; user-select: none;
     }
-    .sub-biz-name{font-weight:600;font-size:1rem;color:var(--ink);flex:1;}
-    .sub-meta{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}
-    .status-badge{
-      font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
-      padding:0.2rem 0.55rem;border-radius:100px;border:1px solid;font-weight:500;
+    .sub-initial {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--gold-pale);
+      border: 1px solid var(--gold-light);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-head); font-style: italic;
+      font-size: 20px; color: var(--gold); flex-shrink: 0;
     }
-    .status-badge.pending  {background:var(--warn-bg);color:var(--warn);border-color:var(--warn);}
-    .status-badge.approved {background:var(--success-bg);color:var(--success);border-color:var(--success);}
-    .status-badge.rejected {background:var(--danger-bg);color:var(--danger);border-color:var(--danger);}
-    .cat-tag{font-size:0.7rem;font-family:var(--font-mono);color:var(--muted);background:var(--surface2);border:1px solid var(--border);padding:0.15rem 0.5rem;border-radius:100px;}
-    .town-tag{font-size:0.7rem;color:var(--muted);}
-    .time-tag{font-size:0.68rem;font-family:var(--font-mono);color:var(--muted2);white-space:nowrap;}
-    .expand-icon{color:var(--muted2);font-size:0.8rem;transition:transform 0.2s;flex-shrink:0;}
-    .sub-card.expanded .expand-icon{transform:rotate(180deg);}
-
-    .sub-card-body{
-      border-top:1px solid var(--border);padding:1.2rem;
-      display:none;
-      grid-template-columns:1fr 1fr;gap:1rem;
+    .sub-biz-name { font-family: var(--font-head); font-size: 19px; font-weight: 600; color: var(--ink); line-height: 1.2; }
+    .sub-meta { display: flex; align-items: center; gap: 10px; margin-top: 4px; font-size: 12px; color: var(--muted); }
+    .status-badge {
+      flex-shrink: 0;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 100px; border: 1px solid;
     }
-    .sub-card.expanded .sub-card-body{display:grid;}
+    .status-badge.pending  { background: var(--warn-bg);    color: var(--warn);    border-color: var(--gold-light); }
+    .status-badge.approved { background: var(--success-bg); color: var(--success); border-color: rgba(31,122,74,0.4); }
+    .status-badge.rejected { background: var(--danger-bg);  color: var(--danger);  border-color: rgba(181,57,42,0.4); }
+    .expand-icon { color: var(--muted2); font-size: 0.8rem; transition: transform 0.2s; flex-shrink: 0; }
+    .sub-card.expanded .expand-icon { transform: rotate(180deg); }
 
-    .detail-block{display:flex;flex-direction:column;gap:0.25rem;}
-    .detail-block.full{grid-column:1/-1;}
-    .detail-label{font-family:var(--font-mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
-    .detail-value{font-size:0.88rem;color:var(--ink2);line-height:1.55;}
-    .detail-value a{color:var(--gold);}
-
-    /* The review detail — highlighted */
-    .review-detail-box{
-      grid-column:1/-1;
-      background:var(--warn-bg);border:1px solid rgba(192,120,0,0.25);border-radius:var(--radius);
-      padding:0.85rem 1rem;
+    .sub-card-body {
+      border-top: 1px solid var(--border);
+      padding: 22px;
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
     }
-    .review-detail-box .detail-label{color:var(--warn);}
-    .review-detail-box .detail-value{font-size:0.92rem;color:var(--ink);}
+    .sub-card.expanded .sub-card-body { display: grid; }
 
-    /* Actions */
-    .sub-actions{
-      grid-column:1/-1;display:flex;align-items:center;gap:0.75rem;
-      padding-top:1rem;border-top:1px solid var(--border);margin-top:0.25rem;flex-wrap:wrap;
+    .detail-block { display: flex; flex-direction: column; gap: 0.25rem; }
+    .detail-block.full { grid-column: 1 / -1; }
+    .detail-label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+    .detail-value { font-size: 13.5px; color: var(--ink2); line-height: 1.55; }
+
+    .review-detail-box {
+      grid-column: 1 / -1;
+      background: var(--gold-pale);
+      border: 1px solid var(--gold-light);
+      border-radius: 10px;
+      padding: 16px 18px;
     }
-    .btn-approve{
-      background:var(--success);color:#fff;border:none;
-      padding:0.6rem 1.4rem;border-radius:var(--radius);font-family:var(--font-head);
-      font-size:0.95rem;letter-spacing:0.06em;transition:all 0.2s;
+    .review-detail-box .detail-label { color: var(--ochre); }
+    .review-detail-box .detail-value { font-size: 14.5px; line-height: 1.6; color: var(--ink); }
+
+    .sub-actions {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: 12px;
+      padding-top: 8px; border-top: 1px solid var(--border);
+      flex-wrap: wrap;
     }
-    .btn-approve:hover{background:#155f39;transform:translateY(-1px);}
-    .btn-approve:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
-
-    .btn-reject{
-      background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger);
-      padding:0.6rem 1.2rem;border-radius:var(--radius);font-family:var(--font-head);
-      font-size:0.95rem;letter-spacing:0.06em;transition:all 0.2s;
+    .btn-approve {
+      background: var(--success); color: #fff; border: none;
+      padding: 11px 24px; border-radius: 100px;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.02em;
+      transition: all 0.2s;
     }
-    .btn-reject:hover{background:var(--danger);color:#fff;}
-    .btn-reject:disabled{opacity:0.5;cursor:not-allowed;}
-
-    .note-input{
-      flex:1;min-width:180px;padding:0.55rem 0.8rem;font-size:0.83rem;
-      background:var(--surface2);border:1.5px solid var(--border2);
-      color:var(--ink);border-radius:var(--radius);font-family:var(--font-body);
+    .btn-approve:hover { background: #155f39; }
+    .btn-approve:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-reject {
+      background: transparent; color: var(--danger);
+      border: 1px solid rgba(181,57,42,0.4);
+      padding: 11px 20px; border-radius: 100px;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.02em;
+      transition: all 0.2s;
     }
-    .note-input:focus{outline:none;border-color:var(--gold);}
-    .note-hint{font-size:0.68rem;color:var(--muted2);align-self:center;}
-
-    /* wa/web links in card */
-    .inline-link{
-      display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem;
-      font-family:var(--font-mono);padding:0.2rem 0.6rem;border-radius:var(--radius);
-      border:1px solid;text-decoration:none;
+    .btn-reject:hover { background: var(--danger); color: #fff; }
+    .btn-reject:disabled { opacity: 0.5; cursor: not-allowed; }
+    .note-input {
+      flex: 1; min-width: 180px;
+      padding: 10px 14px; font-size: 13px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--ink); border-radius: var(--radius);
     }
-    .inline-link.wa{border-color:#25a244;color:#25a244;background:rgba(37,162,68,0.06);}
-    .inline-link.web{border-color:#1a6fa0;color:#1a6fa0;background:rgba(26,111,160,0.06);}
+    .note-input:focus { outline: none; border-color: var(--gold); }
+    .note-hint { font-size: 11px; color: var(--muted2); align-self: center; }
 
-    /* Empty / loading */
-    .empty-state{text-align:center;padding:4rem 2rem;color:var(--muted);}
-    .empty-icon{font-size:2.5rem;margin-bottom:1rem;opacity:0.3;}
-    .empty-state h3{font-family:var(--font-head);font-size:1.5rem;color:var(--ink2);margin-bottom:0.4rem;}
-    .spinner{display:inline-block;width:26px;height:26px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.7s linear infinite;}
-    @keyframes spin{to{transform:rotate(360deg);}}
+    .inline-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 12px; padding: 4px 10px; border-radius: 100px;
+      border: 1px solid; text-decoration: none;
+    }
+    .inline-link.wa  { border-color: #25a244; color: #25a244; background: rgba(37,162,68,0.06); }
+    .inline-link.web { border-color: #1a6fa0; color: #1a6fa0; background: rgba(26,111,160,0.06); }
 
-    /* Toast */
-    .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(16px);
-      background:var(--surface);border:1px solid var(--border2);border-radius:8px;
-      padding:0.7rem 1.2rem;font-size:0.83rem;color:var(--ink2);z-index:200;opacity:0;
-      transition:all 0.3s ease;white-space:nowrap;box-shadow:var(--shadow-md);}
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-    .toast.ok{border-color:var(--success);}
-    .toast.err{border-color:var(--danger);}
+    .empty-state { text-align: center; padding: 70px 20px; }
+    .empty-icon  { font-family: var(--font-head); font-style: italic; font-size: 28px; color: var(--gold); margin-bottom: 8px; }
+    .empty-state h3 { font-family: var(--font-head); font-size: 1.5rem; color: var(--ink2); margin-bottom: 4px; }
+    .empty-state p  { font-size: 13.5px; color: var(--muted); }
+    .spinner { display: inline-block; width: 26px; height: 26px; border: 2px solid var(--border2); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    @media(max-width:640px){
-      .sub-card-body{grid-template-columns:1fr;}
-      .detail-block.full{grid-column:1;}
-      .review-detail-box{grid-column:1;}
-      .sub-actions{grid-column:1;}
-      .admin-main{padding:1rem;}
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--surface); border: 1px solid var(--border2);
+      border-radius: 8px; padding: 0.7rem 1.2rem; font-size: 0.83rem;
+      color: var(--ink2); z-index: 200; opacity: 0; transition: all 0.3s ease;
+      white-space: nowrap; box-shadow: var(--shadow-md);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.ok  { border-color: var(--success); }
+    .toast.err { border-color: var(--danger); }
+
+    @media (max-width: 640px) {
+      .sub-card-body { grid-template-columns: 1fr; }
+      .detail-block.full, .review-detail-box, .sub-actions { grid-column: 1; }
+      .admin-main { padding: 1rem; }
+      .admin-topbar { padding: 12px 1rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══ LOGIN SCREEN ════════════════════════════════════════════════ -->
+<!-- ══ LOGIN ════════════════════════════════════════════════════════ -->
 <div class="login-wrap" id="loginScreen">
   <div class="login-card">
-    <div class="login-logo">
-      <div class="logo-mark"><span>OT</span></div>
-      <span class="logo-text">Olideen <em>Admin</em></span>
-    </div>
+    <img src="Hidden_Gems_SA_Logo.png" alt="Hidden Gems SA" class="login-logo-img" />
+    <div class="login-kicker">Hidden Gems SA</div>
     <h2>Review Portal</h2>
-    <p>Enter your admin password to access pending submissions.</p>
+    <p>Enter your admin password to review pending listings.</p>
     <div class="login-field">
       <label>Password</label>
-      <input type="password" id="pwInput" placeholder="••••••••"
-        onkeydown="if(event.key==='Enter')doLogin()" />
+      <input type="password" id="pwInput" placeholder="••••••••" />
     </div>
     <button class="btn-login" onclick="doLogin()">Sign In →</button>
-    <p class="login-error" id="loginError">Incorrect password. Try again.</p>
+    <p class="login-error" id="loginError">Incorrect password. Please try again.</p>
   </div>
 </div>
 
-<!-- ═══ ADMIN PANEL ══════════════════════════════════════════════════ -->
+<!-- ══ ADMIN PANEL ════════════════════════════════════════════════ -->
 <div class="admin-wrap" id="adminWrap">
 
   <div class="admin-topbar">
     <div class="admin-logo">
-      <div class="logo-mark" style="width:32px;height:32px;"><span style="font-size:0.75rem;">OT</span></div>
-      <span style="font-family:var(--font-head);font-size:1.2rem;letter-spacing:0.06em;">
-        Olideen <em style="color:var(--gold);font-style:normal;">Directory</em>
-      </span>
+      <img src="Hidden_Gems_SA_Logo.png" alt="Hidden Gems SA" class="admin-logo-img" />
       <span class="admin-badge">Admin</span>
     </div>
     <div class="admin-topbar-right">
-      <span style="font-size:0.72rem;font-family:var(--font-mono);color:var(--muted);" id="lastRefresh"></span>
-      <button class="btn-logout" onclick="refresh()">↻ Refresh</button>
-      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+      <span style="font-size:11px;color:var(--muted);" id="lastRefresh"></span>
+      <button class="btn-topbar" onclick="refresh()">↻ Refresh</button>
+      <button class="btn-topbar" onclick="doLogout()">Sign Out</button>
     </div>
   </div>
 
   <div class="admin-main">
 
-    <div style="margin-bottom:1.5rem;">
-      <h1 style="font-family:var(--font-head);font-size:2rem;letter-spacing:0.04em;color:var(--ink2);">
-        Business Submissions
-      </h1>
-      <p style="font-size:0.83rem;color:var(--muted);margin-top:0.25rem;">
-        Review pending listings before they go live on the Olideen Directory.
-      </p>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:30px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="display:block;width:28px;height:1px;background:var(--gold);"></span>
+          <span style="font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);">Review Portal</span>
+        </div>
+        <h1 style="font-family:var(--font-head);font-weight:600;font-size:clamp(1.8rem,4vw,2.6rem);color:var(--ink);line-height:1;">Business Submissions</h1>
+        <p style="font-size:0.83rem;color:var(--muted);margin-top:6px;">Review pending listings before they go live on Hidden Gems SA.</p>
+      </div>
     </div>
 
-    <!-- Stats -->
     <div class="stats-row" id="statsRow">
-      <div class="stat-pill pending"><span class="num" id="sPending">—</span><span class="lbl">Pending</span></div>
-      <div class="stat-pill approved"><span class="num" id="sApproved">—</span><span class="lbl">Approved</span></div>
-      <div class="stat-pill rejected"><span class="num" id="sRejected">—</span><span class="lbl">Rejected</span></div>
-      <div class="stat-pill"><span class="num" id="sTotal">—</span><span class="lbl">Total</span></div>
+      <div class="stat-pill pending"><span class="num" id="sPending">—</span><div class="lbl">Pending</div></div>
+      <div class="stat-pill approved"><span class="num" id="sApproved">—</span><div class="lbl">Approved</div></div>
+      <div class="stat-pill rejected"><span class="num" id="sRejected">—</span><div class="lbl">Rejected</div></div>
+      <div class="stat-pill"><span class="num" id="sTotal">—</span><div class="lbl">Total</div></div>
     </div>
 
-    <!-- Tabs -->
     <div class="tab-bar">
       <button class="tab-btn active" data-tab="pending"  onclick="setTab('pending')">⏳ Pending</button>
       <button class="tab-btn"        data-tab="approved" onclick="setTab('approved')">✓ Approved</button>
@@ -310,30 +358,16 @@
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-/* ================================================================
-   ADMIN CONFIGURATION
-   ================================================================
-   SUPABASE_SERVICE_KEY: Get this from Supabase → Settings → API
-   → "service_role" key (secret). This bypasses RLS so you can
-   read private fields and update status. NEVER expose this key
-   in public-facing pages — only this admin.html which is
-   password-protected and not indexed by Google.
-
-   ADMIN_PASSWORD: Change this to something strong. This is a
-   client-side check — for stronger security, use Supabase Auth
-   or Netlify password protection on this file.
-   ================================================================ */
+/* ── Config ────────────────────────────────────────────────── */
 const SUPABASE_URL         = 'https://uwxanvllgomcpjtotowd.supabase.co';
-const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3eGFudmxsZ29tY3BqdG90b3dkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDA4MzQ1MywiZXhwIjoyMDk1NjU5NDUzfQ.ysXV6yCVUmx9WLNm_wEV07VURRi8i-kP0NhWmChVL3k'; // service_role, NOT anon
-const ADMIN_PASSWORD       = 'GWJSLO@786'; 
+const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3eGFudmxsZ29tY3BqdG90b3dkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDA4MzQ1MywiZXhwIjoyMDk1NjU5NDUzfQ.ysXV6yCVUmx9WLNm_wEV07VURRi8i-kP0NhWmChVL3k';
+const ADMIN_PASSWORD       = 'GWJSLO@786';
+const SESSION_KEY          = 'hg_admin_auth';
 
-/* ── Auth ─────────────────────────────────────────────────────── */
-const SESSION_KEY = 'olideen_admin_auth';
-
+/* ── Auth ──────────────────────────────────────────────────── */
 function doLogin() {
   const pw = document.getElementById('pwInput').value;
   if (pw === ADMIN_PASSWORD) {
@@ -347,30 +381,26 @@ function doLogin() {
     document.getElementById('pwInput').focus();
   }
 }
-
 function doLogout() {
   sessionStorage.removeItem(SESSION_KEY);
   location.reload();
 }
 
-/* ── Supabase (service role — reads all fields, can update status) */
+/* ── Supabase (service role) ───────────────────────────────── */
 let _sb;
 function initAdmin() {
-  sessionStorage.removeItem('olideen_admin_auth_demo'); // clear any old demo session
-  _sb = supabase.createClient('https://uwxanvllgomcpjtotowd.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3eGFudmxsZ29tY3BqdG90b3dkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDA4MzQ1MywiZXhwIjoyMDk1NjU5NDUzfQ.ysXV6yCVUmx9WLNm_wEV07VURRi8i-kP0NhWmChVL3k');
+  _sb = supabase.createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
   loadSubmissions();
 }
 
-/* ── State ────────────────────────────────────────────────────── */
-let allSubs  = [];
+/* ── State ─────────────────────────────────────────────────── */
+let allSubs   = [];
 let activeTab = 'pending';
 
-/* ── Load ─────────────────────────────────────────────────────── */
+/* ── Load ──────────────────────────────────────────────────── */
 async function loadSubmissions() {
   document.getElementById('submissionsList').innerHTML =
     '<div class="empty-state"><div class="spinner"></div></div>';
-
-
   try {
     const { data, error } = await _sb
       .from('businesses')
@@ -381,17 +411,16 @@ async function loadSubmissions() {
     updateStats();
     renderList();
     document.getElementById('lastRefresh').textContent =
-      'Last updated: ' + new Date().toLocaleTimeString();
+      'Updated ' + new Date().toLocaleTimeString();
   } catch(e) {
     console.error(e);
     document.getElementById('submissionsList').innerHTML =
       '<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Load failed</h3><p>Check your service role key.</p></div>';
   }
 }
-
 async function refresh() { await loadSubmissions(); }
 
-/* ── Stats ────────────────────────────────────────────────────── */
+/* ── Stats ─────────────────────────────────────────────────── */
 function updateStats() {
   const count = s => allSubs.filter(b => b.status === s).length;
   document.getElementById('sPending').textContent  = count('pending');
@@ -400,58 +429,52 @@ function updateStats() {
   document.getElementById('sTotal').textContent    = allSubs.length;
 }
 
-/* ── Tabs ─────────────────────────────────────────────────────── */
+/* ── Tabs ──────────────────────────────────────────────────── */
 function setTab(tab) {
   activeTab = tab;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   renderList();
 }
-
 function getVisible() {
-  if (activeTab === 'all') return allSubs;
-  return allSubs.filter(b => b.status === activeTab);
+  return activeTab === 'all' ? allSubs : allSubs.filter(b => b.status === activeTab);
 }
 
-/* ── Render ───────────────────────────────────────────────────── */
+/* ── Render ────────────────────────────────────────────────── */
 function renderList() {
   const list = getVisible();
   const el   = document.getElementById('submissionsList');
-
   if (!list.length) {
-    const labels = { pending:'pending submissions', approved:'approved listings', rejected:'rejected submissions', all:'submissions' };
     el.innerHTML = `<div class="empty-state">
-      <div class="empty-icon">${activeTab==='pending'?'🎉':'⊘'}</div>
-      <h3>${activeTab==='pending'?'All clear!':'Nothing here'}</h3>
-      <p>No ${labels[activeTab]} yet.</p>
+      <div class="empty-icon">${activeTab === 'pending' ? 'All clear.' : 'Nothing here.'}</div>
+      <h3>${activeTab === 'pending' ? 'All clear!' : 'Nothing here'}</h3>
+      <p>No ${activeTab === 'all' ? 'submissions' : activeTab + ' submissions'} yet.</p>
     </div>`;
     return;
   }
-
   el.innerHTML = list.map(b => renderCard(b)).join('');
 }
 
 function renderCard(b) {
-  const created = new Date(b.created_at).toLocaleDateString('en-ZA', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-  const waContact = b.owner_phone ? `<a href="https://wa.me/${b.owner_phone.replace(/\D/g,'')}" target="_blank" class="inline-link wa">💬 ${esc(b.owner_phone)}</a>` : '';
-  const emailContact = b.owner_email ? `<a href="mailto:${esc(b.owner_email)}" class="inline-link web">✉ ${esc(b.owner_email)}</a>` : '';
+  const created    = new Date(b.created_at).toLocaleDateString('en-ZA', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const waContact  = b.owner_phone
+    ? `<a href="https://wa.me/${b.owner_phone.replace(/\D/g,'')}" target="_blank" class="inline-link wa">💬 ${esc(b.owner_phone)}</a>` : '';
+  const emailContact = b.owner_email
+    ? `<a href="mailto:${esc(b.owner_email)}" class="inline-link web">✉ ${esc(b.owner_email)}</a>` : '';
 
   return `
   <div class="sub-card status-${b.status}" id="card-${b.id}">
     <div class="sub-card-header" onclick="toggleCard(${b.id})">
-      <div style="display:flex;align-items:center;gap:0.6rem;flex:1;min-width:0;">
-        <div style="width:36px;height:36px;border-radius:8px;background:var(--gold-pale);border:1px solid var(--gold);color:var(--gold);font-family:var(--font-head);font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          ${b.name.charAt(0).toUpperCase()}
-        </div>
-        <div>
-          <div class="sub-biz-name">${esc(b.name)}</div>
-          <div class="sub-meta">
-            <span class="town-tag">📍 ${esc(b.town)}</span>
-            <span class="cat-tag">${esc(b.category)}</span>
-          </div>
+      <div class="sub-initial">${b.name ? b.name.charAt(0).toUpperCase() : '?'}</div>
+      <div style="flex:1;min-width:0;">
+        <div class="sub-biz-name">${esc(b.name)}</div>
+        <div class="sub-meta">
+          <span>&#9679; ${esc(b.town)}</span>
+          <span>&middot;</span>
+          <span>${esc(b.category)}</span>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:0.6rem;flex-shrink:0;">
-        <span class="time-tag">${created}</span>
+      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+        <span style="font-size:11px;color:var(--muted2);">${created}</span>
         <span class="status-badge ${b.status}">${b.status}</span>
         <span class="expand-icon">▾</span>
       </div>
@@ -459,134 +482,119 @@ function renderCard(b) {
 
     <div class="sub-card-body">
 
-      <!-- Business review detail — most important field -->
       <div class="review-detail-box">
         <div class="detail-label">📋 What they say their business does</div>
-        <div class="detail-value" style="margin-top:0.3rem;">${esc(b.business_detail) || '<em style="color:var(--muted)">Not provided</em>'}</div>
+        <div class="detail-value" style="margin-top:6px;">${esc(b.business_detail) || '<em style="color:var(--muted)">Not provided</em>'}</div>
       </div>
 
-      <!-- Public info -->
       <div class="detail-block">
         <div class="detail-label">Public Description</div>
-        <div class="detail-value">${esc(b.description)||'<em style="color:var(--muted2)">None</em>'}</div>
+        <div class="detail-value">${esc(b.description) || '<em style="color:var(--muted2)">None</em>'}</div>
       </div>
       <div class="detail-block">
         <div class="detail-label">Public Links</div>
-        <div class="detail-value" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.2rem;">
-          ${b.whatsapp?`<a href="https://wa.me/${b.whatsapp.replace(/\D/g,'')}" target="_blank" class="inline-link wa">💬 ${esc(b.whatsapp)}</a>`:''}
-          ${b.website?`<a href="${esc(b.website)}" target="_blank" class="inline-link web">↗ ${esc(b.website.replace(/^https?:\/\//,''))}</a>`:''}
-          ${!b.whatsapp&&!b.website?'<span style="color:var(--muted2);font-size:0.8rem;">No links provided</span>':''}
+        <div class="detail-value" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+          ${b.whatsapp ? `<a href="https://wa.me/${b.whatsapp.replace(/\D/g,'')}" target="_blank" class="inline-link wa">💬 ${esc(b.whatsapp)}</a>` : ''}
+          ${b.website  ? `<a href="${esc(b.website)}" target="_blank" class="inline-link web">↗ ${esc(b.website.replace(/^https?:\/\//,''))}</a>` : ''}
+          ${!b.whatsapp && !b.website ? '<span style="color:var(--muted2);font-size:0.8rem;">No links provided</span>' : ''}
         </div>
       </div>
 
-      <!-- Private owner info -->
       <div class="detail-block">
         <div class="detail-label">🔒 Owner Name (private)</div>
-        <div class="detail-value">${esc(b.owner_name)||'—'}</div>
+        <div class="detail-value">${esc(b.owner_name) || '—'}</div>
       </div>
       <div class="detail-block">
         <div class="detail-label">🔒 Owner Contact (private)</div>
-        <div class="detail-value" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.2rem;">
-          ${waContact||''}${emailContact||''}
-          ${!b.owner_phone&&!b.owner_email?'<span style="color:var(--muted2);">None provided</span>':''}
+        <div class="detail-value" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+          ${waContact}${emailContact}
+          ${!b.owner_phone && !b.owner_email ? '<span style="color:var(--muted2);">None provided</span>' : ''}
         </div>
       </div>
 
-      ${b.review_note?`<div class="detail-block full">
-        <div class="detail-label">Your Previous Note</div>
+      ${b.review_note ? `<div class="detail-block full">
+        <div class="detail-label">Previous Note</div>
         <div class="detail-value" style="font-style:italic;color:var(--muted);">"${esc(b.review_note)}"</div>
-      </div>`:''}
+      </div>` : ''}
 
-      <!-- Actions (only shown for pending) -->
       ${b.status === 'pending' ? `
       <div class="sub-actions">
-        <button class="btn-approve" onclick="approve(${b.id},event)">✓ Approve</button>
+        <button class="btn-approve" onclick="approve(${b.id},event)">✓ Approve &amp; publish</button>
         <input type="text" class="note-input" id="note-${b.id}" placeholder="Optional: reason for rejection…" maxlength="200" />
         <button class="btn-reject" onclick="reject(${b.id},event)">✕ Reject</button>
-        <span class="note-hint">Note is sent to the owner if you enter one.</span>
+        <span class="note-hint">Note is shown to the owner on rejection.</span>
       </div>` : `
       <div class="sub-actions">
-        <span style="font-size:0.78rem;font-family:var(--font-mono);color:var(--muted);">
-          Status: <strong>${b.status}</strong>${b.review_note?` — "${esc(b.review_note)}"`:''}</span>
-        ${b.status==='rejected'?`<button class="btn-approve" style="margin-left:auto;" onclick="approve(${b.id},event)">↩ Re-approve</button>`:''}
-        ${b.status==='approved'?`<button class="btn-reject" style="margin-left:auto;" onclick="reject(${b.id},event)">✕ Remove</button>`:''}
+        <span style="font-size:12.5px;color:var(--muted);">
+          Status: <strong>${b.status}</strong>${b.review_note ? ` — "${esc(b.review_note)}"` : ''}</span>
+        ${b.status === 'rejected'  ? `<button class="btn-approve" style="margin-left:auto;" onclick="approve(${b.id},event)">↩ Re-approve</button>` : ''}
+        ${b.status === 'approved'  ? `<button class="btn-reject"  style="margin-left:auto;" onclick="reject(${b.id},event)">✕ Remove</button>` : ''}
       </div>`}
 
     </div>
   </div>`;
 }
 
-/* ── Toggle expand ────────────────────────────────────────────── */
+/* ── Toggle expand ─────────────────────────────────────────── */
 function toggleCard(id) {
-  const card = document.getElementById('card-' + id);
-  card.classList.toggle('expanded');
+  document.getElementById('card-' + id).classList.toggle('expanded');
 }
 
-/* ── Approve ──────────────────────────────────────────────────── */
+/* ── Approve ───────────────────────────────────────────────── */
 async function approve(id, e) {
   e.stopPropagation();
   const card = document.getElementById('card-' + id);
   const btns = card.querySelectorAll('.btn-approve,.btn-reject');
-  btns.forEach(b=>b.disabled=true);
-
+  btns.forEach(b => b.disabled = true);
   try {
-    const { error } = await _sb
-      .from('businesses')
-      .update({ status: 'approved', review_note: null })
-      .eq('id', id);
-    
+    const { error } = await _sb.from('businesses').update({ status:'approved', review_note:null }).eq('id', id);
     if (error) throw error;
-    
-    const sub = allSubs.find(b=>b.id===id);
-    if(sub) sub.status='approved';
-    updateStats(); 
-    renderList();
+    const sub = allSubs.find(b => b.id === id);
+    if (sub) sub.status = 'approved';
+    updateStats(); renderList();
     toast('✓ Approved — listing is now live','ok');
   } catch(err) {
     console.error(err);
     toast('❌ Update failed — check Supabase connection','err');
-    btns.forEach(b=>b.disabled=false);
+    btns.forEach(b => b.disabled = false);
   }
 }
 
-/* ── Reject ───────────────────────────────────────────────────── */
+/* ── Reject ────────────────────────────────────────────────── */
 async function reject(id, e) {
   e.stopPropagation();
   const card = document.getElementById('card-' + id);
-  const note = document.getElementById('note-'+id)?.value.trim() || '';
+  const note = document.getElementById('note-' + id)?.value.trim() || '';
   const btns = card.querySelectorAll('.btn-approve,.btn-reject');
-  btns.forEach(b=>b.disabled=true);
-
+  btns.forEach(b => b.disabled = true);
   try {
     const { error } = await _sb.from('businesses').update({ status:'rejected', review_note:note||null }).eq('id', id);
     if (error) throw error;
-    const sub = allSubs.find(b=>b.id===id);
-    if(sub){ sub.status='rejected'; sub.review_note=note||null; }
+    const sub = allSubs.find(b => b.id === id);
+    if (sub) { sub.status = 'rejected'; sub.review_note = note || null; }
     updateStats(); renderList();
     toast('✕ Listing rejected','ok');
   } catch(err) {
     console.error(err);
     toast('❌ Update failed','err');
-    btns.forEach(b=>b.disabled=false);
+    btns.forEach(b => b.disabled = false);
   }
 }
 
-/* ── Escape helper ────────────────────────────────────────────── */
+/* ── Helpers ───────────────────────────────────────────────── */
 function esc(s) {
-  if(!s)return'';
+  if (!s) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ── Toast ────────────────────────────────────────────────────── */
 let _tt;
-function toast(msg, type='ok') {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.className=`toast show ${type}`;
-  clearTimeout(_tt); _tt=setTimeout(()=>t.classList.remove('show'),3500);
+function toast(msg, type = 'ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `toast show ${type}`;
+  clearTimeout(_tt); _tt = setTimeout(() => t.classList.remove('show'), 3500);
 }
 
-
-/* ── Check session on load ────────────────────────────────────── */
+/* ── Boot ──────────────────────────────────────────────────── */
 window.addEventListener('DOMContentLoaded', () => {
   if (sessionStorage.getItem(SESSION_KEY) === '1') {
     document.getElementById('loginScreen').style.display = 'none';
@@ -596,7 +604,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('pwInput').focus();
   }
   document.getElementById('pwInput').addEventListener('keydown', e => {
-    if(e.key==='Enter') doLogin();
+    if (e.key === 'Enter') doLogin();
   });
 });
 </script>
