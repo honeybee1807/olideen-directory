@@ -78,7 +78,9 @@ input::placeholder, textarea::placeholder { color: var(--muted2); }
   background: var(--surface2);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 4px 20px -12px rgba(61,10,5,0.3);
-  position: sticky; top: 0; z-index: 50;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 .topnav-inner {
   max-width: var(--max-w); margin: 0 auto;
@@ -309,10 +311,10 @@ input::placeholder, textarea::placeholder { color: var(--muted2); }
 
 /* ─── FILTER BAR ─────────────────────────────────────────────────── */
 .filter-bar {
-  background: rgba(251,244,238,0.96); backdrop-filter: blur(12px);
+  background: rgba(251,244,238,0.96);
   border-bottom: 1px solid var(--border);
   padding: 0.65rem var(--pad-x);
-  position: sticky; top: 70px; z-index: 40;
+  position: static;
 }
 .filter-bar-inner {
   max-width: var(--max-w); margin: 0 auto;
@@ -683,4 +685,86 @@ footer { background: var(--bg2); border-top: 1px solid var(--border2); padding: 
   .detail-body { padding: 1.5rem; }
   .cards-grid { grid-template-columns: 1fr; }
   .right-col { display: none; }
+}
+
+/* ─── LOGO UPLOAD AREA ───────────────────────────────────────────── */
+.logo-upload-area {
+  border: 2px dashed var(--border2);
+  border-radius: 12px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg2);
+  min-height: 110px;
+  text-align: center;
+}
+.logo-upload-area:hover {
+  border-color: var(--gold);
+  background: var(--gold-pale);
+}
+.logo-upload-area.has-image {
+  border-style: solid;
+  border-color: var(--gold-light);
+  background: var(--cream);
+  padding: 16px;
+}
+
+/* ─── CROP OVERLAY ───────────────────────────────────────────────── */
+.crop-overlay {
+  position: fixed; inset: 0;
+  background: rgba(20,4,2,0.82);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.crop-overlay.open { opacity: 1; pointer-events: all; }
+
+.crop-modal {
+  background: var(--surface2);
+  border-radius: 18px;
+  width: 100%; max-width: 580px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+  transform: translateY(20px);
+  transition: transform 0.25s ease;
+  display: flex; flex-direction: column;
+}
+.crop-overlay.open .crop-modal { transform: translateY(0); }
+
+.crop-modal-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+.crop-title {
+  font-family: var(--font-head); font-size: 22px; font-weight: 600;
+  color: var(--ink); line-height: 1;
+}
+.crop-sub {
+  font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.5;
+}
+.crop-canvas-wrap {
+  background: #1a0a07;
+  max-height: 420px;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+/* Cropper.js circle overlay */
+.crop-canvas-wrap .cropper-view-box,
+.crop-canvas-wrap .cropper-face {
+  border-radius: 50% !important;
+}
+.crop-modal-footer {
+  padding: 16px 24px 22px;
+  display: flex; gap: 12px;
+  border-top: 1px solid var(--border);
 }

@@ -405,7 +405,7 @@ async function loadSubmissions() {
   try {
     const { data, error } = await _sb
       .from('businesses')
-      .select('id,name,category,town,whatsapp,website,description,business_detail,owner_name,owner_phone,owner_email,status,review_note,created_at')
+      .select('id,name,category,town,whatsapp,website,description,business_detail,owner_name,owner_phone,owner_email,logo_url,status,review_note,created_at')
       .order('created_at', { ascending: false });
     if (error) throw error;
     allSubs = data || [];
@@ -456,35 +456,64 @@ function renderList() {
 }
 
 function renderCard(b) {
-  const created    = new Date(b.created_at).toLocaleDateString('en-ZA', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-  const waContact  = b.owner_phone
-    ? `<a href="https://wa.me/${b.owner_phone.replace(/\D/g,'')}" target="_blank" class="inline-link wa">💬 ${esc(b.owner_phone)}</a>` : '';
-  const emailContact = b.owner_email
-    ? `<a href="mailto:${esc(b.owner_email)}" class="inline-link web">✉ ${esc(b.owner_email)}</a>` : '';
+  const created      = new Date(b.created_at).toLocaleDateString('en-ZA', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const waContact    = b.owner_phone  ? `<a href="https://wa.me/${b.owner_phone.replace(/\D/g,'')}" target="_blank" class="inline-link wa"><i class="fa-brands fa-whatsapp"></i> ${esc(b.owner_phone)}</a>` : '';
+  const emailContact = b.owner_email  ? `<a href="mailto:${esc(b.owner_email)}" class="inline-link web"><i class="fa-solid fa-envelope"></i> ${esc(b.owner_email)}</a>` : '';
+
+  /* Avatar: logo if uploaded, monogram if not */
+  const avatar = b.logo_url
+    ? `<img src="${esc(b.logo_url)}" alt="${esc(b.name)} logo"
+            style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--gold-light);flex-shrink:0;"
+            onerror="this.outerHTML='<div class=\\'sub-initial\\'>${b.name ? b.name.charAt(0).toUpperCase() : '?'}</div>'" />`
+    : `<div class="sub-initial">${b.name ? b.name.charAt(0).toUpperCase() : '?'}</div>`;
+
+  /* Logo review block — only shown if logo_url present */
+  const logoBlock = b.logo_url ? `
+      <div class="detail-block full" style="background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:10px;padding:16px 18px;">
+        <div class="detail-label" style="color:var(--ochre);margin-bottom:10px;"><i class="fa-solid fa-image"></i> Business Logo — review before approving</div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <img src="${esc(b.logo_url)}" alt="${esc(b.name)} logo"
+               style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--gold-light);flex-shrink:0;box-shadow:0 4px 14px rgba(188,133,20,0.2);" />
+          <div>
+            <p style="font-size:13px;color:var(--ink2);line-height:1.55;margin:0;">Logo uploaded by the business owner. Check it is appropriate and represents the business before approving.</p>
+            <a href="${esc(b.logo_url)}" target="_blank" rel="noopener"
+               style="font-size:11.5px;color:var(--gold);margin-top:6px;display:inline-flex;align-items:center;gap:5px;">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> View full size
+            </a>
+          </div>
+        </div>
+      </div>` : `
+      <div class="detail-block full" style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;">
+        <div class="detail-label"><i class="fa-regular fa-image"></i> Business Logo</div>
+        <p style="font-size:12.5px;color:var(--muted2);margin-top:6px;">No logo uploaded — monogram will be shown.</p>
+      </div>`;
 
   return `
   <div class="sub-card status-${b.status}" id="card-${b.id}">
     <div class="sub-card-header" onclick="toggleCard(${b.id})">
-      <div class="sub-initial">${b.name ? b.name.charAt(0).toUpperCase() : '?'}</div>
+      ${avatar}
       <div style="flex:1;min-width:0;">
         <div class="sub-biz-name">${esc(b.name)}</div>
         <div class="sub-meta">
-          <span>&#9679; ${esc(b.town)}</span>
+          <span><i class="fa-solid fa-location-dot" style="font-size:9px;color:var(--gold);"></i> ${esc(b.town)}</span>
           <span>&middot;</span>
           <span>${esc(b.category)}</span>
+          ${b.logo_url ? '<span>&middot;</span><span style="color:var(--gold);font-size:10px;"><i class="fa-solid fa-image"></i> Has logo</span>' : ''}
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
         <span style="font-size:11px;color:var(--muted2);">${created}</span>
         <span class="status-badge ${b.status}">${b.status}</span>
-        <span class="expand-icon">▾</span>
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down"></i></span>
       </div>
     </div>
 
     <div class="sub-card-body">
 
+      ${logoBlock}
+
       <div class="review-detail-box">
-        <div class="detail-label">📋 What they say their business does</div>
+        <div class="detail-label"><i class="fa-solid fa-clipboard-list"></i> What they say their business does</div>
         <div class="detail-value" style="margin-top:6px;">${esc(b.business_detail) || '<em style="color:var(--muted)">Not provided</em>'}</div>
       </div>
 
@@ -495,18 +524,18 @@ function renderCard(b) {
       <div class="detail-block">
         <div class="detail-label">Public Links</div>
         <div class="detail-value" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
-          ${b.whatsapp ? `<a href="https://wa.me/${b.whatsapp.replace(/\D/g,'')}" target="_blank" class="inline-link wa">💬 ${esc(b.whatsapp)}</a>` : ''}
-          ${b.website  ? `<a href="${esc(b.website)}" target="_blank" class="inline-link web">↗ ${esc(b.website.replace(/^https?:\/\//,''))}</a>` : ''}
+          ${b.whatsapp ? `<a href="https://wa.me/${b.whatsapp.replace(/\D/g,'')}" target="_blank" class="inline-link wa"><i class="fa-brands fa-whatsapp"></i> ${esc(b.whatsapp)}</a>` : ''}
+          ${b.website  ? `<a href="${esc(b.website)}" target="_blank" class="inline-link web"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${esc(b.website.replace(/^https?:\/\//,''))}</a>` : ''}
           ${!b.whatsapp && !b.website ? '<span style="color:var(--muted2);font-size:0.8rem;">No links provided</span>' : ''}
         </div>
       </div>
 
       <div class="detail-block">
-        <div class="detail-label">🔒 Owner Name (private)</div>
+        <div class="detail-label"><i class="fa-solid fa-lock" style="font-size:9px;"></i> Owner Name (private)</div>
         <div class="detail-value">${esc(b.owner_name) || '—'}</div>
       </div>
       <div class="detail-block">
-        <div class="detail-label">🔒 Owner Contact (private)</div>
+        <div class="detail-label"><i class="fa-solid fa-lock" style="font-size:9px;"></i> Owner Contact (private)</div>
         <div class="detail-value" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
           ${waContact}${emailContact}
           ${!b.owner_phone && !b.owner_email ? '<span style="color:var(--muted2);">None provided</span>' : ''}
@@ -520,16 +549,16 @@ function renderCard(b) {
 
       ${b.status === 'pending' ? `
       <div class="sub-actions">
-        <button class="btn-approve" onclick="approve(${b.id},event)">✓ Approve &amp; publish</button>
+        <button class="btn-approve" onclick="approve(${b.id},event)"><i class="fa-solid fa-check"></i> Approve &amp; publish</button>
         <input type="text" class="note-input" id="note-${b.id}" placeholder="Optional: reason for rejection…" maxlength="200" />
-        <button class="btn-reject" onclick="reject(${b.id},event)">✕ Reject</button>
+        <button class="btn-reject" onclick="reject(${b.id},event)"><i class="fa-solid fa-xmark"></i> Reject</button>
         <span class="note-hint">Note is shown to the owner on rejection.</span>
       </div>` : `
       <div class="sub-actions">
         <span style="font-size:12.5px;color:var(--muted);">
           Status: <strong>${b.status}</strong>${b.review_note ? ` — "${esc(b.review_note)}"` : ''}</span>
-        ${b.status === 'rejected'  ? `<button class="btn-approve" style="margin-left:auto;" onclick="approve(${b.id},event)">↩ Re-approve</button>` : ''}
-        ${b.status === 'approved'  ? `<button class="btn-reject"  style="margin-left:auto;" onclick="reject(${b.id},event)">✕ Remove</button>` : ''}
+        ${b.status === 'rejected' ? `<button class="btn-approve" style="margin-left:auto;" onclick="approve(${b.id},event)"><i class="fa-solid fa-rotate-left"></i> Re-approve</button>` : ''}
+        ${b.status === 'approved' ? `<button class="btn-reject"  style="margin-left:auto;" onclick="reject(${b.id},event)"><i class="fa-solid fa-xmark"></i> Remove</button>` : ''}
       </div>`}
 
     </div>
