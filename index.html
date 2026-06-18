@@ -112,9 +112,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" crossorigin="anonymous" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js" defer></script>
   <script src="js/app.js" defer></script>
 </head>
 <body>
@@ -128,13 +128,13 @@
     <!-- Left: headline -->
     <div class="anim">
       <div class="hero-kicker">KwaZulu&#8209;Natal &middot; Est. 2025</div>
-      <h1 style="font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(38px,5.5vw,68px);line-height:1.04;letter-spacing:-.01em;color:#3D0A05;">
-        Discover the people who keep our towns <em style="font-style:italic;font-weight:600;color:#BC8514;">running.</em>
+      <h1 style="font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(38px,5.5vw,68px);line-height:1.04;letter-spacing:-.01em;color:#152040;">
+        Discover the people who keep our towns <em style="font-style:italic;font-weight:600;color:#C46EA1;">running.</em>
       </h1>
       <p class="hero-sub" style="max-width:460px;">
         A curated directory of local businesses across KwaZulu&#8209;Natal &mdash; the home bakers, tutors, mechanics, stylists and caterers your neighbours already trust. Find them. Support them.
       </p>
-      <p style="margin-top:14px;font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:#A58570;">Discover local. Support local.</p>
+      <p style="margin-top:14px;font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:#C46EA1;">Discover local. Support local.</p>
       <div class="hero-stats">
         <div><span class="stat-num" id="statCount">—</span><span class="stat-label">Businesses</span></div>
         <div><span class="stat-num" id="statTowns">—</span><span class="stat-label">Towns</span></div>
@@ -290,116 +290,5 @@
 
 <div id="modal-placeholder"></div>
 
-<script>
-let allBusinesses = [];
-let activeFilter  = 'All';
-let currentView   = 'table';
-const collapsedTowns = new Set();
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('nav-placeholder').innerHTML    = renderNav('home');
-  document.getElementById('footer-placeholder').innerHTML = renderFooter();
-  document.getElementById('modal-placeholder').innerHTML  = renderModal();
-  loadDirectory();
-});
-
-async function loadDirectory() {
-  try {
-    allBusinesses = await fetchAllBusinesses();
-    updateStats();
-    updateSchemaListings();
-    renderFeaturedGem(allBusinesses); /* new featured gem system */
-    renderDirectory();
-  } catch(e) {
-    console.error(e);
-    document.getElementById('directoryMain').innerHTML = `
-      <div class="directory-inner">
-        <div class="state-box">
-          <div class="state-icon">Could not load.</div>
-          <h3>Could not load directory</h3>
-          <p>Please check your Supabase configuration in js/app.js</p>
-        </div>
-      </div>`;
-  }
-}
-
-function updateStats() {
-  const towns = new Set(allBusinesses.map(b => normaliseTown(b.town)));
-  document.getElementById('statCount').textContent = allBusinesses.length;
-  document.getElementById('statTowns').textContent = towns.size;
-}
-
-function updateSchemaListings() {
-  const schema = buildDirectorySchema(allBusinesses, 'KwaZulu-Natal Business Directory');
-  document.getElementById('schema-listings').textContent = JSON.stringify(schema);
-}
-
-function renderFeatured() {
-  if (!allBusinesses.length) return;
-  const candidates = allBusinesses.filter(b => b.description);
-  if (!candidates.length) return;
-  const b = candidates[Math.floor(Math.random() * candidates.length)];
-  document.getElementById('featInitial').textContent = initial(b.name);
-  document.getElementById('featCat').textContent     = b.category;
-  document.getElementById('featName').textContent    = b.name;
-  document.getElementById('featDesc').textContent    = b.description;
-  document.getElementById('featTown').textContent    = normaliseTown(b.town);
-  if (b.owner_name) {
-    const ownerEl = document.getElementById('featOwner');
-    ownerEl.innerHTML = `<i class="fa-regular fa-user" style="font-size:9px;margin-right:4px;"></i>${escHtml(b.owner_name)}`;
-    ownerEl.style.display = '';
-  }
-  const wa = document.getElementById('featWa');
-  wa.href = b.whatsapp ? waLink(b.whatsapp) : ('business.html?id=' + b.id);
-  if (!b.whatsapp) { wa.innerHTML = '<i class="fa-solid fa-arrow-right"></i> View listing'; }
-  document.getElementById('featuredWrap').style.display = '';
-}
-
-function getFiltered() {
-  const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
-  return allBusinesses.filter(b => {
-    const matchCat = activeFilter === 'All' || b.category === activeFilter;
-    const matchQ   = !q ||
-      (b.name        ||'').toLowerCase().includes(q) ||
-      (b.category    ||'').toLowerCase().includes(q) ||
-      (b.town        ||'').toLowerCase().includes(q) ||
-      (b.description ||'').toLowerCase().includes(q) ||
-      (b.owner_name  ||'').toLowerCase().includes(q);
-    return matchCat && matchQ;
-  });
-}
-
-function renderDirectory() {
-  const filtered = getFiltered();
-  const countEl  = document.getElementById('visibleCount');
-  if (countEl) countEl.textContent = filtered.length;
-  const grouped = groupByTown(filtered);
-  const inner   = document.querySelector('.directory-inner') ||
-    (() => { const d = document.createElement('div'); d.className='directory-inner'; document.getElementById('directoryMain').appendChild(d); return d; })();
-  inner.innerHTML = renderTownSections(grouped, currentView, collapsedTowns);
-}
-
-function handleSearch() { renderDirectory(); }
-
-function setFilter(cat) {
-  activeFilter = cat;
-  document.querySelectorAll('.filter-tab').forEach(btn =>
-    btn.classList.toggle('active', btn.dataset.cat === cat));
-  renderDirectory();
-}
-
-function setView(v) {
-  currentView = v;
-  document.getElementById('tableViewBtn').classList.toggle('active', v === 'table');
-  document.getElementById('cardViewBtn').classList.toggle('active',  v === 'cards');
-  renderDirectory();
-}
-
-function onBusinessAdded(biz) {
-  allBusinesses.unshift({ ...biz, id: Date.now() });
-  updateStats();
-  renderDirectory();
-}
-</script>
 </body>
 </html>
