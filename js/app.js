@@ -436,7 +436,12 @@ function openModal() {
   document.getElementById('formContent').style.display = '';
   document.getElementById('successState').classList.remove('show');
   resetForm();
-  setTimeout(() => document.getElementById('bizName').focus(), 260);
+  /* Always scroll to top of modal body */
+  setTimeout(() => {
+    const body = document.querySelector('.modal-body');
+    if (body) body.scrollTop = 0;
+    document.getElementById('bizName').focus();
+  }, 260);
 }
 function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 function handleOverlayClick(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
@@ -588,8 +593,13 @@ function renderModal() {
         </div>
         <div class="modal-body">
 
-          <!-- Logo upload -->
+          <!-- Public fields -->
           <div class="form-section-label public"><span class="dot"></span> Shown on the directory</div>
+
+          <div class="field-group">
+            <label>Business Name <span class="req">*</span></label>
+            <input type="text" id="bizName" placeholder="e.g. Sweet Layers Bakery" maxlength="80" />
+          </div>
 
           <div class="field-group">
             <label>Business Logo <span style="font-size:10px;color:var(--muted2);font-weight:400;">(optional — displayed as a circle)</span></label>
@@ -611,11 +621,6 @@ function renderModal() {
                 <i class="fa-solid fa-trash-can" style="font-size:10px;"></i> Remove logo
               </button>
             </div>
-          </div>
-
-          <div class="field-group">
-            <label>Business Name <span class="req">*</span></label>
-            <input type="text" id="bizName" placeholder="e.g. Sweet Layers Bakery" maxlength="80" />
           </div>
           <div class="form-row">
             <div class="field-group">
