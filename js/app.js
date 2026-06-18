@@ -436,6 +436,9 @@ function openModal() {
   document.getElementById('formContent').style.display = '';
   document.getElementById('successState').classList.remove('show');
   resetForm();
+  /* Attach close button — injected into DOM by renderModal so must be wired here */
+  const closeBtn = document.getElementById('modalCloseBtn');
+  if (closeBtn) closeBtn.onclick = closeModal;
   /* Always scroll to top of modal body */
   setTimeout(() => {
     const body = document.querySelector('.modal-body');
@@ -446,9 +449,24 @@ function openModal() {
 function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 function handleOverlayClick(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
 function resetForm() {
-  ['bizName','bizCategory','bizTown','bizWhatsapp','bizWebsite','bizDesc','bizDetail','bizOwner','ownerContact','bizLogo']
+  ['bizName','bizCategory','bizProvince','bizTown','bizWhatsapp','bizWebsite','bizDesc','bizDetail','bizOwner','ownerContact','bizLogo']
     .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   removeLogo();
+}
+
+/* ─── WHATSAPP NORMALISER ────────────────────────────────────────── */
+function normaliseWhatsApp(raw) {
+  if (!raw) return null;
+  const digits = raw.replace(/\D/g, '');
+  if (!digits) return null;
+  /* 0831234567 → 27831234567 */
+  if (digits.startsWith('0') && digits.length === 10) return '27' + digits.slice(1);
+  /* 27831234567 — already correct */
+  if (digits.startsWith('27') && digits.length === 11) return digits;
+  /* +27... stripped to 27... */
+  if (digits.startsWith('27')) return digits;
+  /* Fallback — return as-is */
+  return digits;
 }
 
 /* ─── SUBMIT ─────────────────────────────────────────────────────── */
@@ -456,7 +474,8 @@ async function submitBusiness() {
   const name     = (document.getElementById('bizName')?.value      || '').trim();
   const category = document.getElementById('bizCategory')?.value   || '';
   const town     = (document.getElementById('bizTown')?.value      || '').trim();
-  const whatsapp = (document.getElementById('bizWhatsapp')?.value  || '').trim();
+  const province = document.getElementById('bizProvince')?.value   || '';
+  const whatsapp = normaliseWhatsApp(document.getElementById('bizWhatsapp')?.value || '');
   const website  = (document.getElementById('bizWebsite')?.value   || '').trim();
   const desc     = (document.getElementById('bizDesc')?.value      || '').trim();
   const detail   = (document.getElementById('bizDetail')?.value    || '').trim();
@@ -465,7 +484,8 @@ async function submitBusiness() {
 
   if (!name)     { showToast('Business name is required','error'); return; }
   if (!category) { showToast('Please select a category','error'); return; }
-  if (!town)     { showToast('Town / area is required','error'); return; }
+  if (!town)     { showToast('Town / city is required','error'); return; }
+  if (!province) { showToast('Please select your province','error'); return; }
   if (!detail)   { showToast('Please tell us about your business','error'); return; }
   if (!owner)    { showToast('Your name is required','error'); return; }
   if (!contact)  { showToast('Your WhatsApp or email is required','error'); return; }
@@ -476,7 +496,6 @@ async function submitBusiness() {
   lbl.textContent = _croppedBlob ? 'Uploading logo…' : 'Submitting…';
 
   try {
-    /* Upload logo first if one was cropped */
     let logo_url = null;
     if (_croppedBlob) {
       lbl.textContent = 'Uploading logo…';
@@ -486,9 +505,13 @@ async function submitBusiness() {
     lbl.textContent = 'Submitting…';
     const isEmail = contact.includes('@');
     const payload = {
-      name, category, town: normaliseTown(town),
-      whatsapp: whatsapp || null, website: website || null,
-      description: desc || null, business_detail: detail,
+      name, category,
+      town: normaliseTown(town),
+      province: province || null,
+      whatsapp: whatsapp || null,
+      website: website || null,
+      description: desc || null,
+      business_detail: detail,
       owner_name: owner,
       owner_phone: isEmail ? null : contact,
       owner_email: isEmail ? contact : null,
@@ -565,14 +588,14 @@ function renderModal() {
           <h3 class="crop-title">Crop Your Logo</h3>
           <p class="crop-sub">Drag to reposition &middot; Pinch or scroll to zoom &middot; Will be displayed as a circle</p>
         </div>
-        <button class="modal-close" onclick="closeCropModal()" aria-label="Close crop"><i class="fa-solid fa-xmark"></i></button>
+        <button class="modal-close" type="button" onclick="closeCropModal()" aria-label="Close crop"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="crop-canvas-wrap">
         <img id="cropImage" src="" alt="Crop preview" style="max-width:100%;display:block;" />
       </div>
       <div class="crop-modal-footer">
-        <button class="btn-cancel" onclick="closeCropModal()">Cancel</button>
-        <button class="btn-submit" id="cropConfirmBtn" onclick="confirmCrop()">
+        <button class="btn-cancel" type="button" onclick="closeCropModal()">Cancel</button>
+        <button class="btn-submit" type="button" id="cropConfirmBtn" onclick="confirmCrop()">
           <i class="fa-solid fa-check"></i>
           <span>Use This Crop</span>
         </button>
@@ -584,7 +607,7 @@ function renderModal() {
   <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal-accent"></div>
-      <button class="modal-close" onclick="closeModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      <button class="modal-close" type="button" id="modalCloseBtn" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
 
       <div id="formContent">
         <div class="modal-header">
@@ -622,33 +645,99 @@ function renderModal() {
               </button>
             </div>
           </div>
+
+          <div class="field-group">
+            <label>Category <span class="req">*</span></label>
+            <select id="bizCategory">
+              <option value="">Select…</option>
+              <option>Food &amp; Drinks</option>
+              <option>Health &amp; Beauty</option>
+              <option>Services</option>
+              <option>Education</option>
+              <option>Tech</option>
+              <option>Fashion</option>
+              <option>Retail</option>
+              <option>Transport</option>
+              <option>Home &amp; Garden</option>
+              <option>Other</option>
+            </select>
+          </div>
+
           <div class="form-row">
             <div class="field-group">
-              <label>Category <span class="req">*</span></label>
-              <select id="bizCategory">
-                <option value="">Select…</option>
-                <option>Food &amp; Drinks</option>
-                <option>Health &amp; Beauty</option>
-                <option>Services</option>
-                <option>Education</option>
-                <option>Tech</option>
-                <option>Fashion</option>
-                <option>Retail</option>
-                <option>Transport</option>
-                <option>Home &amp; Garden</option>
-                <option>Other</option>
-              </select>
+              <label>Town / City <span class="req">*</span></label>
+              <input type="text" id="bizTown" placeholder="e.g. Estcourt" maxlength="60"
+                     list="townSuggestions" autocomplete="off" />
+              <datalist id="townSuggestions">
+                <option value="Bergville" />
+                <option value="Bhisho" />
+                <option value="Bloemfontein" />
+                <option value="Cape Town" />
+                <option value="Colenso" />
+                <option value="Dundee" />
+                <option value="Durban" />
+                <option value="East London" />
+                <option value="Empangeni" />
+                <option value="Escourt" />
+                <option value="Estcourt" />
+                <option value="George" />
+                <option value="Greytown" />
+                <option value="Harrismith" />
+                <option value="Howick" />
+                <option value="Johannesburg" />
+                <option value="Kimberley" />
+                <option value="Klerksdorp" />
+                <option value="Ladysmith" />
+                <option value="Mahikeng" />
+                <option value="Middelburg" />
+                <option value="Mooi River" />
+                <option value="Mpumalanga" />
+                <option value="Nelspruit" />
+                <option value="Newcastle" />
+                <option value="Paarl" />
+                <option value="Pietermaritzburg" />
+                <option value="Pinetown" />
+                <option value="Polokwane" />
+                <option value="Port Elizabeth" />
+                <option value="Port Shepstone" />
+                <option value="Potchefstroom" />
+                <option value="Pretoria" />
+                <option value="Richards Bay" />
+                <option value="Rustenburg" />
+                <option value="Scottburgh" />
+                <option value="Stanger" />
+                <option value="Stellenbosch" />
+                <option value="Ulundi" />
+                <option value="Umhlanga" />
+                <option value="Upington" />
+                <option value="Vryheid" />
+                <option value="Weenen" />
+                <option value="Winterton" />
+              </datalist>
+              <span class="field-hint">Start typing or select — or enter your own town name</span>
             </div>
             <div class="field-group">
-              <label>Town / Area <span class="req">*</span></label>
-              <input type="text" id="bizTown" placeholder="e.g. Estcourt" maxlength="60" />
+              <label>Province <span class="req">*</span></label>
+              <select id="bizProvince">
+                <option value="">Select province…</option>
+                <option value="Eastern Cape">Eastern Cape</option>
+                <option value="Free State">Free State</option>
+                <option value="Gauteng">Gauteng</option>
+                <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                <option value="Limpopo">Limpopo</option>
+                <option value="Mpumalanga">Mpumalanga</option>
+                <option value="North West">North West</option>
+                <option value="Northern Cape">Northern Cape</option>
+                <option value="Western Cape">Western Cape</option>
+              </select>
             </div>
           </div>
+
           <div class="form-row">
             <div class="field-group">
               <label>WhatsApp Number</label>
-              <input type="tel" id="bizWhatsapp" placeholder="27831234567" />
-              <span class="field-hint">Country code, no + symbol</span>
+              <input type="tel" id="bizWhatsapp" placeholder="e.g. 0831234567" maxlength="15" />
+              <span class="field-hint">Enter with 0 or +27 — we'll handle the rest</span>
             </div>
             <div class="field-group">
               <label>Website / Social Link</label>
@@ -677,8 +766,8 @@ function renderModal() {
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-          <button class="btn-submit" id="submitBtn" onclick="submitBusiness()">
+          <button class="btn-cancel" type="button" onclick="closeModal()">Cancel</button>
+          <button class="btn-submit" type="button" id="submitBtn" onclick="submitBusiness()">
             <span id="submitLabel">Submit for Review</span>
             <i class="fa-solid fa-arrow-right"></i>
           </button>
@@ -689,7 +778,7 @@ function renderModal() {
         <div class="success-icon"><i class="fa-solid fa-check"></i></div>
         <h3>Submission Received!</h3>
         <p>Your listing is <strong>under review</strong>. We will notify you via <strong>WhatsApp or email</strong> once approved — usually within 24 hours.</p>
-        <button class="btn-primary" onclick="closeModal()" style="margin-top:1rem;">Done <i class="fa-solid fa-arrow-right"></i></button>
+        <button class="btn-primary" type="button" onclick="closeModal()" style="margin-top:1rem;">Done <i class="fa-solid fa-arrow-right"></i></button>
       </div>
     </div>
   </div>
@@ -722,3 +811,347 @@ document.addEventListener('keydown', e => {
 
 /* ─── BOOT ───────────────────────────────────────────────────────── */
 initSupabase();
+
+/* ================================================================
+   FEATURED GEM OF THE WEEK
+   ================================================================ */
+
+const SITE_URL = 'https://directory.olideentech.co.za';
+
+/* ── Get next Monday midnight ─────────────────────────────────── */
+function nextMondayMidnight() {
+  const now  = new Date();
+  const day  = now.getDay(); // 0=Sun,1=Mon...
+  const diff = day === 1 ? 7 : (8 - day) % 7 || 7;
+  const next = new Date(now);
+  next.setDate(now.getDate() + diff);
+  next.setHours(0, 0, 0, 0);
+  return next.toISOString();
+}
+
+function daysUntilRotation(isoDate) {
+  const diff = new Date(isoDate) - new Date();
+  const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+  if (days <= 0) return 'Rotating soon';
+  if (days === 1) return 'Rotates tomorrow';
+  return `Rotates in ${days} days`;
+}
+
+/* ── Fetch current featured gem from Supabase ──────────────────── */
+async function fetchFeaturedGem() {
+  if (!isSupabaseReady) return null;
+  const { data, error } = await _sb
+    .from('featured_gem')
+    .select('business_id, featured_until')
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error) { console.error('featured_gem fetch:', error); return null; }
+  return data;
+}
+
+/* ── Pick a new featured gem algorithmically ───────────────────── */
+async function pickNewFeaturedGem(allBusinesses) {
+  if (!isSupabaseReady || !allBusinesses.length) return null;
+
+  /* Get history of who has been featured */
+  const { data: history } = await _sb
+    .from('featured_gem')
+    .select('business_id')
+    .order('created_at', { ascending: false })
+    .limit(50);
+
+  const recentIds = new Set((history || []).map(h => h.business_id));
+
+  /* Priority: never featured > has logo > any */
+  let pool = allBusinesses.filter(b => !recentIds.has(b.id));
+  if (!pool.length) pool = [...allBusinesses]; // everyone's had a turn — reset
+
+  /* Boost businesses with logos */
+  const withLogo    = pool.filter(b => b.logo_url);
+  const withoutLogo = pool.filter(b => !b.logo_url);
+  const weighted    = [...withLogo, ...withLogo, ...withoutLogo]; // logo businesses appear 2x
+
+  const chosen = weighted[Math.floor(Math.random() * weighted.length)];
+
+  /* Write to Supabase */
+  const featured_until = nextMondayMidnight();
+  await _sb.from('featured_gem').insert([{
+    business_id: chosen.id,
+    featured_until,
+  }]);
+
+  return { business_id: chosen.id, featured_until };
+}
+
+/* ── Main: resolve who is featured right now ───────────────────── */
+async function resolveFeaturedGem(allBusinesses) {
+  let gem = await fetchFeaturedGem();
+
+  /* If expired or missing — pick a new one */
+  if (!gem || new Date(gem.featured_until) <= new Date()) {
+    gem = await pickNewFeaturedGem(allBusinesses);
+  }
+  if (!gem) return null;
+
+  return allBusinesses.find(b => b.id === gem.business_id) || null;
+}
+
+/* ── Render featured gem card on index.html ────────────────────── */
+async function renderFeaturedGem(allBusinesses) {
+  const wrap = document.getElementById('featuredWrap');
+  if (!wrap) return;
+
+  /* Show skeleton while loading */
+  wrap.style.display = '';
+  wrap.innerHTML = `
+    <div class="gem-skeleton">
+      <div class="gem-skel-line" style="width:60%;height:14px;"></div>
+      <div class="gem-skel-line" style="width:40%;height:10px;margin-top:8px;"></div>
+      <div class="gem-skel-line" style="width:100%;height:48px;margin-top:14px;"></div>
+    </div>`;
+
+  const biz = await resolveFeaturedGem(allBusinesses);
+  if (!biz) { wrap.style.display = 'none'; return; }
+
+  /* Resolve featured_until for display */
+  const gemRow = await fetchFeaturedGem();
+  const until  = gemRow ? daysUntilRotation(gemRow.featured_until) : '';
+
+  const avatarHtml = biz.logo_url
+    ? `<div class="gem-week-avatar"><img src="${escHtml(biz.logo_url)}" alt="${escHtml(biz.name)} logo" /></div>`
+    : `<div class="gem-week-avatar">${initial(biz.name)}</div>`;
+
+  wrap.innerHTML = `
+    <div class="gem-week-wrap">
+      <div class="gem-week-badge"><i class="fa-solid fa-gem"></i> Gem of the Week</div>
+      <div class="gem-week-card">
+        <div class="gem-week-accent"></div>
+        <div class="gem-week-body">
+          <div class="gem-week-head">
+            ${avatarHtml}
+            <div>
+              <div class="gem-week-cat"><i class="${catIcon(biz.category)}"></i>${escHtml(biz.category)}</div>
+              <div class="gem-week-name">${escHtml(biz.name)}</div>
+              ${biz.owner_name ? `<div class="gem-week-owner"><i class="fa-regular fa-user" style="font-size:9px;"></i>${escHtml(biz.owner_name)}</div>` : ''}
+            </div>
+          </div>
+          ${biz.description ? `<p class="gem-week-desc">${escHtml(biz.description)}</p>` : ''}
+          <div class="gem-week-footer">
+            <div>
+              <div class="gem-week-town">
+                <i class="fa-solid fa-location-dot"></i>
+                <a href="town.html?t=${encodeURIComponent(biz.town)}" style="color:inherit;">${escHtml(normaliseTown(biz.town))}</a>
+              </div>
+              ${until ? `<div class="gem-week-rotation"><i class="fa-regular fa-clock" style="font-size:9px;"></i> ${until}</div>` : ''}
+            </div>
+            <div class="gem-week-actions">
+              ${biz.whatsapp
+                ? `<a href="${waLink(biz.whatsapp)}" target="_blank" class="link-btn wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>`
+                : ''}
+              <a href="business.html?id=${biz.id}" class="link-btn web"><i class="fa-solid fa-arrow-up-right-from-square"></i> View listing</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ── Generate shareable branded canvas image ───────────────────── */
+async function generateGemGraphic(biz) {
+  const W = 1080, H = 1080;
+  const canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  /* Background */
+  ctx.fillStyle = '#F5EDE6';
+  ctx.fillRect(0, 0, W, H);
+
+  /* Dot pattern */
+  ctx.fillStyle = 'rgba(165,133,112,0.12)';
+  for (let x = 12; x < W; x += 24)
+    for (let y = 12; y < H; y += 24)
+      { ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI*2); ctx.fill(); }
+
+  /* Top maroon band */
+  ctx.fillStyle = '#3D0A05';
+  ctx.fillRect(0, 0, W, 220);
+
+  /* Gold accent line */
+  const grd = ctx.createLinearGradient(0, 220, W, 220);
+  grd.addColorStop(0, '#BC8514');
+  grd.addColorStop(0.5, '#E6D2A8');
+  grd.addColorStop(1, '#BC8514');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 217, W, 6);
+
+  /* "Gem of the Week" label */
+  ctx.fillStyle = '#E6D2A8';
+  ctx.font = 'bold 28px Inter, sans-serif';
+  ctx.letterSpacing = '4px';
+  ctx.textAlign = 'center';
+  ctx.fillText('✦  GEM OF THE WEEK  ✦', W/2, 100);
+
+  /* Hidden Gems SA title */
+  ctx.fillStyle = '#FFFDFB';
+  ctx.font = 'italic 600 56px "Playfair Display", serif';
+  ctx.fillText('Hidden Gems SA', W/2, 175);
+
+  /* Business logo or monogram circle */
+  const CX = W/2, CY = 380, R = 110;
+  ctx.save();
+  ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI*2); ctx.clip();
+
+  if (biz.logo_url) {
+    try {
+      const img = await loadImage(biz.logo_url);
+      ctx.drawImage(img, CX-R, CY-R, R*2, R*2);
+    } catch {
+      drawMonogram(ctx, CX, CY, R, biz.name);
+    }
+  } else {
+    drawMonogram(ctx, CX, CY, R, biz.name);
+  }
+  ctx.restore();
+
+  /* Gold ring around avatar */
+  ctx.strokeStyle = '#BC8514';
+  ctx.lineWidth = 6;
+  ctx.beginPath(); ctx.arc(CX, CY, R+6, 0, Math.PI*2); ctx.stroke();
+
+  /* Business name */
+  ctx.fillStyle = '#3D0A05';
+  ctx.font = 'bold 62px "Playfair Display", serif';
+  ctx.textAlign = 'center';
+  wrapText(ctx, biz.name, W/2, 550, W-120, 72);
+
+  /* Owner name */
+  if (biz.owner_name) {
+    ctx.fillStyle = '#9A8678';
+    ctx.font = 'italic 32px "Playfair Display", serif';
+    ctx.fillText(biz.owner_name, W/2, 640);
+  }
+
+  /* Category + Town pills */
+  ctx.fillStyle = '#FAF2E0';
+  roundRect(ctx, W/2 - 260, 670, 230, 54, 27); ctx.fill();
+  roundRect(ctx, W/2 + 30,  670, 230, 54, 27); ctx.fill();
+
+  ctx.fillStyle = '#BC8514';
+  ctx.font = 'bold 24px Inter, sans-serif';
+  ctx.fillText(biz.category, W/2 - 145, 704);
+  ctx.fillText('📍 ' + normaliseTown(biz.town), W/2 + 145, 704);
+
+  /* Description */
+  if (biz.description) {
+    ctx.fillStyle = '#5C2A1E';
+    ctx.font = '26px Inter, sans-serif';
+    wrapText(ctx, biz.description, W/2, 790, W-160, 36, 3);
+  }
+
+  /* Bottom band */
+  ctx.fillStyle = '#3D0A05';
+  ctx.fillRect(0, H-160, W, 160);
+
+  ctx.fillStyle = '#E6D2A8';
+  ctx.font = 'bold 26px Inter, sans-serif';
+  ctx.fillText('directory.olideentech.co.za', W/2, H-100);
+
+  ctx.fillStyle = 'rgba(218,193,177,0.6)';
+  ctx.font = '22px Inter, sans-serif';
+  ctx.fillText('Built by Olideen Technologies — olideentech.co.za', W/2, H-58);
+
+  return canvas;
+}
+
+function drawMonogram(ctx, cx, cy, r, name) {
+  ctx.fillStyle = '#FAF2E0';
+  ctx.fillRect(cx-r, cy-r, r*2, r*2);
+  ctx.fillStyle = '#BC8514';
+  ctx.font = `italic bold ${r}px "Playfair Display", serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(initial(name), cx, cy);
+  ctx.textBaseline = 'alphabetic';
+}
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload  = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+function wrapText(ctx, text, x, y, maxW, lineH, maxLines = 99) {
+  const words = text.split(' ');
+  let line = '', lines = 0;
+  for (const word of words) {
+    const test = line ? line + ' ' + word : word;
+    if (ctx.measureText(test).width > maxW && line) {
+      ctx.fillText(line, x, y + lines * lineH);
+      line = word; lines++;
+      if (lines >= maxLines) { ctx.fillText(line + '…', x, y + lines * lineH); return; }
+    } else { line = test; }
+  }
+  if (line) ctx.fillText(line, x, y + lines * lineH);
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y); ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+  ctx.lineTo(x+w, y+h-r); ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+  ctx.lineTo(x+r, y+h); ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+  ctx.lineTo(x, y+r); ctx.quadraticCurveTo(x, y, x+r, y);
+  ctx.closePath();
+}
+
+async function downloadGemGraphic(biz) {
+  const btn = document.getElementById('btnDownloadGraphic');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating…'; }
+  try {
+    const canvas = await generateGemGraphic(biz);
+    const link   = document.createElement('a');
+    link.download = `hidden-gems-${slugify(biz.name)}-gem-of-the-week.png`;
+    link.href     = canvas.toDataURL('image/png');
+    link.click();
+  } catch(e) {
+    console.error('Graphic error:', e);
+    alert('Could not generate graphic: ' + e.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-download"></i> Download Graphic'; }
+  }
+}
+
+/* ── Build WhatsApp notify message ─────────────────────────────── */
+function buildNotifyMessage(biz) {
+  const listingUrl = `${SITE_URL}/business.html?id=${biz.id}`;
+  const msg =
+`Hi ${biz.owner_name || 'there'}! 🎉 Big news — *${biz.name}* has just been selected as this week's featured Gem on Hidden Gems SA, our free local business directory for KwaZulu-Natal built by Olideen Technologies.
+
+Your business is now sitting right at the top of the directory — seen by everyone who visits this week. 👀
+
+We've put together a shareable graphic for you — post it on your Instagram, Facebook or WhatsApp status to let your customers know you've been featured! The more you share it, the more people find you. 📲
+
+View your live listing here: ${listingUrl}
+
+Well done and keep doing what you do — your community sees you. 💎
+
+— Lubnah
+Hidden Gems SA Team
+🌐 ${SITE_URL}
+💻 Built by Olideen Technologies — olideentech.co.za`;
+
+  return encodeURIComponent(msg);
+}
+
+function notifyGemOwner(biz) {
+  if (!biz.whatsapp) { alert('This business has no WhatsApp number on record.'); return; }
+  const num = biz.whatsapp.replace(/\D/g,'');
+  const url = `https://wa.me/${num}?text=${buildNotifyMessage(biz)}`;
+  window.open(url, '_blank');
+}

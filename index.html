@@ -170,34 +170,8 @@
         </a>
       </div>
 
-      <!-- Featured Gem Card -->
-      <div class="featured-gem-wrap" id="featuredWrap" style="display:none;margin-top:4px;">
-        <div class="featured-gem-label"><i class="fa-solid fa-gem" style="font-size:9px;margin-right:5px;"></i>Featured Gem</div>
-        <div class="featured-gem-card">
-          <div class="featured-gem-head">
-            <div class="featured-gem-initial" id="featInitial">?</div>
-            <div>
-              <div class="featured-gem-cat">
-                <i class="fa-solid fa-diamond" id="featCatIcon" style="font-size:7px;color:var(--gold);"></i>
-                <span class="featured-gem-cat-label" id="featCat"></span>
-              </div>
-              <div class="featured-gem-name" id="featName"></div>
-              <div class="featured-gem-owner" id="featOwner" style="display:none;"></div>
-            </div>
-          </div>
-          <p class="featured-gem-desc" id="featDesc"></p>
-          <div class="featured-gem-footer">
-            <span class="featured-gem-town">
-              <i class="fa-solid fa-location-dot" style="font-size:10px;color:var(--gold);"></i>
-              <span id="featTown"></span>
-            </span>
-            <a href="#" id="featWa" target="_blank" class="featured-gem-wa">
-              <i class="fa-brands fa-whatsapp"></i>
-              WhatsApp
-            </a>
-          </div>
-        </div>
-      </div>
+      <!-- Featured Gem of the Week -->
+      <div id="featuredWrap" style="display:none;"></div>
 
     </div>
 
@@ -250,18 +224,20 @@
 
   <!-- ══ SEO / AEO TEXT BLOCK ════════════════════════════════════ -->
   <section class="seo-block" aria-label="About Hidden Gems SA">
-    <h2>Discover Local Businesses Across KwaZulu-Natal</h2>
-    <p>
-      Hidden Gems SA is a free local business directory connecting customers to trusted businesses across KwaZulu-Natal — the home baker down the road, the mechanic your neighbour swears by, the tutor who has helped dozens of matric students pass. Every listing is reviewed before going live, so you always find real, legitimate businesses.
-    </p>
-    <p>
-      We cover Estcourt, Ladysmith, Pietermaritzburg, Newcastle, Colenso, Weenen, Mooi River, Winterton, Bergville and every KZN town in between. New towns appear automatically as business owners list.
-    </p>
-    <p>
-      <a href="towns.html" style="color:var(--gold)"><i class="fa-solid fa-map-location-dot" style="font-size:11px;margin-right:4px;"></i>Browse by town</a> &nbsp;&middot;&nbsp;
-      <a href="categories.html" style="color:var(--gold)"><i class="fa-solid fa-tags" style="font-size:11px;margin-right:4px;"></i>Browse by category</a> &nbsp;&middot;&nbsp;
-      <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;"><i class="fa-solid fa-plus" style="font-size:11px;margin-right:4px;"></i>List your business free</button>
-    </p>
+    <div class="seo-block-inner">
+      <h2>Discover Local Businesses Across KwaZulu-Natal</h2>
+      <p>
+        Hidden Gems SA is a free local business directory connecting customers to trusted businesses across KwaZulu-Natal — the home baker down the road, the mechanic your neighbour swears by, the tutor who has helped dozens of matric students pass. Every listing is reviewed before going live, so you always find real, legitimate businesses.
+      </p>
+      <p>
+        We cover Estcourt, Ladysmith, Pietermaritzburg, Newcastle, Colenso, Weenen, Mooi River, Winterton, Bergville and every KZN town in between. New towns appear automatically as business owners list.
+      </p>
+      <p>
+        <a href="towns.html" style="color:var(--gold)"><i class="fa-solid fa-map-location-dot" style="font-size:11px;margin-right:4px;"></i>Browse by town</a> &nbsp;&middot;&nbsp;
+        <a href="categories.html" style="color:var(--gold)"><i class="fa-solid fa-tags" style="font-size:11px;margin-right:4px;"></i>Browse by category</a> &nbsp;&middot;&nbsp;
+        <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;"><i class="fa-solid fa-plus" style="font-size:11px;margin-right:4px;"></i>List your business free</button>
+      </p>
+    </div>
   </section>
 
   <!-- ══ INVITATION BAND ════════════════════════════════════════ -->
@@ -332,7 +308,7 @@ async function loadDirectory() {
     allBusinesses = await fetchAllBusinesses();
     updateStats();
     updateSchemaListings();
-    renderFeatured();
+    renderFeaturedGem(allBusinesses); /* new featured gem system */
     renderDirectory();
   } catch(e) {
     console.error(e);

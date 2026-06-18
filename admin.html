@@ -345,10 +345,32 @@
       <div class="stat-pill"><span class="num" id="sTotal">—</span><div class="lbl">Total</div></div>
     </div>
 
+    <!-- ══ FEATURED GEM SECTION ══════════════════════════════════ -->
+    <div class="admin-featured-section">
+      <div class="admin-featured-header">
+        <h2><i class="fa-solid fa-gem"></i> Gem of the Week</h2>
+        <span style="font-size:11px;color:rgba(218,193,177,0.6);font-style:italic;">Auto-rotates every Monday</span>
+      </div>
+      <div class="admin-featured-body">
+        <div id="currentGemWrap">
+          <div style="text-align:center;padding:1.5rem;"><div class="spinner"></div></div>
+        </div>
+        <div class="gem-override-section">
+          <div class="gem-override-label"><i class="fa-solid fa-hand"></i> Manual Override — Feature a specific business</div>
+          <div class="gem-search-wrap">
+            <input type="text" class="gem-search-input" id="gemSearchInput"
+                   placeholder="Search by business name…"
+                   oninput="searchGemOverride()" />
+          </div>
+          <div class="gem-search-results" id="gemSearchResults"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="tab-bar">
-      <button class="tab-btn active" data-tab="pending"  onclick="setTab('pending')">⏳ Pending</button>
-      <button class="tab-btn"        data-tab="approved" onclick="setTab('approved')">✓ Approved</button>
-      <button class="tab-btn"        data-tab="rejected" onclick="setTab('rejected')">✕ Rejected</button>
+      <button class="tab-btn active" data-tab="pending"  onclick="setTab('pending')"><i class="fa-regular fa-clock"></i> Pending</button>
+      <button class="tab-btn"        data-tab="approved" onclick="setTab('approved')"><i class="fa-solid fa-check"></i> Approved</button>
+      <button class="tab-btn"        data-tab="rejected" onclick="setTab('rejected')"><i class="fa-solid fa-xmark"></i> Rejected</button>
       <button class="tab-btn"        data-tab="all"      onclick="setTab('all')">All</button>
     </div>
 
@@ -367,6 +389,7 @@ const SUPABASE_URL         = 'https://uwxanvllgomcpjtotowd.supabase.co';
 const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3eGFudmxsZ29tY3BqdG90b3dkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDA4MzQ1MywiZXhwIjoyMDk1NjU5NDUzfQ.ysXV6yCVUmx9WLNm_wEV07VURRi8i-kP0NhWmChVL3k';
 const ADMIN_PASSWORD       = 'GWJSLO@786';
 const SESSION_KEY          = 'hg_admin_auth';
+const SITE_URL             = 'https://directory.olideentech.co.za';
 
 /* ── Auth ──────────────────────────────────────────────────── */
 function doLogin() {
@@ -392,11 +415,15 @@ let _sb;
 function initAdmin() {
   _sb = supabase.createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
   loadSubmissions();
+  loadCurrentGem();
+  loadApprovedForSearch();
 }
 
 /* ── State ─────────────────────────────────────────────────── */
-let allSubs   = [];
-let activeTab = 'pending';
+let allSubs     = [];
+let allApproved = [];
+let activeTab   = 'pending';
+let currentGemBiz = null;
 
 /* ── Load ──────────────────────────────────────────────────── */
 async function loadSubmissions() {
@@ -608,6 +635,274 @@ async function reject(id, e) {
     console.error(err);
     toast('❌ Update failed','err');
     btns.forEach(b => b.disabled = false);
+  }
+}
+
+/* ── Featured Gem Admin Functions ──────────────────────────── */
+async function loadApprovedForSearch() {
+  const { data } = await _sb
+    .from('businesses')
+    .select('id,name,category,town,whatsapp,owner_name,logo_url')
+    .eq('status','approved')
+    .order('name', { ascending: true });
+  allApproved = data || [];
+}
+
+async function loadCurrentGem() {
+  const wrap = document.getElementById('currentGemWrap');
+  try {
+    const { data: gemRow } = await _sb
+      .from('featured_gem')
+      .select('business_id, featured_until, created_at')
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (!gemRow) {
+      wrap.innerHTML = `<p style="font-size:13px;color:var(--muted);font-style:italic;">No featured gem set yet. The algorithm will pick one automatically when the directory loads, or you can manually set one below.</p>`;
+      return;
+    }
+
+    const { data: biz } = await _sb
+      .from('businesses')
+      .select('id,name,category,town,whatsapp,owner_name,logo_url')
+      .eq('id', gemRow.business_id)
+      .single();
+
+    if (!biz) { wrap.innerHTML = '<p style="color:var(--muted);font-size:13px;">Featured business not found.</p>'; return; }
+
+    currentGemBiz = biz;
+
+    const until   = new Date(gemRow.featured_until);
+    const untilStr = until.toLocaleDateString('en-ZA', { weekday:'long', day:'numeric', month:'long' });
+    const expired  = until <= new Date();
+
+    const avatarHtml = biz.logo_url
+      ? `<img src="${esc(biz.logo_url)}" alt="${esc(biz.name)}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--gold-light);" />`
+      : `<div class="current-gem-avatar">${biz.name.charAt(0).toUpperCase()}</div>`;
+
+    wrap.innerHTML = `
+      <div class="current-gem-card">
+        ${avatarHtml}
+        <div class="current-gem-info">
+          <div class="current-gem-name">${esc(biz.name)}</div>
+          <div class="current-gem-meta">${esc(biz.category)} &middot; ${esc(biz.town)}</div>
+          <div class="current-gem-until">
+            <i class="fa-regular fa-clock" style="font-size:10px;"></i>
+            ${expired ? '⚠️ Expired — will rotate on next page load' : `Featured until ${untilStr}`}
+          </div>
+        </div>
+      </div>
+      <div class="gem-action-btns">
+        ${biz.whatsapp
+          ? `<button class="btn-notify" onclick="adminNotifyOwner()">
+               <i class="fa-brands fa-whatsapp"></i> Notify Owner
+             </button>`
+          : `<span style="font-size:12px;color:var(--muted);font-style:italic;">No WhatsApp — cannot notify</span>`}
+        <button class="btn-download" id="btnDownloadGraphic" onclick="adminDownloadGraphic()">
+          <i class="fa-solid fa-download"></i> Download Graphic
+        </button>
+      </div>`;
+  } catch(e) {
+    console.error(e);
+    wrap.innerHTML = '<p style="color:var(--danger);font-size:13px;">Could not load featured gem.</p>';
+  }
+}
+
+function searchGemOverride() {
+  const q = (document.getElementById('gemSearchInput').value || '').toLowerCase().trim();
+  const results = document.getElementById('gemSearchResults');
+  if (!q) { results.innerHTML = ''; return; }
+
+  const matches = allApproved.filter(b =>
+    b.name.toLowerCase().includes(q) ||
+    (b.town || '').toLowerCase().includes(q) ||
+    (b.owner_name || '').toLowerCase().includes(q)
+  ).slice(0, 8);
+
+  if (!matches.length) {
+    results.innerHTML = '<p style="font-size:12px;color:var(--muted);padding:8px;">No businesses found.</p>';
+    return;
+  }
+
+  results.innerHTML = matches.map(b => {
+    const avatarHtml = b.logo_url
+      ? `<img src="${esc(b.logo_url)}" alt="${esc(b.name)}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid var(--gold-light);" />`
+      : `<div class="gem-result-avatar">${b.name.charAt(0).toUpperCase()}</div>`;
+    return `
+      <div class="gem-result-row">
+        ${avatarHtml}
+        <div>
+          <div class="gem-result-name">${esc(b.name)}</div>
+          <div class="gem-result-meta">${esc(b.category)} &middot; ${esc(b.town)}</div>
+        </div>
+        <button class="btn-feature" onclick="featureThisBusiness(${b.id})">
+          <i class="fa-solid fa-gem"></i> Feature
+        </button>
+      </div>`;
+  }).join('');
+}
+
+async function featureThisBusiness(id) {
+  const biz = allApproved.find(b => b.id === id);
+  if (!biz) return;
+
+  const btn = document.querySelector(`button[onclick="featureThisBusiness(${id})"]`);
+  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>'; }
+
+  try {
+    /* Set featured_until to next Monday */
+    const now  = new Date();
+    const day  = now.getDay();
+    const diff = day === 1 ? 7 : (8 - day) % 7 || 7;
+    const next = new Date(now);
+    next.setDate(now.getDate() + diff);
+    next.setHours(0, 0, 0, 0);
+
+    await _sb.from('featured_gem').insert([{
+      business_id: biz.id,
+      featured_until: next.toISOString(),
+    }]);
+
+    currentGemBiz = biz;
+    document.getElementById('gemSearchInput').value = '';
+    document.getElementById('gemSearchResults').innerHTML = '';
+    await loadCurrentGem();
+    toast(`✨ ${biz.name} is now the featured Gem!`, 'ok');
+  } catch(e) {
+    console.error(e);
+    toast('❌ Could not set featured gem', 'err');
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-gem"></i> Feature'; }
+  }
+}
+
+function adminNotifyOwner() {
+  if (!currentGemBiz) return;
+  const listingUrl = `${SITE_URL}/business.html?id=${currentGemBiz.id}`;
+  const name = currentGemBiz.owner_name || 'there';
+  const bizName = currentGemBiz.name;
+  const msg = encodeURIComponent(
+`Hi ${name}! 🎉 Big news — *${bizName}* has just been selected as this week's featured Gem on Hidden Gems SA, our free local business directory for KwaZulu-Natal built by Olideen Technologies.
+
+Your business is now sitting right at the top of the directory — seen by everyone who visits this week. 👀
+
+We've put together a shareable graphic for you — post it on your Instagram, Facebook or WhatsApp status to let your customers know you've been featured! The more you share it, the more people find you. 📲
+
+View your live listing here: ${listingUrl}
+
+Well done and keep doing what you do — your community sees you. 💎
+
+— Lubnah
+Hidden Gems SA Team
+🌐 ${SITE_URL}
+💻 Built by Olideen Technologies — olideentech.co.za`);
+
+  const num = currentGemBiz.whatsapp.replace(/\D/g,'');
+  window.open(`https://wa.me/${num}?text=${msg}`, '_blank');
+}
+
+async function adminDownloadGraphic() {
+  if (!currentGemBiz) return;
+  const btn = document.getElementById('btnDownloadGraphic');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating…';
+
+  try {
+    const W = 1080, H = 1080;
+    const canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    const biz = currentGemBiz;
+
+    /* Background */
+    ctx.fillStyle = '#F5EDE6';
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(165,133,112,0.12)';
+    for (let x = 12; x < W; x += 24)
+      for (let y = 12; y < H; y += 24)
+        { ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI*2); ctx.fill(); }
+
+    /* Top maroon band */
+    ctx.fillStyle = '#3D0A05';
+    ctx.fillRect(0, 0, W, 220);
+    const grd = ctx.createLinearGradient(0, 0, W, 0);
+    grd.addColorStop(0, '#BC8514'); grd.addColorStop(0.5, '#E6D2A8'); grd.addColorStop(1, '#BC8514');
+    ctx.fillStyle = grd; ctx.fillRect(0, 217, W, 6);
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#E6D2A8';
+    ctx.font = 'bold 26px sans-serif';
+    ctx.fillText('✦  GEM OF THE WEEK  ✦', W/2, 96);
+    ctx.fillStyle = '#FFFDFB';
+    ctx.font = 'italic bold 54px serif';
+    ctx.fillText('Hidden Gems SA', W/2, 172);
+
+    /* Avatar */
+    const CX = W/2, CY = 385, R = 112;
+    ctx.save();
+    ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI*2); ctx.clip();
+    if (biz.logo_url) {
+      try {
+        const img = await new Promise((res,rej) => {
+          const i = new Image(); i.crossOrigin='anonymous';
+          i.onload=()=>res(i); i.onerror=rej; i.src=biz.logo_url;
+        });
+        ctx.drawImage(img, CX-R, CY-R, R*2, R*2);
+      } catch {
+        ctx.fillStyle='#FAF2E0'; ctx.fillRect(CX-R,CY-R,R*2,R*2);
+        ctx.fillStyle='#BC8514'; ctx.font=`italic bold ${R}px serif`;
+        ctx.textBaseline='middle'; ctx.fillText(biz.name.charAt(0).toUpperCase(), CX, CY);
+        ctx.textBaseline='alphabetic';
+      }
+    } else {
+      ctx.fillStyle='#FAF2E0'; ctx.fillRect(CX-R,CY-R,R*2,R*2);
+      ctx.fillStyle='#BC8514'; ctx.font=`italic bold ${R}px serif`;
+      ctx.textBaseline='middle'; ctx.fillText(biz.name.charAt(0).toUpperCase(), CX, CY);
+      ctx.textBaseline='alphabetic';
+    }
+    ctx.restore();
+    ctx.strokeStyle='#BC8514'; ctx.lineWidth=6;
+    ctx.beginPath(); ctx.arc(CX, CY, R+7, 0, Math.PI*2); ctx.stroke();
+
+    /* Business name */
+    ctx.fillStyle = '#3D0A05';
+    ctx.font = 'bold 60px serif';
+    const nameLines = biz.name.length > 22 ? [biz.name.substring(0,22), biz.name.substring(22)] : [biz.name];
+    nameLines.forEach((l,i) => ctx.fillText(l, W/2, 550 + i*68));
+
+    /* Owner */
+    if (biz.owner_name) {
+      ctx.fillStyle='#9A8678'; ctx.font='italic 30px serif';
+      ctx.fillText(biz.owner_name, W/2, 550 + nameLines.length*68 + 10);
+    }
+
+    /* Pills */
+    const pillY = 670 + (nameLines.length - 1) * 68;
+    ctx.fillStyle='#FAF2E0';
+    ctx.beginPath(); ctx.roundRect(W/2-260, pillY, 230, 52, 26); ctx.fill();
+    ctx.beginPath(); ctx.roundRect(W/2+30,  pillY, 230, 52, 26); ctx.fill();
+    ctx.fillStyle='#BC8514'; ctx.font='bold 22px sans-serif';
+    ctx.fillText(biz.category, W/2-145, pillY+33);
+    ctx.fillText('📍 ' + (biz.town||'').trim(), W/2+145, pillY+33);
+
+    /* Bottom band */
+    ctx.fillStyle='#3D0A05'; ctx.fillRect(0, H-150, W, 150);
+    ctx.fillStyle='#E6D2A8'; ctx.font='bold 24px sans-serif';
+    ctx.fillText('directory.olideentech.co.za', W/2, H-96);
+    ctx.fillStyle='rgba(218,193,177,0.65)'; ctx.font='20px sans-serif';
+    ctx.fillText('Built by Olideen Technologies — olideentech.co.za', W/2, H-54);
+
+    const link = document.createElement('a');
+    link.download = `hidden-gems-${biz.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')}-gem-of-the-week.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    toast('✅ Graphic downloaded!', 'ok');
+  } catch(e) {
+    console.error(e);
+    toast('❌ Could not generate graphic: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-download"></i> Download Graphic';
   }
 }
 
