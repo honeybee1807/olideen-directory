@@ -3,11 +3,9 @@
    Built by Olideen Technologies · Estcourt, KZN
    ================================================================ */
 
-/* ─── SUPABASE CONFIG ───────────────────────────────────────────── */
 const SUPABASE_URL      = 'https://uwxanvllgomcpjtotowd.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3eGFudmxsZ29tY3BqdG90b3dkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwODM0NTMsImV4cCI6MjA5NTY1OTQ1M30.NHKwsie6Vsza6BiHulYPLuuIPI9s4jgLRuNKejW8JKk';
-
-const PUBLIC_COLS = 'id,name,category,town,whatsapp,website,description,created_at';
+const PUBLIC_COLS = 'id,name,category,town,whatsapp,website,description,owner_name,created_at';
 
 let _sb = null;
 let isSupabaseReady = false;
@@ -22,24 +20,39 @@ function initSupabase() {
 
 /* ─── DEMO DATA ──────────────────────────────────────────────────── */
 const DEMO_DATA = [
-  { id:1,  name:"Aunty Mariam's Samoosas",  category:"Food & Drinks",   town:"Estcourt",         whatsapp:"27831111111", website:"",                                   description:"Freshly made samoosas, vetkoek and pies from our home kitchen — order for events, markets or daily delivery in Estcourt.", status:"approved" },
-  { id:2,  name:"Sbu Diesel Transport",     category:"Transport",       town:"Estcourt",         whatsapp:"27832222222", website:"",                                   description:"Reliable diesel transport for furniture, goods and equipment across KZN. Honest, experienced, locally trusted.", status:"approved" },
-  { id:3,  name:"Sweet Layers Bakery",      category:"Food & Drinks",   town:"Estcourt",         whatsapp:"27833333333", website:"https://instagram.com/sweetlayers",  description:"Custom celebration cakes, cupcakes and pastries made to order from our home kitchen. Serving Estcourt families since 2021.", status:"approved" },
-  { id:4,  name:"Estcourt Tutors",          category:"Education",       town:"Estcourt",         whatsapp:"27834444444", website:"",                                   description:"Maths, Science and English tutoring for Grade 8–12. Small groups and one-on-one sessions — WhatsApp to book a slot.", status:"approved" },
-  { id:5,  name:"Kuda's Tech Hub",          category:"Tech",            town:"Estcourt",         whatsapp:"27835111222", website:"",                                   description:"Laptop repairs, phone screen replacements and IT support. Affordable rates, quick turnaround — Estcourt based.", status:"approved" },
-  { id:6,  name:"Ladysmith Auto Repairs",   category:"Services",        town:"Ladysmith",        whatsapp:"27835555555", website:"",                                   description:"Trusted mechanical repairs and panel beating for all vehicle makes. Honest work — serving Ladysmith for over 8 years.", status:"approved" },
-  { id:7,  name:"Clarity Beauty Studio",    category:"Health & Beauty", town:"Ladysmith",        whatsapp:"27836666666", website:"",                                   description:"Hair braiding, natural hair care, nail art and beauty treatments in Ladysmith. Book via WhatsApp — walk-ins welcome.", status:"approved" },
-  { id:8,  name:"MaMkhize Home Catering",   category:"Food & Drinks",   town:"Ladysmith",        whatsapp:"27837777777", website:"",                                   description:"Traditional Zulu catering for funerals, weddings and imicimbi. Home-cooked food prepared with pride.", status:"approved" },
-  { id:9,  name:"Neon Visuals KZN",         category:"Tech",            town:"Ladysmith",        whatsapp:"27838888888", website:"https://instagram.com/neonvisuals",  description:"Graphic design, flyers, logos and social media content. Fast turnaround, affordable packages for local businesses.", status:"approved" },
-  { id:10, name:"Corner Spaza Ladysmith",   category:"Retail",          town:"Ladysmith",        whatsapp:"27839123456", website:"",                                   description:"Groceries, airtime, electricity tokens and everyday essentials. Open 7 days — conveniently located in Ladysmith.", status:"approved" },
-  { id:11, name:"Mama Zulu Catering",       category:"Food & Drinks",   town:"Pietermaritzburg", whatsapp:"27839999999", website:"",                                   description:"Traditional Zulu catering for all occasions — funerals, weddings, events. We cook with pride and serve with joy.", status:"approved" },
-  { id:12, name:"PMB Coding Academy",       category:"Education",       town:"Pietermaritzburg", whatsapp:"27830000000", website:"https://pmbcodes.co.za",             description:"Coding bootcamps, computer literacy and digital skills for youth and adults in Pietermaritzburg. Empowering local talent.", status:"approved" },
-  { id:13, name:"The Hair Lounge PMB",      category:"Health & Beauty", town:"Pietermaritzburg", whatsapp:"27831234000", website:"https://instagram.com/hairlounge",   description:"Natural hair care, protective styles and colour treatments in PMB. We celebrate every hair type — WhatsApp to book.", status:"approved" },
-  { id:14, name:"BuildRight Hardware",      category:"Retail",          town:"Pietermaritzburg", whatsapp:"27835678000", website:"",                                   description:"Quality hardware, tools and building materials at competitive prices. Serving PMB contractors and homeowners daily.", status:"approved" },
-  { id:15, name:"Nomvula's Home Cleaning",  category:"Home & Garden",   town:"Newcastle",        whatsapp:"27839876543", website:"",                                   description:"Reliable home and office cleaning services in Newcastle. Thorough, affordable and trusted by local families.", status:"approved" },
-  { id:16, name:"Newcastle Spaza & More",   category:"Retail",          town:"Newcastle",        whatsapp:"27836543210", website:"",                                   description:"Groceries, airtime, electricity tokens and everyday household essentials. Open 7 days a week in Newcastle.", status:"approved" },
-  { id:17, name:"Thabo's Barber Shop",      category:"Health & Beauty", town:"Newcastle",        whatsapp:"27831987654", website:"",                                   description:"Fresh cuts, fades and beard trims in Newcastle. Clean shop, good vibes — walk in or book on WhatsApp.", status:"approved" },
+  { id:1,  name:"Aunty Mariam's Samoosas",  owner_name:"Mariam Hassim",    category:"Food & Drinks",   town:"Estcourt",         whatsapp:"27831111111", website:"",                                   description:"Freshly made samoosas, vetkoek and pies from our home kitchen — order for events, markets or daily delivery in Estcourt.", status:"approved" },
+  { id:2,  name:"Sbu Diesel Transport",     owner_name:"Sibusiso Dlamini", category:"Transport",       town:"Estcourt",         whatsapp:"27832222222", website:"",                                   description:"Reliable diesel transport for furniture, goods and equipment across KZN. Honest, experienced, locally trusted.", status:"approved" },
+  { id:3,  name:"Sweet Layers Bakery",      owner_name:"Naledi Pillay",    category:"Food & Drinks",   town:"Estcourt",         whatsapp:"27833333333", website:"https://instagram.com/sweetlayers",  description:"Custom celebration cakes, cupcakes and pastries made to order from our home kitchen. Serving Estcourt families since 2021.", status:"approved" },
+  { id:4,  name:"Estcourt Tutors",          owner_name:"Thandi Nkosi",     category:"Education",       town:"Estcourt",         whatsapp:"27834444444", website:"",                                   description:"Maths, Science and English tutoring for Grade 8–12. Small groups and one-on-one sessions — WhatsApp to book a slot.", status:"approved" },
+  { id:5,  name:"Kuda's Tech Hub",          owner_name:"Kudakwashe Moyo",  category:"Tech",            town:"Estcourt",         whatsapp:"27835111222", website:"",                                   description:"Laptop repairs, phone screen replacements and IT support. Affordable rates, quick turnaround — Estcourt based.", status:"approved" },
+  { id:6,  name:"Ladysmith Auto Repairs",   owner_name:"Jabu Ntuli",       category:"Services",        town:"Ladysmith",        whatsapp:"27835555555", website:"",                                   description:"Trusted mechanical repairs and panel beating for all vehicle makes. Honest work — serving Ladysmith for over 8 years.", status:"approved" },
+  { id:7,  name:"Clarity Beauty Studio",    owner_name:"Zanele Khumalo",   category:"Health & Beauty", town:"Ladysmith",        whatsapp:"27836666666", website:"",                                   description:"Hair braiding, natural hair care, nail art and beauty treatments in Ladysmith. Book via WhatsApp — walk-ins welcome.", status:"approved" },
+  { id:8,  name:"MaMkhize Home Catering",   owner_name:"Nomsa Mkhize",     category:"Food & Drinks",   town:"Ladysmith",        whatsapp:"27837777777", website:"",                                   description:"Traditional Zulu catering for funerals, weddings and imicimbi. Home-cooked food prepared with pride.", status:"approved" },
+  { id:9,  name:"Neon Visuals KZN",         owner_name:"Bongani Zulu",     category:"Tech",            town:"Ladysmith",        whatsapp:"27838888888", website:"https://instagram.com/neonvisuals",  description:"Graphic design, flyers, logos and social media content. Fast turnaround, affordable packages for local businesses.", status:"approved" },
+  { id:10, name:"Corner Spaza Ladysmith",   owner_name:"Sipho Cele",       category:"Retail",          town:"Ladysmith",        whatsapp:"27839123456", website:"",                                   description:"Groceries, airtime, electricity tokens and everyday essentials. Open 7 days — conveniently located in Ladysmith.", status:"approved" },
+  { id:11, name:"Mama Zulu Catering",       owner_name:"Lindiwe Zulu",     category:"Food & Drinks",   town:"Pietermaritzburg", whatsapp:"27839999999", website:"",                                   description:"Traditional Zulu catering for all occasions — funerals, weddings, events. We cook with pride and serve with joy.", status:"approved" },
+  { id:12, name:"PMB Coding Academy",       owner_name:"Andile Mbatha",    category:"Education",       town:"Pietermaritzburg", whatsapp:"27830000000", website:"https://pmbcodes.co.za",             description:"Coding bootcamps, computer literacy and digital skills for youth and adults in Pietermaritzburg. Empowering local talent.", status:"approved" },
+  { id:13, name:"The Hair Lounge PMB",      owner_name:"Precious Sithole", category:"Health & Beauty", town:"Pietermaritzburg", whatsapp:"27831234000", website:"https://instagram.com/hairlounge",   description:"Natural hair care, protective styles and colour treatments in PMB. We celebrate every hair type — WhatsApp to book.", status:"approved" },
+  { id:14, name:"BuildRight Hardware",      owner_name:"Ravi Naidoo",      category:"Retail",          town:"Pietermaritzburg", whatsapp:"27835678000", website:"",                                   description:"Quality hardware, tools and building materials at competitive prices. Serving PMB contractors and homeowners daily.", status:"approved" },
+  { id:15, name:"Nomvula's Home Cleaning",  owner_name:"Nomvula Dube",     category:"Home & Garden",   town:"Newcastle",        whatsapp:"27839876543", website:"",                                   description:"Reliable home and office cleaning services in Newcastle. Thorough, affordable and trusted by local families.", status:"approved" },
+  { id:16, name:"Newcastle Spaza & More",   owner_name:"Patrick Mokoena",  category:"Retail",          town:"Newcastle",        whatsapp:"27836543210", website:"",                                   description:"Groceries, airtime, electricity tokens and everyday household essentials. Open 7 days a week in Newcastle.", status:"approved" },
+  { id:17, name:"Thabo's Barber Shop",      owner_name:"Thabo Shabalala",  category:"Health & Beauty", town:"Newcastle",        whatsapp:"27831987654", website:"",                                   description:"Fresh cuts, fades and beard trims in Newcastle. Clean shop, good vibes — walk in or book on WhatsApp.", status:"approved" },
 ];
+
+/* ─── CATEGORY ICON MAP (Font Awesome) ──────────────────────────── */
+const CAT_FA = {
+  'Tech':           'fa-solid fa-microchip',
+  'Food & Drinks':  'fa-solid fa-utensils',
+  'Fashion':        'fa-solid fa-shirt',
+  'Health & Beauty':'fa-solid fa-spa',
+  'Education':      'fa-solid fa-book-open',
+  'Services':       'fa-solid fa-wrench',
+  'Retail':         'fa-solid fa-bag-shopping',
+  'Transport':      'fa-solid fa-truck',
+  'Home & Garden':  'fa-solid fa-leaf',
+  'Other':          'fa-solid fa-box',
+};
+function catIcon(c) { return CAT_FA[c] || 'fa-solid fa-box'; }
 
 /* ─── DATA FETCHERS ──────────────────────────────────────────────── */
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -53,7 +66,6 @@ async function fetchAllBusinesses() {
   if (error) throw error;
   return data || [];
 }
-
 async function fetchByTown(town) {
   if (!isSupabaseReady) { await sleep(300); return DEMO_DATA.filter(b => normaliseTown(b.town) === normaliseTown(town)); }
   const { data, error } = await _sb
@@ -63,7 +75,6 @@ async function fetchByTown(town) {
   if (error) throw error;
   return data || [];
 }
-
 async function fetchByCategory(cat) {
   if (!isSupabaseReady) { await sleep(300); return DEMO_DATA.filter(b => b.category === cat); }
   const { data, error } = await _sb
@@ -73,7 +84,6 @@ async function fetchByCategory(cat) {
   if (error) throw error;
   return data || [];
 }
-
 async function fetchById(id) {
   if (!isSupabaseReady) { await sleep(200); return DEMO_DATA.find(b => b.id == id) || null; }
   const { data, error } = await _sb
@@ -82,30 +92,22 @@ async function fetchById(id) {
   if (error) throw error;
   return data;
 }
-
 async function insertBusiness(payload) {
   if (!isSupabaseReady) { await sleep(700); return { ...payload, id: Date.now(), status: 'pending' }; }
-  const { error } = await _sb
-    .from('businesses')
-    .insert([{ ...payload, status: 'pending' }]);
+  const { error } = await _sb.from('businesses').insert([{ ...payload, status: 'pending' }]);
   if (error) throw error;
   return { status: 'pending' };
 }
 
 /* ─── HELPERS ────────────────────────────────────────────────────── */
-function normaliseTown(t) {
-  return (t || 'Other').trim().replace(/\b\w/g, c => c.toUpperCase());
-}
-function slugify(str) {
-  return (str || '').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
-}
+function normaliseTown(t) { return (t||'Other').trim().replace(/\b\w/g, c => c.toUpperCase()); }
+function slugify(str) { return (str||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,''); }
 function escHtml(s) {
   if (!s) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 function waLink(num) { return num ? 'https://wa.me/' + num.replace(/\D/g,'') : ''; }
 function initial(n)  { return n ? n.charAt(0).toUpperCase() : '?'; }
-
 const CAT_CLASS = {
   'Tech':'cat-tech','Food & Drinks':'cat-food','Fashion':'cat-fashion',
   'Health & Beauty':'cat-health','Education':'cat-education',
@@ -113,14 +115,9 @@ const CAT_CLASS = {
   'Transport':'cat-transport','Home & Garden':'cat-home','Other':'cat-other',
 };
 function catClass(c) { return CAT_CLASS[c] || 'cat-other'; }
-
 function groupByTown(list) {
   const map = new Map();
-  list.forEach(b => {
-    const t = normaliseTown(b.town);
-    if (!map.has(t)) map.set(t, []);
-    map.get(t).push(b);
-  });
+  list.forEach(b => { const t = normaliseTown(b.town); if (!map.has(t)) map.set(t,[]); map.get(t).push(b); });
   return new Map([...map.entries()].sort((a,b) => a[0].localeCompare(b[0])));
 }
 
@@ -138,25 +135,27 @@ function setMeta(title, description, canonical) {
 }
 function setMetaTag(attr, name, content) {
   let el = document.querySelector(`meta[${attr}="${name}"]`);
-  if (!el) { el = document.createElement('meta'); el.setAttribute(attr, name); document.head.appendChild(el); }
+  if (!el) { el = document.createElement('meta'); el.setAttribute(attr,name); document.head.appendChild(el); }
   el.setAttribute('content', content);
 }
 function injectSchema(json) {
   let el = document.getElementById('schema-ld');
-  if (!el) { el = document.createElement('script'); el.id = 'schema-ld'; el.type = 'application/ld+json'; document.head.appendChild(el); }
+  if (!el) { el = document.createElement('script'); el.id='schema-ld'; el.type='application/ld+json'; document.head.appendChild(el); }
   el.textContent = JSON.stringify(json);
 }
 function buildLocalBusinessSchema(biz) {
   const s = {
     "@context":"https://schema.org","@type":"LocalBusiness",
     "name": biz.name,
-    "description": biz.description || `${biz.name} is a ${biz.category} business in ${biz.town}.`,
-    "address": { "@type":"PostalAddress","addressLocality":biz.town,"addressCountry":"ZA" },
-    "areaServed": biz.town,
-    "category": biz.category,
+    "description": biz.description || `${biz.name} is a ${biz.category} business in ${biz.town}, KwaZulu-Natal.`,
+    "address": { "@type":"PostalAddress","addressLocality":biz.town,"addressRegion":"KwaZulu-Natal","addressCountry":"ZA" },
+    "areaServed": biz.town, "category": biz.category,
+    "geo": { "@type":"GeoCoordinates","addressCountry":"ZA" },
+    "openingHoursSpecification": { "@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"] },
   };
   if (biz.website) s.url = biz.website;
   if (biz.whatsapp) s.telephone = '+' + biz.whatsapp.replace(/\D/g,'');
+  if (biz.owner_name) s.employee = { "@type":"Person","name":biz.owner_name };
   return s;
 }
 function buildDirectorySchema(businesses, pageName) {
@@ -167,7 +166,7 @@ function buildDirectorySchema(businesses, pageName) {
     "itemListElement": businesses.map((b,i) => ({
       "@type":"ListItem","position":i+1,
       "item":{ "@type":"LocalBusiness","name":b.name,
-        "address":{"@type":"PostalAddress","addressLocality":b.town,"addressCountry":"ZA"} }
+        "address":{"@type":"PostalAddress","addressLocality":b.town,"addressRegion":"KwaZulu-Natal","addressCountry":"ZA"} }
     }))
   };
 }
@@ -180,18 +179,18 @@ function renderTableSection(list) {
       <td><div class="biz-name-cell">
         <div class="biz-initial">${initial(b.name)}</div>
         <div>
-          <a href="business.html?id=${b.id}" class="biz-name-link" style="font-weight:600;color:var(--ink);transition:color .15s;"
-             onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--ink)'">${escHtml(b.name)}</a>
+          <a href="business.html?id=${b.id}" class="biz-name-link">${escHtml(b.name)}</a>
+          ${b.owner_name ? `<div class="biz-owner-small"><i class="fa-regular fa-user" style="font-size:9px;"></i> ${escHtml(b.owner_name)}</div>` : ''}
           ${b.description ? `<div class="biz-desc-small">${escHtml(b.description)}</div>` : ''}
         </div>
       </div></td>
-      <td><span class="cat-pill ${catClass(b.category)}">${escHtml(b.category)}</span></td>
-      <td><a href="town.html?t=${encodeURIComponent(b.town)}" style="color:var(--muted);font-size:0.82rem;">${escHtml(normaliseTown(b.town))}</a></td>
+      <td><span class="cat-pill ${catClass(b.category)}"><i class="${catIcon(b.category)}"></i>${escHtml(b.category)}</span></td>
+      <td><a href="town.html?t=${encodeURIComponent(b.town)}" style="color:var(--muted);font-size:0.82rem;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-location-dot" style="font-size:10px;color:var(--gold);"></i>${escHtml(normaliseTown(b.town))}</a></td>
       <td>${b.whatsapp
-        ? `<a href="${waLink(b.whatsapp)}" target="_blank" class="link-btn wa link-btn-sm">💬 WhatsApp</a>`
+        ? `<a href="${waLink(b.whatsapp)}" target="_blank" class="link-btn wa link-btn-sm"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>`
         : `<span class="link-btn none link-btn-sm">—</span>`}</td>
       <td>${b.website
-        ? `<a href="${escHtml(b.website)}" target="_blank" rel="noopener" class="link-btn web link-btn-sm">↗ Website</a>`
+        ? `<a href="${escHtml(b.website)}" target="_blank" rel="noopener" class="link-btn web link-btn-sm"><i class="fa-solid fa-arrow-up-right-from-square"></i>Website</a>`
         : `<span class="link-btn none link-btn-sm">—</span>`}</td>
     </tr>`).join('');
   return `<div class="table-wrap"><table>
@@ -206,23 +205,25 @@ function renderCardsSection(list) {
       <div class="card-head">
         <div class="card-initial">${initial(b.name)}</div>
         <div style="min-width:0;">
-          <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px;">
-            <span style="width:5px;height:5px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;"></span>
-            <span style="font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);">${escHtml(b.category)}</span>
+          <div class="card-cat">
+            <span class="card-cat-dot"></span>
+            <span class="card-cat-label">${escHtml(b.category)}</span>
           </div>
-          <div class="card-name">
-            <a href="business.html?id=${b.id}">${escHtml(b.name)}</a>
-          </div>
+          <div class="card-name"><a href="business.html?id=${b.id}">${escHtml(b.name)}</a></div>
+          ${b.owner_name ? `<div class="card-owner"><i class="fa-regular fa-user" style="font-size:9px;margin-right:4px;"></i>${escHtml(b.owner_name)}</div>` : ''}
         </div>
       </div>
       ${b.description ? `<p class="card-desc">${escHtml(b.description)}</p>` : ''}
-      <div class="card-town">&#9679; <a href="town.html?t=${encodeURIComponent(b.town)}" style="color:inherit;">${escHtml(normaliseTown(b.town))}</a></div>
+      <div class="card-town">
+        <i class="fa-solid fa-location-dot" style="font-size:10px;color:var(--gold);"></i>
+        <a href="town.html?t=${encodeURIComponent(b.town)}" style="color:inherit;">${escHtml(normaliseTown(b.town))}</a>
+      </div>
       <div class="card-links">
         ${b.whatsapp
-          ? `<a href="${waLink(b.whatsapp)}" target="_blank" class="link-btn wa">💬 WhatsApp</a>`
+          ? `<a href="${waLink(b.whatsapp)}" target="_blank" class="link-btn wa"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>`
           : `<span class="link-btn none" style="flex:1;text-align:center;">No WhatsApp</span>`}
         ${b.website
-          ? `<a href="${escHtml(b.website)}" target="_blank" rel="noopener" class="link-btn web">↗ Website</a>`
+          ? `<a href="${escHtml(b.website)}" target="_blank" rel="noopener" class="link-btn web"><i class="fa-solid fa-arrow-up-right-from-square"></i>Website</a>`
           : `<span class="link-btn none" style="flex:1;text-align:center;">No Website</span>`}
       </div>
     </article>`).join('')}</div>`;
@@ -233,26 +234,26 @@ function renderTownSections(grouped, view, collapsedTowns) {
   grouped.forEach((businesses, town) => {
     const collapsed = collapsedTowns && collapsedTowns.has(town);
     const bodyId = 'town-body-' + slugify(town);
-    const bodyStyle = collapsed ? 'max-height:0;' : `max-height:${businesses.length*300+200}px;`;
+    const bodyStyle = collapsed ? 'max-height:0;' : `max-height:${businesses.length*320+200}px;`;
     html += `
       <div class="town-section anim">
         <div class="town-header" onclick="toggleTown('${town.replace(/'/g,"\\'")}','${bodyId}')">
-          <div style="display:flex;align-items:baseline;gap:18px;">
+          <div style="display:flex;align-items:baseline;gap:16px;">
             <span class="town-title"><a href="town.html?t=${encodeURIComponent(town)}">${escHtml(town)}</a></span>
             <span class="town-count">${businesses.length} listed</span>
           </div>
           <span class="town-line"></span>
-          <span class="town-toggle ${collapsed ? 'collapsed' : ''}" id="toggle-${bodyId}">▾</span>
+          <span class="town-toggle ${collapsed?'collapsed':''}" id="toggle-${bodyId}"><i class="fa-solid fa-chevron-down"></i></span>
         </div>
-        <div class="town-body ${collapsed ? 'collapsed' : ''}" style="${bodyStyle}" id="${bodyId}">
-          ${view === 'cards' ? renderCardsSection(businesses) : renderTableSection(businesses)}
+        <div class="town-body ${collapsed?'collapsed':''}" style="${bodyStyle}" id="${bodyId}">
+          ${view==='cards' ? renderCardsSection(businesses) : renderTableSection(businesses)}
         </div>
       </div>`;
   });
   return html || `<div class="state-box">
     <div class="state-icon">No gems found.</div>
     <h3>No results</h3>
-    <p>Try a different search, or <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:0.85rem;text-decoration:underline">be the first to list here!</button></p>
+    <p>Try a different search or <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:0.85rem;text-decoration:underline;">be the first to list here!</button></p>
   </div>`;
 }
 
@@ -301,12 +302,12 @@ async function submitBusiness() {
   const owner    = (document.getElementById('bizOwner')?.value     || '').trim();
   const contact  = (document.getElementById('ownerContact')?.value || '').trim();
 
-  if (!name)     { showToast('⚠️ Business name is required','error'); return; }
-  if (!category) { showToast('⚠️ Please select a category','error'); return; }
-  if (!town)     { showToast('⚠️ Town / area is required','error'); return; }
-  if (!detail)   { showToast('⚠️ Please tell us about your business','error'); return; }
-  if (!owner)    { showToast('⚠️ Your name is required','error'); return; }
-  if (!contact)  { showToast('⚠️ Your WhatsApp or email is required','error'); return; }
+  if (!name)     { showToast('Business name is required','error'); return; }
+  if (!category) { showToast('Please select a category','error'); return; }
+  if (!town)     { showToast('Town / area is required','error'); return; }
+  if (!detail)   { showToast('Please tell us about your business','error'); return; }
+  if (!owner)    { showToast('Your name is required','error'); return; }
+  if (!contact)  { showToast('Your WhatsApp or email is required','error'); return; }
 
   const btn = document.getElementById('submitBtn');
   const lbl = document.getElementById('submitLabel');
@@ -328,7 +329,7 @@ async function submitBusiness() {
     document.getElementById('successState').classList.add('show');
   } catch(e) {
     console.error(e);
-    showToast('❌ Submission failed. Please try again.','error');
+    showToast('Submission failed. Please try again.','error');
     btn.disabled = false; lbl.textContent = 'Submit for Review →';
   }
 }
@@ -347,14 +348,14 @@ function showToast(msg, type = 'info') {
 function renderNav(activePage) {
   return `<nav class="topnav" role="navigation" aria-label="Main navigation">
     <div class="topnav-inner">
-      <a href="index.html" class="logo" aria-label="Hidden Gems SA Home">
+      <a href="index.html" class="logo" aria-label="Hidden Gems SA — Local Business Directory KwaZulu-Natal">
         <img src="Hidden_Gems_SA_Logo.png" alt="Hidden Gems SA" class="logo-img" />
       </a>
       <div class="nav-links">
         <a href="index.html"      class="nav-link ${activePage==='home'?'active':''}">Directory</a>
         <a href="towns.html"      class="nav-link ${activePage==='towns'?'active':''}">Towns</a>
         <a href="categories.html" class="nav-link ${activePage==='cats'?'active':''}">Categories</a>
-        <button class="nav-link nav-cta" onclick="openModal()">List My Business</button>
+        <button class="nav-link nav-cta" onclick="openModal()"><i class="fa-solid fa-plus" style="font-size:11px;"></i> List My Business</button>
       </div>
     </div>
   </nav>`;
@@ -364,11 +365,11 @@ function renderFooter() {
   return `<footer role="contentinfo">
     <div class="footer-inner">
       <div class="footer-logo-wrap">
-        <img src="Hidden_Gems_SA_Logo.png" alt="Hidden Gems SA" class="footer-logo-img" />
+        <img src="Hidden_Gems_SA_Logo.png" alt="Hidden Gems SA — Free Local Business Directory KwaZulu-Natal" class="footer-logo-img" />
       </div>
       <p class="footer-left">
         Discovering local businesses across KwaZulu-Natal.<br>
-        <span>Built by <strong>Olideen Technologies</strong> &middot; Estcourt, KZN</span>
+        Built by <strong><a href="https://olideentech.co.za" target="_blank" rel="noopener" style="color:var(--ochre);text-decoration:none;">Olideen Technologies</a></strong> &middot; Estcourt, KZN
       </p>
       <div class="footer-links">
         <a href="index.html">Directory</a>
@@ -385,7 +386,7 @@ function renderModal() {
   <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal-accent"></div>
-      <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
 
       <div id="formContent">
         <div class="modal-header">
@@ -393,11 +394,9 @@ function renderModal() {
           <p>Free &middot; under two minutes &middot; reviewed before it goes live.</p>
         </div>
         <div class="modal-body">
-
           <div class="form-section-label public">
             <span class="dot"></span> Shown on the directory
           </div>
-
           <div class="field-group">
             <label>Business Name <span class="req">*</span></label>
             <input type="text" id="bizName" placeholder="e.g. Sweet Layers Bakery" maxlength="80" />
@@ -439,11 +438,9 @@ function renderModal() {
             <label>Short Description</label>
             <input type="text" id="bizDesc" placeholder="One line about your business (optional)" maxlength="120" />
           </div>
-
           <div class="form-section-label private" style="margin-top:4px;">
             <span class="dot"></span> For review — not shown publicly
           </div>
-
           <div class="field-group">
             <label>What does your business sell or do? <span class="req">*</span></label>
             <textarea id="bizDetail" placeholder="A sentence or two helps us approve faster." maxlength="300"></textarea>
@@ -456,21 +453,21 @@ function renderModal() {
             <label>Your WhatsApp or Email <span class="req">*</span></label>
             <input type="text" id="ownerContact" placeholder="So we can notify you when approved" maxlength="100" />
           </div>
-
         </div>
         <div class="modal-footer">
           <button class="btn-cancel" onclick="closeModal()">Cancel</button>
           <button class="btn-submit" id="submitBtn" onclick="submitBusiness()">
-            <span id="submitLabel">Submit for Review →</span>
+            <span id="submitLabel">Submit for Review</span>
+            <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
       </div>
 
       <div class="success-state" id="successState">
-        <div class="success-icon">✓</div>
+        <div class="success-icon"><i class="fa-solid fa-check"></i></div>
         <h3>Submission Received!</h3>
-        <p>Your listing is <strong>under review</strong>. We'll notify you via <strong>WhatsApp or email</strong> once approved — usually within 24 hours.</p>
-        <button class="btn-primary" onclick="closeModal()" style="margin-top:1rem;">Done →</button>
+        <p>Your listing is <strong>under review</strong>. We will notify you via <strong>WhatsApp or email</strong> once approved — usually within 24 hours.</p>
+        <button class="btn-primary" onclick="closeModal()" style="margin-top:1rem;">Done <i class="fa-solid fa-arrow-right"></i></button>
       </div>
     </div>
   </div>

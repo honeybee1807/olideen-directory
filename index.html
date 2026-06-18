@@ -4,54 +4,113 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Hidden Gems SA — Free Local Business Directory | KwaZulu-Natal</title>
-  <meta name="description" content="Discover and list local businesses for free on Hidden Gems SA. Find businesses in Estcourt, Ladysmith, Pietermaritzburg and across KwaZulu-Natal. Home bakers, tutors, mechanics, stylists and more." />
-  <meta name="keywords" content="local business directory KZN, Estcourt businesses, Ladysmith businesses, Pietermaritzburg directory, free business listing South Africa, KwaZulu-Natal local business, Hidden Gems SA" />
-  <meta name="robots" content="index, follow" />
-  <meta name="author" content="Olideen Technologies" />
+  <!-- ═══ PRIMARY SEO ═════════════════════════════════════════════ -->
+  <title>Hidden Gems SA — Free Local Business Directory | KwaZulu-Natal, South Africa</title>
+  <meta name="description" content="Hidden Gems SA is a free local business directory covering KwaZulu-Natal. Find trusted businesses in Estcourt, Ladysmith, Pietermaritzburg, Newcastle and more. List your business free — no sign-up required." />
+  <meta name="keywords" content="local business directory KZN, KwaZulu-Natal businesses, Estcourt businesses, Ladysmith local directory, Pietermaritzburg business listing, free business listing South Africa, Hidden Gems SA, Olideen Technologies" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="author" content="Olideen Technologies — olideentech.co.za" />
+  <meta name="geo.region" content="ZA-KZN" />
+  <meta name="geo.placename" content="KwaZulu-Natal, South Africa" />
+  <meta name="geo.position" content="-28.7282;30.3631" />
+  <meta name="ICBM" content="-28.7282, 30.3631" />
   <link rel="canonical" href="https://directory.olideentech.co.za/" />
 
-  <meta property="og:title"       content="Hidden Gems SA — Find Local Businesses Near You" />
-  <meta property="og:description" content="Free local business directory for KwaZulu-Natal. Find salons, restaurants, tech shops, tutors and more in your town." />
+  <!-- ═══ OPEN GRAPH ═══════════════════════════════════════════════ -->
+  <meta property="og:title"       content="Hidden Gems SA — Find Local Businesses in KwaZulu-Natal" />
+  <meta property="og:description" content="Free local business directory for KZN. Find salons, restaurants, tech shops, tutors, caterers and more in your town. List your business free." />
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://directory.olideentech.co.za/" />
   <meta property="og:site_name"   content="Hidden Gems SA" />
+  <meta property="og:locale"      content="en_ZA" />
 
+  <!-- ═══ TWITTER ═════════════════════════════════════════════════ -->
   <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="Hidden Gems SA — Free Local Business Listings" />
-  <meta name="twitter:description" content="List your KZN business for free. Find local businesses near you." />
+  <meta name="twitter:title"       content="Hidden Gems SA — Free KZN Local Business Directory" />
+  <meta name="twitter:description" content="Discover and list local businesses in KwaZulu-Natal. Always free, always live." />
 
+  <!-- ═══ SCHEMA: WebSite + Organisation + FAQPage (AEO) ══════════ -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebSite",
+        "@id": "https://directory.olideentech.co.za/#website",
         "name": "Hidden Gems SA",
         "url": "https://directory.olideentech.co.za/",
         "description": "Free local business directory for KwaZulu-Natal, South Africa.",
+        "inLanguage": "en-ZA",
+        "publisher": { "@id": "https://olideentech.co.za/#organization" },
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://directory.olideentech.co.za/?q={search_term_string}",
+          "target": { "@type":"EntryPoint","urlTemplate":"https://directory.olideentech.co.za/?q={search_term_string}" },
           "query-input": "required name=search_term_string"
         }
       },
       {
         "@type": "Organization",
+        "@id": "https://olideentech.co.za/#organization",
         "name": "Olideen Technologies",
         "url": "https://olideentech.co.za",
+        "logo": "https://olideentech.co.za/logo.png",
         "foundingDate": "2025-05-01",
-        "description": "Technology company based in KwaZulu-Natal, South Africa.",
-        "areaServed": "ZA"
+        "description": "Custom web and software development company based in Estcourt, KwaZulu-Natal, South Africa. Builders of Hidden Gems SA.",
+        "areaServed": { "@type":"State","name":"KwaZulu-Natal","containedInPlace":{"@type":"Country","name":"South Africa"} },
+        "address": { "@type":"PostalAddress","addressLocality":"Estcourt","addressRegion":"KwaZulu-Natal","addressCountry":"ZA" },
+        "sameAs": ["https://directory.olideentech.co.za"]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is it free to list a business on Hidden Gems SA?",
+            "acceptedAnswer": { "@type":"Answer","text":"Yes. Listing your business on Hidden Gems SA is completely free — no sign-up required, no monthly fees, and your listing never expires." }
+          },
+          {
+            "@type": "Question",
+            "name": "Which towns in KwaZulu-Natal are covered by Hidden Gems SA?",
+            "acceptedAnswer": { "@type":"Answer","text":"Hidden Gems SA covers Estcourt, Ladysmith, Pietermaritzburg, Newcastle, Colenso, Weenen, Mooi River, Winterton, Bergville and all surrounding KZN towns. New towns are added automatically when businesses list." }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I get my business listed on Hidden Gems SA?",
+            "acceptedAnswer": { "@type":"Answer","text":"Click the List My Business button on any page, fill in your details and submit. Every listing is reviewed by the Olideen Technologies team before going live — usually within 24 hours." }
+          },
+          {
+            "@type": "Question",
+            "name": "Who built Hidden Gems SA?",
+            "acceptedAnswer": { "@type":"Answer","text":"Hidden Gems SA was built by Olideen Technologies, a custom web and software development company based in Estcourt, KwaZulu-Natal. Visit olideentech.co.za to commission your own website or app." }
+          }
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://directory.olideentech.co.za/#webpage",
+        "url": "https://directory.olideentech.co.za/",
+        "name": "Hidden Gems SA — Free Local Business Directory | KwaZulu-Natal",
+        "isPartOf": { "@id":"https://directory.olideentech.co.za/#website" },
+        "about": { "@id":"https://directory.olideentech.co.za/#website" },
+        "speakable": {
+          "@type": "SpeakableSpecification",
+          "cssSelector": [".hero h1",".hero-sub",".seo-block h2",".seo-block p"]
+        },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [{ "@type":"ListItem","position":1,"name":"Hidden Gems SA","item":"https://directory.olideentech.co.za/" }]
+        }
       }
     ]
   }
   </script>
   <script id="schema-listings" type="application/ld+json">{}</script>
 
+  <!-- ═══ FONTS & STYLES ══════════════════════════════════════════ -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="js/app.js" defer></script>
@@ -62,83 +121,123 @@
   <div id="nav-placeholder"></div>
 
   <!-- ══ HERO ══════════════════════════════════════════════════════ -->
-  <header style="max-width:var(--max-w);margin:0 auto;padding:clamp(48px,7vw,96px) var(--pad-x) clamp(36px,4vw,56px);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,5vw,72px);align-items:center;">
+  <header style="max-width:var(--max-w);margin:0 auto;padding:clamp(48px,7vw,88px) var(--pad-x) clamp(36px,4vw,56px);display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,5vw,72px);align-items:start;">
 
+    <!-- Left: headline -->
     <div class="anim">
       <div class="hero-kicker">KwaZulu&#8209;Natal &middot; Est. 2025</div>
-      <h1 style="font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(40px,6vw,72px);line-height:1.02;letter-spacing:-.01em;color:#3D0A05;">
+      <h1 style="font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(38px,5.5vw,68px);line-height:1.04;letter-spacing:-.01em;color:#3D0A05;">
         Discover the people who keep our towns <em style="font-style:italic;font-weight:600;color:#BC8514;">running.</em>
       </h1>
-      <p style="margin-top:24px;max-width:480px;font-size:16px;line-height:1.75;color:#6B5750;">
+      <p class="hero-sub" style="max-width:460px;">
         A curated directory of local businesses across KwaZulu&#8209;Natal &mdash; the home bakers, tutors, mechanics, stylists and caterers your neighbours already trust. Find them. Support them.
       </p>
-      <p style="margin-top:14px;font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:#A58570;">Discover local. Support local.</p>
+      <p style="margin-top:14px;font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:#A58570;">Discover local. Support local.</p>
       <div class="hero-stats">
         <div><span class="stat-num" id="statCount">—</span><span class="stat-label">Businesses</span></div>
         <div><span class="stat-num" id="statTowns">—</span><span class="stat-label">Towns</span></div>
+        <div>
+          <button class="btn-primary" onclick="openModal()" style="margin-top:0;">
+            <i class="fa-solid fa-plus"></i> List My Business
+          </button>
+          <div class="free-note" style="margin-top:6px;"><i class="fa-solid fa-check" style="font-size:9px;margin-right:3px;"></i>Always free</div>
+        </div>
       </div>
     </div>
 
-    <!-- Featured Gem Card -->
-    <div class="featured-gem-wrap anim" id="featuredWrap" style="display:none;">
-      <div class="featured-gem-label">Featured Gem</div>
-      <div class="featured-gem-card">
-        <div class="featured-gem-head">
-          <div class="featured-gem-initial" id="featInitial">?</div>
-          <div>
-            <div class="featured-gem-cat">
-              <span class="featured-gem-cat-dot"></span>
-              <span class="featured-gem-cat-label" id="featCat"></span>
+    <!-- Right column: Olideen panel + Featured gem -->
+    <div class="right-col anim" style="animation-delay:0.1s;">
+
+      <!-- Olideen Technologies Panel -->
+      <div class="olideen-panel">
+        <div class="olideen-panel-kicker">
+          <i class="fa-solid fa-code"></i>
+          Built by Olideen Technologies
+        </div>
+        <h3>Need a website or app for your business?</h3>
+        <p>Hidden Gems SA is proudly built by Olideen Technologies — a custom web &amp; software development company based in Estcourt, KZN. We build fast, professional digital solutions for South African SMBs.</p>
+        <div class="olideen-panel-services">
+          <span class="olideen-service-tag">Web Development</span>
+          <span class="olideen-service-tag">Custom Software</span>
+          <span class="olideen-service-tag">E-commerce</span>
+          <span class="olideen-service-tag">SEO</span>
+        </div>
+        <a href="https://olideentech.co.za" target="_blank" rel="noopener" class="olideen-panel-link" style="margin-top:14px;display:inline-flex;">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          Visit Olideen Technologies
+        </a>
+      </div>
+
+      <!-- Featured Gem Card -->
+      <div class="featured-gem-wrap" id="featuredWrap" style="display:none;margin-top:4px;">
+        <div class="featured-gem-label"><i class="fa-solid fa-gem" style="font-size:9px;margin-right:5px;"></i>Featured Gem</div>
+        <div class="featured-gem-card">
+          <div class="featured-gem-head">
+            <div class="featured-gem-initial" id="featInitial">?</div>
+            <div>
+              <div class="featured-gem-cat">
+                <i class="fa-solid fa-diamond" id="featCatIcon" style="font-size:7px;color:var(--gold);"></i>
+                <span class="featured-gem-cat-label" id="featCat"></span>
+              </div>
+              <div class="featured-gem-name" id="featName"></div>
+              <div class="featured-gem-owner" id="featOwner" style="display:none;"></div>
             </div>
-            <div class="featured-gem-name" id="featName"></div>
+          </div>
+          <p class="featured-gem-desc" id="featDesc"></p>
+          <div class="featured-gem-footer">
+            <span class="featured-gem-town">
+              <i class="fa-solid fa-location-dot" style="font-size:10px;color:var(--gold);"></i>
+              <span id="featTown"></span>
+            </span>
+            <a href="#" id="featWa" target="_blank" class="featured-gem-wa">
+              <i class="fa-brands fa-whatsapp"></i>
+              WhatsApp
+            </a>
           </div>
         </div>
-        <p class="featured-gem-desc" id="featDesc"></p>
-        <div class="featured-gem-footer">
-          <span class="featured-gem-town">&#9679; <span id="featTown"></span></span>
-          <a href="#" id="featWa" target="_blank" class="featured-gem-wa">Message on WhatsApp</a>
-        </div>
       </div>
+
     </div>
 
   </header>
 
   <!-- ══ SEARCH ══════════════════════════════════════════════════ -->
-  <div class="search-bar-wrap">
-    <div class="search-bar-inner" style="max-width:760px;margin:0 auto;">
-      <span class="search-icon">&#9906;</span>
+  <div class="search-bar-wrap" role="search" aria-label="Search local businesses">
+    <div class="search-bar-inner">
+      <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
       <input type="text" id="searchInput" class="search-input"
-        placeholder="Search a business, town, or trade — try 'bakery Estcourt'"
-        oninput="handleSearch()" />
+        placeholder="Search a business, town or trade — try 'bakery Estcourt'"
+        oninput="handleSearch()"
+        aria-label="Search businesses in KwaZulu-Natal" />
     </div>
   </div>
 
   <!-- ══ FILTER BAR ════════════════════════════════════════════════ -->
-  <div class="filter-bar" role="navigation" aria-label="Category filters">
+  <div class="filter-bar" role="navigation" aria-label="Filter by category">
     <div class="filter-bar-inner">
       <div class="filter-tabs" role="tablist">
         <button class="filter-tab active" data-cat="All"             role="tab" onclick="setFilter('All')">All</button>
-        <button class="filter-tab"        data-cat="Tech"            role="tab" onclick="setFilter('Tech')">Tech</button>
-        <button class="filter-tab"        data-cat="Food & Drinks"   role="tab" onclick="setFilter('Food & Drinks')">Food</button>
-        <button class="filter-tab"        data-cat="Fashion"         role="tab" onclick="setFilter('Fashion')">Fashion</button>
-        <button class="filter-tab"        data-cat="Health & Beauty" role="tab" onclick="setFilter('Health & Beauty')">Health</button>
-        <button class="filter-tab"        data-cat="Education"       role="tab" onclick="setFilter('Education')">Education</button>
-        <button class="filter-tab"        data-cat="Services"        role="tab" onclick="setFilter('Services')">Services</button>
-        <button class="filter-tab"        data-cat="Retail"          role="tab" onclick="setFilter('Retail')">Retail</button>
+        <button class="filter-tab"        data-cat="Tech"            role="tab" onclick="setFilter('Tech')"><i class="fa-solid fa-microchip"></i> Tech</button>
+        <button class="filter-tab"        data-cat="Food & Drinks"   role="tab" onclick="setFilter('Food & Drinks')"><i class="fa-solid fa-utensils"></i> Food</button>
+        <button class="filter-tab"        data-cat="Fashion"         role="tab" onclick="setFilter('Fashion')"><i class="fa-solid fa-shirt"></i> Fashion</button>
+        <button class="filter-tab"        data-cat="Health & Beauty" role="tab" onclick="setFilter('Health & Beauty')"><i class="fa-solid fa-spa"></i> Health</button>
+        <button class="filter-tab"        data-cat="Education"       role="tab" onclick="setFilter('Education')"><i class="fa-solid fa-book-open"></i> Education</button>
+        <button class="filter-tab"        data-cat="Services"        role="tab" onclick="setFilter('Services')"><i class="fa-solid fa-wrench"></i> Services</button>
+        <button class="filter-tab"        data-cat="Retail"          role="tab" onclick="setFilter('Retail')"><i class="fa-solid fa-bag-shopping"></i> Retail</button>
         <button class="filter-tab"        data-cat="Other"           role="tab" onclick="setFilter('Other')">Other</button>
       </div>
       <div class="controls-right">
         <span class="total-count" aria-live="polite">Showing <span id="visibleCount">—</span> listings</span>
         <div class="view-toggle" role="group" aria-label="View mode">
-          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" title="Table view">☰ List</button>
-          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')" title="Card view">⊞ Grid</button>
+          <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" title="List view"><i class="fa-solid fa-list"></i> List</button>
+          <button class="view-btn"        id="cardViewBtn"  onclick="setView('cards')" title="Grid view"><i class="fa-solid fa-grip"></i> Grid</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ══ MAIN DIRECTORY ════════════════════════════════════════════ -->
-  <main class="directory-main" id="directoryMain" role="main">
+  <main class="directory-main" id="directoryMain" role="main" aria-label="Local business listings">
     <div class="directory-inner">
       <div style="text-align:center;padding:4rem;color:var(--muted)">
         <div class="spinner"></div>
@@ -147,21 +246,24 @@
     </div>
   </main>
 
-  <!-- ══ SEO TEXT ════════════════════════════════════════════════ -->
+  <!-- ══ SEO / AEO TEXT BLOCK ════════════════════════════════════ -->
   <section class="seo-block" aria-label="About Hidden Gems SA">
     <h2>Discover Local Businesses Across KwaZulu-Natal</h2>
     <p>
-      Hidden Gems SA connects people to the businesses already in their community — the home baker down the road, the mechanic your neighbour swears by, the tutor who's helped dozens of matric students pass. We cover Estcourt, Ladysmith, Pietermaritzburg, Colenso, Weenen, Mooi River, Winterton, Bergville and growing.
+      Hidden Gems SA is a free local business directory connecting customers to trusted businesses across KwaZulu-Natal — the home baker down the road, the mechanic your neighbour swears by, the tutor who has helped dozens of matric students pass. Every listing is reviewed before going live, so you always find real, legitimate businesses.
     </p>
     <p>
-      <a href="towns.html" style="color:var(--gold)">Browse by town</a> &middot;
-      <a href="categories.html" style="color:var(--gold)">Browse by category</a> &middot;
-      <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">List your business free</button>
+      We cover Estcourt, Ladysmith, Pietermaritzburg, Newcastle, Colenso, Weenen, Mooi River, Winterton, Bergville and every KZN town in between. New towns appear automatically as business owners list.
+    </p>
+    <p>
+      <a href="towns.html" style="color:var(--gold)"><i class="fa-solid fa-map-location-dot" style="font-size:11px;margin-right:4px;"></i>Browse by town</a> &nbsp;&middot;&nbsp;
+      <a href="categories.html" style="color:var(--gold)"><i class="fa-solid fa-tags" style="font-size:11px;margin-right:4px;"></i>Browse by category</a> &nbsp;&middot;&nbsp;
+      <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;"><i class="fa-solid fa-plus" style="font-size:11px;margin-right:4px;"></i>List your business free</button>
     </p>
   </section>
 
   <!-- ══ INVITATION BAND ════════════════════════════════════════ -->
-  <section class="invitation-band" style="margin-top:3rem;" aria-label="List your business">
+  <section class="invitation-band" style="margin-top:3rem;" aria-label="List your business on Hidden Gems SA">
     <div class="invitation-inner">
       <div>
         <div class="invitation-kicker">
@@ -172,30 +274,33 @@
           Get found by the customers <em>already looking</em> for you.
         </h2>
         <p class="invitation-sub">
-          Most small businesses in KZN run on word of mouth alone. A listing is free, takes under two minutes, and never expires.
+          Most small businesses in KZN run on word of mouth alone. A listing is free, takes under two minutes, and never expires. Your customers are already searching — be there when they do.
         </p>
-        <button class="invitation-btn" onclick="openModal()">List My Business — Free</button>
+        <button class="invitation-btn" onclick="openModal()">
+          <i class="fa-solid fa-plus"></i>
+          List My Business — Free
+        </button>
       </div>
       <div class="trust-list">
         <div class="trust-item">
-          <span class="trust-num">01</span>
+          <div class="trust-icon-wrap"><i class="fa-solid fa-shield-check"></i></div>
           <div>
             <div class="trust-title">Reviewed before publishing</div>
-            <div class="trust-body">Every listing is checked by a real person. No spam, no fake businesses.</div>
+            <div class="trust-body">Every listing is checked by a real person. No spam, no fake businesses — only legitimate KZN businesses.</div>
           </div>
         </div>
         <div class="trust-item">
-          <span class="trust-num">02</span>
+          <div class="trust-icon-wrap"><i class="fa-solid fa-infinity"></i></div>
           <div>
             <div class="trust-title">Free, forever</div>
-            <div class="trust-body">No subscriptions, no monthly fees, no expiry. Listing is always completely free.</div>
+            <div class="trust-body">No subscriptions, no monthly fees, no expiry. Listing on Hidden Gems SA is and always will be completely free.</div>
           </div>
         </div>
         <div class="trust-item">
-          <span class="trust-num">03</span>
+          <div class="trust-icon-wrap"><i class="fa-brands fa-whatsapp"></i></div>
           <div>
             <div class="trust-title">Direct, no middleman</div>
-            <div class="trust-body">Customers WhatsApp or call you straight from your listing. No forms, no waiting.</div>
+            <div class="trust-body">Customers WhatsApp or call you straight from your listing. No forms, no waiting, no commission.</div>
           </div>
         </div>
       </div>
@@ -203,7 +308,7 @@
   </section>
 
   <div id="footer-placeholder"></div>
-</div><!-- /.page-wrap -->
+</div>
 
 <div id="modal-placeholder"></div>
 
@@ -232,7 +337,7 @@ async function loadDirectory() {
     document.getElementById('directoryMain').innerHTML = `
       <div class="directory-inner">
         <div class="state-box">
-          <div class="state-icon">⚠️</div>
+          <div class="state-icon">Could not load.</div>
           <h3>Could not load directory</h3>
           <p>Please check your Supabase configuration in js/app.js</p>
         </div>
@@ -253,7 +358,6 @@ function updateSchemaListings() {
 
 function renderFeatured() {
   if (!allBusinesses.length) return;
-  /* Pick a random approved business that has a description */
   const candidates = allBusinesses.filter(b => b.description);
   if (!candidates.length) return;
   const b = candidates[Math.floor(Math.random() * candidates.length)];
@@ -262,9 +366,14 @@ function renderFeatured() {
   document.getElementById('featName').textContent    = b.name;
   document.getElementById('featDesc').textContent    = b.description;
   document.getElementById('featTown').textContent    = normaliseTown(b.town);
+  if (b.owner_name) {
+    const ownerEl = document.getElementById('featOwner');
+    ownerEl.innerHTML = `<i class="fa-regular fa-user" style="font-size:9px;margin-right:4px;"></i>${escHtml(b.owner_name)}`;
+    ownerEl.style.display = '';
+  }
   const wa = document.getElementById('featWa');
   wa.href = b.whatsapp ? waLink(b.whatsapp) : ('business.html?id=' + b.id);
-  if (!b.whatsapp) wa.textContent = 'View listing →';
+  if (!b.whatsapp) { wa.innerHTML = '<i class="fa-solid fa-arrow-right"></i> View listing'; }
   document.getElementById('featuredWrap').style.display = '';
 }
 
@@ -276,7 +385,8 @@ function getFiltered() {
       (b.name        ||'').toLowerCase().includes(q) ||
       (b.category    ||'').toLowerCase().includes(q) ||
       (b.town        ||'').toLowerCase().includes(q) ||
-      (b.description ||'').toLowerCase().includes(q);
+      (b.description ||'').toLowerCase().includes(q) ||
+      (b.owner_name  ||'').toLowerCase().includes(q);
     return matchCat && matchQ;
   });
 }
@@ -285,7 +395,6 @@ function renderDirectory() {
   const filtered = getFiltered();
   const countEl  = document.getElementById('visibleCount');
   if (countEl) countEl.textContent = filtered.length;
-
   const grouped = groupByTown(filtered);
   const inner   = document.querySelector('.directory-inner') ||
     (() => { const d = document.createElement('div'); d.className='directory-inner'; document.getElementById('directoryMain').appendChild(d); return d; })();
