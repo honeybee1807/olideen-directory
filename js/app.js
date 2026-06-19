@@ -139,8 +139,8 @@ function renderAvatar(b, size = 'md') {
     return `<div class="biz-avatar" style="width:${px};height:${px};flex-shrink:0;">
       <img src="${escHtml(b.logo_url)}"
            alt="${escHtml(b.name)} logo"
-           style="width:${px};height:${px};border-radius:50%;object-fit:cover;border:1px solid var(--gold-light);display:block;"
-           onerror="this.parentElement.innerHTML='<div class=\\'biz-initial\\'style=\\'width:${px};height:${px};font-size:${fs};border-radius:50%;background:var(--gold-pale);border:1px solid var(--gold-light);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-style:italic;\\'>${initial(b.name)}</div>'" />
+           style="width:${px};height:${px};border-radius:50%;object-fit:cover;border:1px solid var(--sapphire-light);display:block;"
+           onerror="this.parentElement.innerHTML='<div class=\\'biz-initial\\'style=\\'width:${px};height:${px};font-size:${fs};border-radius:50%;background:var(--sapphire-pale);border:1px solid var(--sapphire-light);color:var(--sapphire);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-style:italic;\\'>${initial(b.name)}</div>'" />
     </div>`;
   }
   return `<div class="biz-initial" style="width:${px};height:${px};font-size:${fs};flex-shrink:0;">${initial(b.name)}</div>`;
@@ -410,7 +410,7 @@ function renderTableSection(list) {
         </div>
       </div></td>
       <td><span class="cat-pill ${catClass(b.category)}"><i class="${catIcon(b.category)}"></i> ${escHtml(b.category)}</span></td>
-      <td><a href="town.html?t=${encodeURIComponent(b.town)}" style="color:var(--muted);font-size:0.82rem;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-location-dot" style="font-size:10px;color:var(--gold);"></i>${escHtml(normaliseTown(b.town))}</a></td>
+      <td><a href="town.html?t=${encodeURIComponent(b.town)}" style="color:var(--muted);font-size:0.82rem;display:flex;align-items:center;gap:5px;"><i class="fa-solid fa-location-dot" style="font-size:10px;color:var(--sapphire);"></i>${escHtml(normaliseTown(b.town))}</a></td>
       <td>${b.whatsapp
         ? `<a href="${waLink(b.whatsapp)}" target="_blank" class="link-btn wa link-btn-sm"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>`
         : `<span class="link-btn none link-btn-sm">—</span>`}</td>
@@ -442,7 +442,7 @@ function renderCardsSection(list) {
       </div>
       ${b.description ? `<p class="card-desc">${escHtml(b.description)}</p>` : ''}
       <div class="card-town">
-        <i class="fa-solid fa-location-dot" style="font-size:10px;color:var(--gold);"></i>
+        <i class="fa-solid fa-location-dot" style="font-size:10px;color:var(--sapphire);"></i>
         <a href="town.html?t=${encodeURIComponent(b.town)}" style="color:inherit;">${escHtml(normaliseTown(b.town))}</a>
       </div>
       <div class="card-links">
@@ -482,7 +482,7 @@ function renderTownSections(grouped, view, collapsedTowns) {
     return `<div class="state-box">
       <div class="state-icon">No gems found.</div>
       <h3>No results</h3>
-      <p>Try a different search or <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;text-decoration:underline;">be the first to list here!</button></p>
+      <p>Try a different search or <button onclick="openModal()" style="background:none;border:none;color:var(--sapphire);cursor:pointer;text-decoration:underline;">be the first to list here!</button></p>
     </div>`;
   }
   return html;
@@ -535,7 +535,7 @@ function renderFooter() {
       </div>
       <p class="footer-left">
         Discovering local businesses across KwaZulu-Natal.<br>
-        Built by <strong><a href="https://olideentech.co.za" target="_blank" rel="noopener" style="color:var(--ochre);text-decoration:none;">Olideen Technologies</a></strong> &middot; Estcourt, KZN
+        Built by <strong><a href="https://olideentech.co.za" target="_blank" rel="noopener" style="color:var(--rose);text-decoration:none;">Olideen Technologies</a></strong> &middot; Estcourt, KZN
       </p>
       <div class="footer-links">
         <a href="index.html">Directory</a>
@@ -598,7 +598,7 @@ function renderModal() {
                  onclick="document.getElementById('bizLogo').click()"
                  ondragover="event.preventDefault()"
                  ondrop="event.preventDefault();openCropModal(event.dataTransfer.files[0])">
-              <img id="logoPreview" src="" alt="Logo preview" style="display:none;width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--gold-light);" />
+              <img id="logoPreview" src="" alt="Logo preview" style="display:none;width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--sapphire-light);" />
               <div id="logoPlaceholder">
                 <i class="fa-solid fa-camera" style="font-size:22px;color:var(--muted2);margin-bottom:8px;"></i>
                 <p style="font-size:12px;color:var(--muted);margin:0;">Click or drag to upload logo</p>
@@ -634,17 +634,13 @@ function renderModal() {
           <div class="form-row">
             <div class="field-group">
               <label>Town / City <span class="req">*</span></label>
-              <input type="text" id="bizTown" placeholder="e.g. Estcourt" maxlength="60"
+              <input type="text" id="bizTown" placeholder="e.g. Ladysmith" maxlength="60"
                      list="townSuggestions" autocomplete="off" />
               <datalist id="townSuggestions">
                 <option value="Bergville" /><option value="Colenso" /><option value="Dundee" />
-                <option value="Durban" /><option value="Empangeni" /><option value="Estcourt" />
-                <option value="Greytown" /><option value="Harrismith" /><option value="Howick" />
-                <option value="Ladysmith" /><option value="Mooi River" /><option value="Newcastle" />
-                <option value="Pietermaritzburg" /><option value="Pinetown" />
-                <option value="Port Shepstone" /><option value="Richards Bay" />
-                <option value="Scottburgh" /><option value="Umhlanga" />
-                <option value="Vryheid" /><option value="Weenen" /><option value="Winterton" />
+                <option value="Estcourt" /><option value="Frere" /><option value="Greytown" />
+                <option value="Harrismith" /><option value="Ladysmith" /><option value="Mooi River" />
+                <option value="Pietermaritzburg" /><option value="Weenen" /><option value="Winterton" />
               </datalist>
               <span class="field-hint">Start typing or enter your town name</span>
             </div>
@@ -976,9 +972,9 @@ async function generateGemGraphic(biz) {
   const ctx = canvas.getContext('2d');
 
   /* Background */
-  ctx.fillStyle = '#F5EDE6';
+  ctx.fillStyle = '#F4F6FB';
   ctx.fillRect(0, 0, W, H);
-  ctx.fillStyle = 'rgba(165,133,112,0.12)';
+  ctx.fillStyle = 'rgba(21,32,64,0.06)';
   for (let x = 12; x < W; x += 24) {
     for (let y = 12; y < H; y += 24) {
       ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI * 2); ctx.fill();
@@ -986,14 +982,14 @@ async function generateGemGraphic(biz) {
   }
 
   /* Top band */
-  ctx.fillStyle = '#3D0A05';
+  ctx.fillStyle = '#152040';
   ctx.fillRect(0, 0, W, 220);
   const grd = ctx.createLinearGradient(0, 220, W, 220);
-  grd.addColorStop(0, '#BC8514'); grd.addColorStop(0.5, '#E6D2A8'); grd.addColorStop(1, '#BC8514');
+  grd.addColorStop(0, '#22587F'); grd.addColorStop(0.5, '#B8D4E8'); grd.addColorStop(1, '#22587F');
   ctx.fillStyle = grd;
   ctx.fillRect(0, 217, W, 6);
 
-  ctx.fillStyle = '#E6D2A8';
+  ctx.fillStyle = '#B8D4E8';
   ctx.font = 'bold 28px Inter, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('✦  GEM OF THE WEEK  ✦', W / 2, 100);
@@ -1016,12 +1012,12 @@ async function generateGemGraphic(biz) {
     drawMonogram(ctx, CX, CY, R, biz.name);
   }
   ctx.restore();
-  ctx.strokeStyle = '#BC8514';
+  ctx.strokeStyle = '#22587F';
   ctx.lineWidth = 6;
   ctx.beginPath(); ctx.arc(CX, CY, R + 6, 0, Math.PI * 2); ctx.stroke();
 
   /* Business name */
-  ctx.fillStyle = '#3D0A05';
+  ctx.fillStyle = '#152040';
   ctx.font = 'bold 62px "Playfair Display", serif';
   ctx.textAlign = 'center';
   wrapText(ctx, biz.name, W / 2, 550, W - 120, 72);
@@ -1033,10 +1029,10 @@ async function generateGemGraphic(biz) {
   }
 
   /* Category and town pills */
-  ctx.fillStyle = '#FAF2E0';
+  ctx.fillStyle = '#E4EFF7';
   roundRect(ctx, W / 2 - 260, 670, 230, 54, 27); ctx.fill();
   roundRect(ctx, W / 2 + 30,  670, 230, 54, 27); ctx.fill();
-  ctx.fillStyle = '#BC8514';
+  ctx.fillStyle = '#22587F';
   ctx.font = 'bold 24px Inter, sans-serif';
   ctx.fillText(biz.category, W / 2 - 145, 704);
   ctx.fillText('📍 ' + normaliseTown(biz.town), W / 2 + 145, 704);
@@ -1048,9 +1044,9 @@ async function generateGemGraphic(biz) {
   }
 
   /* Bottom band */
-  ctx.fillStyle = '#3D0A05';
+  ctx.fillStyle = '#152040';
   ctx.fillRect(0, H - 160, W, 160);
-  ctx.fillStyle = '#E6D2A8';
+  ctx.fillStyle = '#B8D4E8';
   ctx.font = 'bold 26px Inter, sans-serif';
   ctx.fillText('directory.olideentech.co.za', W / 2, H - 100);
   ctx.fillStyle = 'rgba(218,193,177,0.6)';
@@ -1061,9 +1057,9 @@ async function generateGemGraphic(biz) {
 }
 
 function drawMonogram(ctx, cx, cy, r, name) {
-  ctx.fillStyle = '#FAF2E0';
+  ctx.fillStyle = '#E4EFF7';
   ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
-  ctx.fillStyle = '#BC8514';
+  ctx.fillStyle = '#22587F';
   ctx.font = `italic bold ${r}px "Playfair Display", serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -1349,7 +1345,7 @@ document.addEventListener('keydown', e => {
             <p>${escHtml(b.name)} is a local ${escHtml(b.category.toLowerCase())} business in ${escHtml(town)}, KwaZulu-Natal. Listed on Hidden Gems SA — a free local business directory connecting customers to businesses across KZN.</p>
             <p>${b.description ? escHtml(b.description) + ' ' : ''}${b.whatsapp ? `You can reach ${escHtml(b.name)} directly on WhatsApp. ` : ''}${b.website ? 'Visit their website for more information. ' : ''}</p>
             <p>Looking for more ${escHtml(b.category.toLowerCase())} businesses in ${escHtml(town)}?
-              <a href="town.html?t=${encodeURIComponent(b.town)}" style="color:var(--gold);">See all businesses in ${escHtml(town)} →</a>
+              <a href="town.html?t=${encodeURIComponent(b.town)}" style="color:var(--sapphire);">See all businesses in ${escHtml(town)} →</a>
             </p>
           </div>
         </div>
@@ -1359,7 +1355,7 @@ document.addEventListener('keydown', e => {
         <div style="text-align:center;padding:2rem;"><div class="spinner"></div></div>
       </div>
 
-      <div style="margin-top:2rem;padding:2rem;background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:14px;text-align:center;">
+      <div style="margin-top:2rem;padding:2rem;background:var(--sapphire-pale);border:1px solid var(--sapphire-light);border-radius:14px;text-align:center;">
         <p style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--ink);margin-bottom:0.5rem;">Own a business in ${escHtml(town)}?</p>
         <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">Get listed on Hidden Gems SA for free. No sign-up, no cost, always live.</p>
         <button class="btn-primary" onclick="openModal()">List My Business Free →</button>
@@ -1385,7 +1381,7 @@ document.addEventListener('keydown', e => {
       <div class="state-box">
         <div class="state-icon">No gem found.</div>
         <h3>Business not found</h3>
-        <p>This listing may have been removed. <a href="index.html" style="color:var(--gold);">Browse the full directory →</a></p>
+        <p>This listing may have been removed. <a href="index.html" style="color:var(--sapphire);">Browse the full directory →</a></p>
       </div>`;
   }
 })();
@@ -1469,7 +1465,7 @@ document.addEventListener('keydown', e => {
       <h2>Find Local Businesses in ${escHtml(currentTown)}</h2>
       <p>Hidden Gems SA lists local businesses in ${escHtml(currentTown)}, KwaZulu-Natal. Currently featuring ${townBusinesses.length} ${townBusinesses.length === 1 ? 'business' : 'businesses'} across categories including ${escHtml(cats || 'various industries')}.</p>
       <p>Own a business in ${escHtml(currentTown)}?
-        <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">List it free →</button>
+        <button onclick="openModal()" style="background:none;border:none;color:var(--sapphire);cursor:pointer;font-size:inherit;text-decoration:underline;">List it free →</button>
       </p>`;
   }
 
@@ -1495,7 +1491,7 @@ document.addEventListener('keydown', e => {
       inner.innerHTML = `<div class="state-box">
         <div class="state-icon">No gems found.</div>
         <h3>No results</h3>
-        <p>Try adjusting your search or <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;text-decoration:underline;">be the first to list here!</button></p>
+        <p>Try adjusting your search or <button onclick="openModal()" style="background:none;border:none;color:var(--sapphire);cursor:pointer;text-decoration:underline;">be the first to list here!</button></p>
       </div>`;
       return;
     }
@@ -1677,7 +1673,7 @@ document.addEventListener('keydown', e => {
             </div>
           </div>
           <p class="card-desc">${CAT_DESCRIPTIONS[cat] || ''}</p>
-          <div style="margin-top:auto;font-size:0.76rem;color:var(--gold);font-style:italic;">Browse ${escHtml(cat)} →</div>
+          <div style="margin-top:auto;font-size:0.76rem;color:var(--sapphire);font-style:italic;">Browse ${escHtml(cat)} →</div>
         </a>`).join('');
 
       document.getElementById('mainContent').innerHTML = `<div class="cards-grid">${cards}</div>`;
@@ -1729,7 +1725,7 @@ document.addEventListener('keydown', e => {
         <h2>${escHtml(cat)} Businesses in KwaZulu-Natal</h2>
         <p>${CAT_DESCRIPTIONS[cat] || ''} Hidden Gems SA currently lists ${catBusinesses.length} ${cat.toLowerCase()} ${catBusinesses.length === 1 ? 'business' : 'businesses'} across ${towns.size} ${towns.size === 1 ? 'town' : 'towns'} in KwaZulu-Natal.</p>
         <p>Own a ${escHtml(cat.toLowerCase())} business?
-          <button onclick="openModal()" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">List it for free →</button>
+          <button onclick="openModal()" style="background:none;border:none;color:var(--sapphire);cursor:pointer;font-size:inherit;text-decoration:underline;">List it for free →</button>
         </p>`;
 
       renderCategoryPage();
@@ -1883,17 +1879,17 @@ document.addEventListener('keydown', e => {
     const emailContact = b.owner_email ? `<a href="mailto:${esc(b.owner_email)}" class="inline-link web"><i class="fa-solid fa-envelope"></i> ${esc(b.owner_email)}</a>` : '';
 
     const avatar = b.logo_url
-      ? `<img src="${esc(b.logo_url)}" alt="${esc(b.name)} logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--gold-light);flex-shrink:0;" />`
+      ? `<img src="${esc(b.logo_url)}" alt="${esc(b.name)} logo" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--sapphire-light);flex-shrink:0;" />`
       : `<div class="sub-initial">${b.name ? b.name.charAt(0).toUpperCase() : '?'}</div>`;
 
     const logoBlock = b.logo_url
-      ? `<div class="detail-block full" style="background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:10px;padding:16px 18px;">
-           <div class="detail-label" style="color:var(--ochre);margin-bottom:10px;"><i class="fa-solid fa-image"></i> Business Logo — review before approving</div>
+      ? `<div class="detail-block full" style="background:var(--sapphire-pale);border:1px solid var(--sapphire-light);border-radius:10px;padding:16px 18px;">
+           <div class="detail-label" style="color:var(--rose);margin-bottom:10px;"><i class="fa-solid fa-image"></i> Business Logo — review before approving</div>
            <div style="display:flex;align-items:center;gap:16px;">
-             <img src="${esc(b.logo_url)}" alt="${esc(b.name)} logo" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--gold-light);flex-shrink:0;" />
+             <img src="${esc(b.logo_url)}" alt="${esc(b.name)} logo" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--sapphire-light);flex-shrink:0;" />
              <div>
                <p style="font-size:13px;color:var(--ink2);line-height:1.55;margin:0;">Check this logo is appropriate and represents the business before approving.</p>
-               <a href="${esc(b.logo_url)}" target="_blank" rel="noopener" style="font-size:11.5px;color:var(--gold);margin-top:6px;display:inline-flex;align-items:center;gap:5px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> View full size</a>
+               <a href="${esc(b.logo_url)}" target="_blank" rel="noopener" style="font-size:11.5px;color:var(--sapphire);margin-top:6px;display:inline-flex;align-items:center;gap:5px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> View full size</a>
              </div>
            </div>
          </div>`
@@ -1909,10 +1905,10 @@ document.addEventListener('keydown', e => {
         <div style="flex:1;min-width:0;">
           <div class="sub-biz-name">${esc(b.name)}</div>
           <div class="sub-meta">
-            <span><i class="fa-solid fa-location-dot" style="font-size:9px;color:var(--gold);"></i> ${esc(b.town)}</span>
+            <span><i class="fa-solid fa-location-dot" style="font-size:9px;color:var(--sapphire);"></i> ${esc(b.town)}</span>
             <span>&middot;</span>
             <span>${esc(b.category)}</span>
-            ${b.logo_url ? '<span>&middot;</span><span style="color:var(--gold);font-size:10px;"><i class="fa-solid fa-image"></i> Has logo</span>' : ''}
+            ${b.logo_url ? '<span>&middot;</span><span style="color:var(--sapphire);font-size:10px;"><i class="fa-solid fa-image"></i> Has logo</span>' : ''}
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
@@ -2050,7 +2046,7 @@ document.addEventListener('keydown', e => {
       const expired  = until <= new Date();
 
       const avatarHtml = biz.logo_url
-        ? `<img src="${esc(biz.logo_url)}" alt="${esc(biz.name)}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--gold-light);" />`
+        ? `<img src="${esc(biz.logo_url)}" alt="${esc(biz.name)}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--sapphire-light);" />`
         : `<div class="current-gem-avatar">${biz.name.charAt(0).toUpperCase()}</div>`;
 
       wrap.innerHTML = `
@@ -2094,7 +2090,7 @@ document.addEventListener('keydown', e => {
 
     results.innerHTML = matches.map(b => {
       const avatar = b.logo_url
-        ? `<img src="${esc(b.logo_url)}" alt="${esc(b.name)}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid var(--gold-light);" />`
+        ? `<img src="${esc(b.logo_url)}" alt="${esc(b.name)}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid var(--sapphire-light);" />`
         : `<div class="gem-result-avatar">${b.name.charAt(0).toUpperCase()}</div>`;
       return `
         <div class="gem-result-row">

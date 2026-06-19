@@ -22,18 +22,18 @@
   --border2:     #B4C0D8;
 
   /* Primary accent (Sapphire) */
-  --gold:        #22587F;
-  --gold-dark:   #1A4566;
-  --gold-light:  #B8D4E8;
-  --gold-pale:   #E4EFF7;
-  --gold-glow:   rgba(34, 88, 127, 0.15);
+  --sapphire:        #22587F;
+  --sapphire-dark:   #1A4566;
+  --sapphire-light:  #B8D4E8;
+  --sapphire-pale:   #E4EFF7;
+  --sapphire-glow:   rgba(34, 88, 127, 0.15);
 
   /* Secondary accent */
-  --ochre:       #C46EA1;
+  --rose:       #C46EA1;
 
   /* Dark ink tones */
-  --ruby:        #152040;
-  --ruby-mid:    #1C3060;
+  --navy:        #152040;
+  --navy-mid:    #1C3060;
   --ink:         #152040;
   --ink2:        #1C3060;
   --muted:       #6B7A99;
@@ -42,8 +42,11 @@
 
   /* Status colours */
   --danger:      #B5392A;
+  --danger-bg:   #FBEAE7;
   --success:     #1F7A4A;
-  --warn:        #BC8514;
+  --success-bg:  #E5F3EA;
+  --warn:        #22587F;
+  --warn-bg:     #E4EFF7;
 
   /* Typography */
   --font-head:   'Playfair Display', serif;
@@ -63,7 +66,7 @@
    body {
       font-family: var(--font-body);
       background: var(--bg);
-      background-image: radial-gradient(rgba(165,133,112,0.10) 1px, transparent 1px);
+      background-image: radial-gradient(rgba(21,32,64,0.05) 1px, transparent 1px);
       background-size: 24px 24px;
       color: var(--ink);
       min-height: 100vh;
@@ -112,14 +115,14 @@
       color: var(--ink); border-radius: var(--radius);
       text-align: center; letter-spacing: 0.1em;
     }
-    .login-field input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(188,133,20,0.12); }
+    .login-field input:focus { outline: none; border-color: var(--sapphire); box-shadow: 0 0 0 3px rgba(188,133,20,0.12); }
     .btn-login {
-      width: 100%; background: var(--gold); color: #FFFDF7; border: none;
+      width: 100%; background: var(--sapphire); color: #FFFDF7; border: none;
       padding: 14px; border-radius: var(--radius);
       font-family: var(--font-head); font-size: 1.1rem; letter-spacing: 0.04em;
       transition: background 0.2s;
     }
-    .btn-login:hover { background: var(--ochre); }
+    .btn-login:hover { background: var(--rose); }
     .login-error {
       font-size: 12.5px; color: var(--danger); margin-top: 14px; display: none;
     }
@@ -149,7 +152,7 @@
       border: 1px solid var(--border2); background: transparent;
       padding: 6px 14px; border-radius: 100px; transition: all 0.15s;
     }
-    .btn-topbar:hover { color: var(--ink); border-color: var(--gold); }
+    .btn-topbar:hover { color: var(--ink); border-color: var(--sapphire); }
 
     .admin-main { flex: 1; padding: 2rem; max-width: 1100px; margin: 0 auto; width: 100%; }
 
@@ -177,7 +180,7 @@
       margin-bottom: -1px; transition: all 0.15s; cursor: pointer;
     }
     .tab-btn:hover { color: var(--ink); }
-    .tab-btn.active { color: var(--ochre); border-bottom-color: var(--gold); }
+    .tab-btn.active { color: var(--rose); border-bottom-color: var(--sapphire); }
 
     /* ── SUBMISSION CARDS ───────────────────────────────────── */
     .submissions-list { display: flex; flex-direction: column; gap: 16px; }
@@ -202,11 +205,11 @@
     .sub-initial {
       width: 44px; height: 44px;
       border-radius: 50%;
-      background: var(--gold-pale);
-      border: 1px solid var(--gold-light);
+      background: var(--sapphire-pale);
+      border: 1px solid var(--sapphire-light);
       display: flex; align-items: center; justify-content: center;
       font-family: var(--font-head); font-style: italic;
-      font-size: 20px; color: var(--gold); flex-shrink: 0;
+      font-size: 20px; color: var(--sapphire); flex-shrink: 0;
     }
     .sub-biz-name { font-family: var(--font-head); font-size: 19px; font-weight: 600; color: var(--ink); line-height: 1.2; }
     .sub-meta { display: flex; align-items: center; gap: 10px; margin-top: 4px; font-size: 12px; color: var(--muted); }
@@ -215,7 +218,7 @@
       font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
       padding: 5px 12px; border-radius: 100px; border: 1px solid;
     }
-    .status-badge.pending  { background: var(--warn-bg);    color: var(--warn);    border-color: var(--gold-light); }
+    .status-badge.pending  { background: var(--warn-bg);    color: var(--warn);    border-color: var(--sapphire-light); }
     .status-badge.approved { background: var(--success-bg); color: var(--success); border-color: rgba(31,122,74,0.4); }
     .status-badge.rejected { background: var(--danger-bg);  color: var(--danger);  border-color: rgba(181,57,42,0.4); }
     .expand-icon { color: var(--muted2); font-size: 0.8rem; transition: transform 0.2s; flex-shrink: 0; }
@@ -237,12 +240,12 @@
 
     .review-detail-box {
       grid-column: 1 / -1;
-      background: var(--gold-pale);
-      border: 1px solid var(--gold-light);
+      background: var(--sapphire-pale);
+      border: 1px solid var(--sapphire-light);
       border-radius: 10px;
       padding: 16px 18px;
     }
-    .review-detail-box .detail-label { color: var(--ochre); }
+    .review-detail-box .detail-label { color: var(--rose); }
     .review-detail-box .detail-value { font-size: 14.5px; line-height: 1.6; color: var(--ink); }
 
     .sub-actions {
@@ -274,7 +277,7 @@
       background: var(--surface2); border: 1px solid var(--border);
       color: var(--ink); border-radius: var(--radius);
     }
-    .note-input:focus { outline: none; border-color: var(--gold); }
+    .note-input:focus { outline: none; border-color: var(--sapphire); }
     .note-hint { font-size: 11px; color: var(--muted2); align-self: center; }
 
     .inline-link {
@@ -286,10 +289,10 @@
     .inline-link.web { border-color: #1a6fa0; color: #1a6fa0; background: rgba(26,111,160,0.06); }
 
     .empty-state { text-align: center; padding: 70px 20px; }
-    .empty-icon  { font-family: var(--font-head); font-style: italic; font-size: 28px; color: var(--gold); margin-bottom: 8px; }
+    .empty-icon  { font-family: var(--font-head); font-style: italic; font-size: 28px; color: var(--sapphire); margin-bottom: 8px; }
     .empty-state h3 { font-family: var(--font-head); font-size: 1.5rem; color: var(--ink2); margin-bottom: 4px; }
     .empty-state p  { font-size: 13.5px; color: var(--muted); }
-    .spinner { display: inline-block; width: 26px; height: 26px; border: 2px solid var(--border2); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    .spinner { display: inline-block; width: 26px; height: 26px; border: 2px solid var(--border2); border-top-color: var(--sapphire); border-radius: 50%; animation: spin 0.7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .toast {
@@ -350,7 +353,7 @@
     <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:30px;">
       <div>
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <span style="display:block;width:28px;height:1px;background:var(--gold);"></span>
+          <span style="display:block;width:28px;height:1px;background:var(--sapphire);"></span>
           <span style="font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);">Review Portal</span>
         </div>
         <h1 style="font-family:var(--font-head);font-weight:600;font-size:clamp(1.8rem,4vw,2.6rem);color:var(--ink);line-height:1;">Business Submissions</h1>
@@ -510,21 +513,21 @@ function renderCard(b) {
   /* Avatar: logo if uploaded, monogram if not */
   const avatar = b.logo_url
     ? `<img src="${esc(b.logo_url)}" alt="${esc(b.name)} logo"
-            style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--gold-light);flex-shrink:0;"
+            style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--sapphire-light);flex-shrink:0;"
             onerror="this.outerHTML='<div class=\\'sub-initial\\'>${b.name ? b.name.charAt(0).toUpperCase() : '?'}</div>'" />`
     : `<div class="sub-initial">${b.name ? b.name.charAt(0).toUpperCase() : '?'}</div>`;
 
   /* Logo review block — only shown if logo_url present */
   const logoBlock = b.logo_url ? `
-      <div class="detail-block full" style="background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:10px;padding:16px 18px;">
-        <div class="detail-label" style="color:var(--ochre);margin-bottom:10px;"><i class="fa-solid fa-image"></i> Business Logo — review before approving</div>
+      <div class="detail-block full" style="background:var(--sapphire-pale);border:1px solid var(--sapphire-light);border-radius:10px;padding:16px 18px;">
+        <div class="detail-label" style="color:var(--rose);margin-bottom:10px;"><i class="fa-solid fa-image"></i> Business Logo — review before approving</div>
         <div style="display:flex;align-items:center;gap:16px;">
           <img src="${esc(b.logo_url)}" alt="${esc(b.name)} logo"
-               style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--gold-light);flex-shrink:0;box-shadow:0 4px 14px rgba(188,133,20,0.2);" />
+               style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--sapphire-light);flex-shrink:0;box-shadow:0 4px 14px rgba(188,133,20,0.2);" />
           <div>
             <p style="font-size:13px;color:var(--ink2);line-height:1.55;margin:0;">Logo uploaded by the business owner. Check it is appropriate and represents the business before approving.</p>
             <a href="${esc(b.logo_url)}" target="_blank" rel="noopener"
-               style="font-size:11.5px;color:var(--gold);margin-top:6px;display:inline-flex;align-items:center;gap:5px;">
+               style="font-size:11.5px;color:var(--sapphire);margin-top:6px;display:inline-flex;align-items:center;gap:5px;">
               <i class="fa-solid fa-arrow-up-right-from-square"></i> View full size
             </a>
           </div>
@@ -542,10 +545,10 @@ function renderCard(b) {
       <div style="flex:1;min-width:0;">
         <div class="sub-biz-name">${esc(b.name)}</div>
         <div class="sub-meta">
-          <span><i class="fa-solid fa-location-dot" style="font-size:9px;color:var(--gold);"></i> ${esc(b.town)}</span>
+          <span><i class="fa-solid fa-location-dot" style="font-size:9px;color:var(--sapphire);"></i> ${esc(b.town)}</span>
           <span>&middot;</span>
           <span>${esc(b.category)}</span>
-          ${b.logo_url ? '<span>&middot;</span><span style="color:var(--gold);font-size:10px;"><i class="fa-solid fa-image"></i> Has logo</span>' : ''}
+          ${b.logo_url ? '<span>&middot;</span><span style="color:var(--sapphire);font-size:10px;"><i class="fa-solid fa-image"></i> Has logo</span>' : ''}
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
@@ -698,7 +701,7 @@ async function loadCurrentGem() {
     const expired  = until <= new Date();
 
     const avatarHtml = biz.logo_url
-      ? `<img src="${esc(biz.logo_url)}" alt="${esc(biz.name)}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--gold-light);" />`
+      ? `<img src="${esc(biz.logo_url)}" alt="${esc(biz.name)}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--sapphire-light);" />`
       : `<div class="current-gem-avatar">${biz.name.charAt(0).toUpperCase()}</div>`;
 
     wrap.innerHTML = `
@@ -747,7 +750,7 @@ function searchGemOverride() {
 
   results.innerHTML = matches.map(b => {
     const avatarHtml = b.logo_url
-      ? `<img src="${esc(b.logo_url)}" alt="${esc(b.name)}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid var(--gold-light);" />`
+      ? `<img src="${esc(b.logo_url)}" alt="${esc(b.name)}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid var(--sapphire-light);" />`
       : `<div class="gem-result-avatar">${b.name.charAt(0).toUpperCase()}</div>`;
     return `
       <div class="gem-result-row">
@@ -812,7 +815,7 @@ View your live listing here: ${listingUrl}
 
 Well done and keep doing what you do — your community sees you. 💎
 
-~ Sincerely,
+— Lubnah
 Hidden Gems SA Team
 🌐 ${SITE_URL}
 💻 Built by Olideen Technologies — olideentech.co.za`);
@@ -835,22 +838,22 @@ async function adminDownloadGraphic() {
     const biz = currentGemBiz;
 
     /* Background */
-    ctx.fillStyle = '#F5EDE6';
+    ctx.fillStyle = '#F4F6FB';
     ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = 'rgba(165,133,112,0.12)';
+    ctx.fillStyle = 'rgba(21,32,64,0.06)';
     for (let x = 12; x < W; x += 24)
       for (let y = 12; y < H; y += 24)
         { ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI*2); ctx.fill(); }
 
     /* Top maroon band */
-    ctx.fillStyle = '#3D0A05';
+    ctx.fillStyle = '#152040';
     ctx.fillRect(0, 0, W, 220);
     const grd = ctx.createLinearGradient(0, 0, W, 0);
-    grd.addColorStop(0, '#BC8514'); grd.addColorStop(0.5, '#E6D2A8'); grd.addColorStop(1, '#BC8514');
+    grd.addColorStop(0, '#22587F'); grd.addColorStop(0.5, '#B8D4E8'); grd.addColorStop(1, '#22587F');
     ctx.fillStyle = grd; ctx.fillRect(0, 217, W, 6);
 
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#E6D2A8';
+    ctx.fillStyle = '#B8D4E8';
     ctx.font = 'bold 26px sans-serif';
     ctx.fillText('✦  GEM OF THE WEEK  ✦', W/2, 96);
     ctx.fillStyle = '#FFFDFB';
@@ -869,23 +872,23 @@ async function adminDownloadGraphic() {
         });
         ctx.drawImage(img, CX-R, CY-R, R*2, R*2);
       } catch {
-        ctx.fillStyle='#FAF2E0'; ctx.fillRect(CX-R,CY-R,R*2,R*2);
-        ctx.fillStyle='#BC8514'; ctx.font=`italic bold ${R}px serif`;
+        ctx.fillStyle='#E4EFF7'; ctx.fillRect(CX-R,CY-R,R*2,R*2);
+        ctx.fillStyle='#22587F'; ctx.font=`italic bold ${R}px serif`;
         ctx.textBaseline='middle'; ctx.fillText(biz.name.charAt(0).toUpperCase(), CX, CY);
         ctx.textBaseline='alphabetic';
       }
     } else {
-      ctx.fillStyle='#FAF2E0'; ctx.fillRect(CX-R,CY-R,R*2,R*2);
-      ctx.fillStyle='#BC8514'; ctx.font=`italic bold ${R}px serif`;
+      ctx.fillStyle='#E4EFF7'; ctx.fillRect(CX-R,CY-R,R*2,R*2);
+      ctx.fillStyle='#22587F'; ctx.font=`italic bold ${R}px serif`;
       ctx.textBaseline='middle'; ctx.fillText(biz.name.charAt(0).toUpperCase(), CX, CY);
       ctx.textBaseline='alphabetic';
     }
     ctx.restore();
-    ctx.strokeStyle='#BC8514'; ctx.lineWidth=6;
+    ctx.strokeStyle='#22587F'; ctx.lineWidth=6;
     ctx.beginPath(); ctx.arc(CX, CY, R+7, 0, Math.PI*2); ctx.stroke();
 
     /* Business name */
-    ctx.fillStyle = '#3D0A05';
+    ctx.fillStyle = '#152040';
     ctx.font = 'bold 60px serif';
     const nameLines = biz.name.length > 22 ? [biz.name.substring(0,22), biz.name.substring(22)] : [biz.name];
     nameLines.forEach((l,i) => ctx.fillText(l, W/2, 550 + i*68));
@@ -898,16 +901,16 @@ async function adminDownloadGraphic() {
 
     /* Pills */
     const pillY = 670 + (nameLines.length - 1) * 68;
-    ctx.fillStyle='#FAF2E0';
+    ctx.fillStyle='#E4EFF7';
     ctx.beginPath(); ctx.roundRect(W/2-260, pillY, 230, 52, 26); ctx.fill();
     ctx.beginPath(); ctx.roundRect(W/2+30,  pillY, 230, 52, 26); ctx.fill();
-    ctx.fillStyle='#BC8514'; ctx.font='bold 22px sans-serif';
+    ctx.fillStyle='#22587F'; ctx.font='bold 22px sans-serif';
     ctx.fillText(biz.category, W/2-145, pillY+33);
     ctx.fillText('📍 ' + (biz.town||'').trim(), W/2+145, pillY+33);
 
     /* Bottom band */
-    ctx.fillStyle='#3D0A05'; ctx.fillRect(0, H-150, W, 150);
-    ctx.fillStyle='#E6D2A8'; ctx.font='bold 24px sans-serif';
+    ctx.fillStyle='#152040'; ctx.fillRect(0, H-150, W, 150);
+    ctx.fillStyle='#B8D4E8'; ctx.font='bold 24px sans-serif';
     ctx.fillText('directory.olideentech.co.za', W/2, H-96);
     ctx.fillStyle='rgba(218,193,177,0.65)'; ctx.font='20px sans-serif';
     ctx.fillText('Built by Olideen Technologies — olideentech.co.za', W/2, H-54);
