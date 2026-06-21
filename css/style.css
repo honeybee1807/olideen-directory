@@ -142,17 +142,18 @@ input::placeholder, textarea::placeholder { color: var(--muted2); }
 .nav-link.active { color: var(--ink); font-weight: 600; }
 .nav-cta {
   margin-left: 10px;
-  background: var(--sapphire);
+  background: linear-gradient(120deg, var(--rose) 0%, #D88FB8 50%, var(--sapphire) 100%) !important;
+  background-size: 180% 180%;
   color: #fff !important;
   font-weight: 600;
   font-size: 13px;
   padding: 10px 20px !important;
   border-radius: 100px;
-  box-shadow: 0 4px 16px rgba(34, 88, 127, 0.4);
-  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(196, 110, 161, 0.4);
+  transition: all 0.3s;
 }
 .nav-cta:hover {
-  background: var(--sapphire-dark) !important;
+  background-position: 100% 50% !important;
   transform: translateY(-1px);
 }
 
@@ -386,25 +387,26 @@ input::placeholder, textarea::placeholder { color: var(--muted2); }
    8. BUTTONS
    ================================================================ */
 .btn-primary {
-  background: var(--sapphire);
+  background: linear-gradient(120deg, var(--rose) 0%, #D88FB8 50%, var(--sapphire) 100%);
+  background-size: 180% 180%;
   color: #fff;
   border: none;
   padding: 12px 24px;
   border-radius: 100px;
   font-size: 13.5px;
   font-weight: 600;
-  transition: all 0.2s;
+  transition: all 0.3s;
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 18px rgba(34, 88, 127, 0.38);
+  box-shadow: 0 4px 18px rgba(196, 110, 161, 0.4);
   cursor: pointer;
 }
 .btn-primary:hover {
-  background: var(--sapphire-dark);
+  background-position: 100% 50%;
   transform: translateY(-1px);
-  box-shadow: 0 8px 28px rgba(34, 88, 127, 0.45);
+  box-shadow: 0 8px 28px rgba(196, 110, 161, 0.5);
 }
 
 
@@ -817,7 +819,8 @@ tbody td { padding: 0.9rem 1.1rem; font-size: 0.87rem; vertical-align: middle; }
 .invitation-sub { margin-top: 20px; max-width: 460px; font-size: 15px; line-height: 1.75; color: rgba(184, 212, 232, 0.88); }
 .invitation-btn {
   margin-top: 28px;
-  background: var(--sapphire);
+  background: linear-gradient(120deg, var(--rose) 0%, #D88FB8 50%, var(--sapphire) 100%);
+  background-size: 180% 180%;
   color: #fff;
   border: none;
   padding: 14px 28px;
@@ -825,13 +828,13 @@ tbody td { padding: 0.9rem 1.1rem; font-size: 0.87rem; vertical-align: middle; }
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.5);
-  transition: background 0.2s;
+  box-shadow: 0 10px 30px -12px rgba(196, 110, 161, 0.6);
+  transition: all 0.3s;
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
-.invitation-btn:hover { background: var(--sapphire-dark); }
+.invitation-btn:hover { background-position: 100% 50%; transform: translateY(-1px); }
 .trust-list { display: flex; flex-direction: column; }
 .trust-item {
   display: flex;
@@ -1044,7 +1047,8 @@ tbody td { padding: 0.9rem 1.1rem; font-size: 0.87rem; vertical-align: middle; }
 .modal-footer { padding: 18px 32px 26px; display: flex; gap: 12px; border-top: 1px solid var(--border); }
 .btn-submit {
   flex: 1;
-  background: var(--sapphire);
+  background: linear-gradient(120deg, var(--rose) 0%, #D88FB8 50%, var(--sapphire) 100%);
+  background-size: 180% 180%;
   color: #fff;
   border: none;
   padding: 14px;
@@ -1052,13 +1056,13 @@ tbody td { padding: 0.9rem 1.1rem; font-size: 0.87rem; vertical-align: middle; }
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
 }
-.btn-submit:hover:not(:disabled) { background: var(--sapphire-dark); }
+.btn-submit:hover:not(:disabled) { background-position: 100% 50%; }
 .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; }
 .btn-cancel {
   padding: 14px 20px;
@@ -1187,7 +1191,9 @@ tbody td { padding: 0.9rem 1.1rem; font-size: 0.87rem; vertical-align: middle; }
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: linear-gradient(135deg, var(--sapphire), var(--sapphire-dark));
+  background: linear-gradient(120deg, var(--rose) 0%, #D88FB8 35%, var(--sapphire) 100%);
+  background-size: 200% 200%;
+  animation: gemBadgeShift 6s ease-in-out infinite;
   color: #fff;
   font-size: 10px;
   font-weight: 700;
@@ -1196,7 +1202,11 @@ tbody td { padding: 0.9rem 1.1rem; font-size: 0.87rem; vertical-align: middle; }
   padding: 5px 14px;
   border-radius: 100px;
   z-index: 2;
-  box-shadow: 0 4px 14px rgba(255, 58, 189, 0.45);
+  box-shadow: 0 4px 16px rgba(196, 110, 161, 0.5);
+}
+@keyframes gemBadgeShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
 }
 .gem-week-card {
   background: linear-gradient(160deg, #fff, var(--surface2));
